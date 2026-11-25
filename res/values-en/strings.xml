@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="uygulama_adi">Tam Ekran</string>
+    <string name="uygulama_slogan">Full Interface</string>
+
+    <string name="arama_ipucu">Search apps...</string>
+    <string name="tum_uygulamalar">All Apps</string>
+    <string name="sik_kullanilanlar">Frequent Apps</string>
+    <string name="uygulamalar_yukleniyor">Loading apps...</string>
+    <string name="uygulama_bulunamadi">No apps found.</string>
+    <string name="masaustune_ekle">Add to Home</string>
+    <string name="masaustunden_kaldir">Remove from Home</string>
+    <string name="duvar_kagidi_sec">Change Wallpaper</string>
+    <string name="uygulama_bilgisi">App Info</string>
+    <string name="uygulamayi_kaldir">Uninstall</string>
+    <string name="yeniden_adlandir">Rename</string>
+    <string name="klasore_ekle">Add to Folder</string>
+    <string name="klasor_olustur">New Folder</string>
+    <string name="klasor_sil">Delete Folder</string>
+
+    <string name="ayar_baslik">Launcher Settings</string>
+    <string name="ayar_kategori_genel">Look &amp; Icons</string>
+    <string name="ayar_izgara">Desktop Grid Layout</string>
+    <string name="ayar_izgara_ozet">Rows and columns icon density</string>
+    <string name="ayar_simge_paketi">Icon Pack</string>
+    <string name="ayar_simge_paketi_ozet">Apply Nova / ADW compatible icon packs</string>
+    <string name="ayar_uygulamalari_gizle">Hide Apps</string>
+    <string name="ayar_uygulamalari_gizle_ozet">Select apps to hide from the app list</string>
+    <string name="ayar_simge_etiketleri">Icon Labels</string>
+    <string name="ayar_simge_etiketleri_ozet">Show or hide app titles below icons</string>
+    <string name="ayar_tam_ekran_modu">Hide Status Bar</string>
+    <string name="ayar_tam_ekran_modu_ozet">Hide notification/clock bar for true full screen</string>
+    <string name="ayar_sik_kullanilanlar">Frequent Apps Row</string>
+    <string name="ayar_sik_kullanilanlar_ozet">Show most launched apps at the top of drawer</string>
+
+    <string name="ayar_kategori_hareketler">Customizable Gestures</string>
+    <string name="ayar_hareket_asagi">Swipe Down</string>
+    <string name="ayar_hareket_yukari">Swipe Up</string>
+    <string name="ayar_hareket_cift_tik">Double Tap</string>
+    <string name="ayar_hareket_iki_asagi">Two-Finger Swipe Down</string>
+    <string name="ayar_hareket_iki_yukari">Two-Finger Swipe Up</string>
+    <string name="ayar_hareket_ana_ekran">Home Button (On Default Page)</string>
+    <string name="ayar_hareket_geri_tusu">Back Button (On Default Page)</string>
+    <string name="ayar_ara_ipucu">Search settings (e.g. dock, badge, lock)...</string>
+
+    <string name="ayar_kategori_sistem">System &amp; Backup</string>
+    <string name="ayar_yedekle">Backup &amp; Restore</string>
+    <string name="ayar_yedekle_ozet">Export or restore your layout to JSON</string>
+    <string name="ayar_guncelleme">Check for Updates</string>
+    <string name="ayar_guncelleme_ozet">Check latest release and install directly</string>
+    <string name="ayar_hakkinda">About</string>
+    <string name="ayar_hakkinda_ozet">Tam Ekran v%1$s • Zero Ads • Open Source</string>
+
+    <string name="kilit_servis_aciklama">Tam Ekran - Double tap to lock service</string>
+    <string name="varsayilan_simgeler">Default System Icons</string>
+    <string name="yedek_alindi">Settings backed up successfully!</string>
+    <string name="yedek_yuklendi">Settings restored successfully!</string>
+    <string name="yedek_bulunamadi">No saved backup file found.</string>
+    <string name="guncelleme_denetleniyor">Checking for updates...</string>
+    <string name="guncelleme_guncel">Great! You are using the latest version (v%1$s).</string>
+    <string name="guncelleme_yeni_surum_bulundu">New Version Available: v%1$s</string>
+    <string name="guncelleme_indiriliyor">Downloading new version... Please wait.</string>
+    <string name="guncelleme_hata">Error checking update: %1$s</string>
+    <string name="guncelleme_indir_ve_kur">Download &amp; Install</string>
+    <string name="iptal">Cancel</string>
+    <string name="tamam">OK</string>
+    <string name="izin_ver">Grant Permission</string>
+
+    <string name="bilinmeyen_kaynak_baslik">Install Permission Required</string>
+    <string name="bilinmeyen_kaynak_mesaj">To install updates directly, \"Install unknown apps\" permission is required. Please grant this permission on the next screen.</string>
+
+    <!-- General Warnings and Action Messages (English Override) -->
+    <string name="uyari_masaustu_kilitli">Home screen is locked. Unlock it from Settings to make changes.</string>
+    <string name="magaza_acilamadi">Could not open store.</string>
+    <string name="baslatici_bulunamadi">Cannot launch app: Launcher activity not found.</string>
+    <string name="acilamadi_hata">Could not open: %1$s</string>
+    <string name="varsayilan_baslatici_baslik">Default Launcher</string>
+    <string name="varsayilan_baslatici_ayarlandi">Tam Ekran set as default launcher!</string>
+    <string name="kisayol_eklendi">Shortcut added to desktop.</string>
+    <string name="ogesi_klasore_eklendi">%1$s added to folder.</string>
+    <string name="klasor_yeni_olusturuldu">Created new folder with %1$s.</string>
+    <string name="klasor_olusturuldu">Folder %1$s created.</string>
+    <string name="konum_guncellendi">%1$s position updated.</string>
+    <string name="sayfaya_tasindi">%1$s moved to Page %2$d.</string>
+    <string name="sayfaya_eklendi">%1$s added to Page %2$d.</string>
+    <string name="klasor_silindi_mesaj">Folder deleted, apps moved back to desktop.</string>
+    <string name="klasore_eklendi_mesaj">%1$s added to %2$s.</string>
+    <string name="uygulama_adi_guncellendi">App name updated.</string>
+    <string name="simge_guncellendi">Icon updated.</string>
+    <string name="oge_geri_yuklendi">Item restored.</string>
+    <string name="guvenli_alan_sifirlandi">Safe area reset.</string>
+    <string name="guvenli_alan_kaydedildi">Safe area settings saved.</string>
+    <string name="duzen_studyosu_kaydedildi">Layout studio settings saved.</string>
+    <string name="duzen_studyosu_sifirlandi">Active tab reset to defaults.</string>
+    <string name="duzen_studyosu_baslik">📐 Live Layout Studio</string>
+    <string name="guncelleme_yeni_surum_baslik">New Version Available (v%1$s)</string>
+    <string name="guncelleme_indiriliyor_baslik">Updating Tam Ekran</string>
+    <string name="guncelleme_adres_yok">Download URL not found.</string>
+    <string name="guncelleme_paket_gecersiz">Install package is invalid, corrupt, or signature mismatched.</string>
+    <string name="guncelleme_imza_uyumsuz">Security warning: APK signature does not match current app.</string>
+    <string name="guncelleme_guvensiz_adres">Security warning: Disallowed or insecure download URL.</string>
+    <string name="guncelleme_hash_uyumsuz">Security warning: SHA-256 checksum verification failed.</string>
+    <string name="guncelleme_basarisiz">Download failed: %1$s</string>
+    <string name="guncelleme_yukleyici_acilamadi">Could not open package installer: %1$s</string>
+    <string name="guncelleme_izin_ayari_acilamadi">Could not open security settings. Please check Settings &gt; Security.</string>
+    <string name="guncelleme_izin_gerekiyor">Install permission required for updates.</string>
+    <string name="ekran_kilit_izni_baslik">Screen Lock Permission Required</string>
+    <string name="sekme_tumu_degismez">\'All\' is the main tab and cannot be modified.</string>
+    <string name="pano_kopyalandi">Result copied to clipboard: %1$s</string>
+    <string name="pano_kopyalanamadi">Could not copy.</string>
+    <string name="tarayici_acilamadi">Could not open browser: %1$s</string>
+    <string name="yedek_gecersiz">Could not read backup file or invalid format.</string>
+    <string name="pin_belirlendi">PIN set. Long press apps to lock them.</string>
+    <string name="pin_sifirlandi">App lock and PIN reset.</string>
+    <string name="simge_paketi_uygulandi">Icon pack applied.</string>
+    <string name="veri_karantina_uyarisi">Corrupt desktop layout data detected and quarantined.</string>
+    <string name="kisayol_ekle_baslik">Add to Home Screen</string>
+    <string name="kisayol_ekle_soru">Add %1$s shortcut to your desktop?</string>
+    <string name="ekle">Add</string>
+</resources>

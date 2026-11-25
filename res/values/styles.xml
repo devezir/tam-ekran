@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Ana Ekran Teması: Duvar kağıdını arkada gösterir, sıfır başlık -->
+    <style name="Tema.TamEkran" parent="@android:style/Theme.Wallpaper.NoTitleBar">
+        <item name="android:windowShowWallpaper">true</item>
+        <item name="android:windowNoTitle">true</item>
+    </style>
+
+    <!-- Ayarlar Ekranı Teması: Şık AMOLED Koyu Tema -->
+    <style name="Tema.TamEkran.Ayarlar" parent="@android:style/Theme.Black.NoTitleBar">
+        <item name="android:windowBackground">@color/renk_panel</item>
+        <item name="android:windowNoTitle">true</item>
+    </style>
+</resources>

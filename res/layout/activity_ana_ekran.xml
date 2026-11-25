@@ -1,0 +1,322 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/kok_duzeni"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- 1. Masaüstü Katmanı (Multi-Page Desktop Workspace) -->
+    <LinearLayout
+        android:id="@+id/masaustu_katmani"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <!-- Çok Sayfalı Masaüstü Çalışma Alanı (Multi-Page Workspace) -->
+        <com.tamekran.launcher.SayfaliMasaustuGorunumu
+            android:id="@+id/masaustu_sayfali_gorunum"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <!-- Masaüstü Sayfa Gösterge Noktaları (• ● •) -->
+        <LinearLayout
+            android:id="@+id/kapsayici_sayfa_noktalari"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:gravity="center"
+            android:orientation="horizontal" />
+
+        <!-- Sabit Alt Çubuk (Dock) -->
+        <LinearLayout
+            android:id="@+id/sabit_alt_cubuk"
+            android:layout_width="match_parent"
+            android:layout_height="76dp"
+            android:background="@drawable/dock_arkaplan"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp"
+            android:paddingBottom="6dp">
+
+            <!-- Dock içi kaydırıcı (HorizontalScrollView) -->
+            <HorizontalScrollView
+                android:id="@+id/dock_kaydirici"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fillViewport="true"
+                android:scrollbars="none"
+                android:overScrollMode="never">
+
+                <!-- Dock içi uygulama yuvaları (dinamik dolacak) -->
+                <LinearLayout
+                    android:id="@+id/dock_yuvalari"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:orientation="horizontal"
+                    android:gravity="center" />
+            </HorizontalScrollView>
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <!-- 2. Tüm Uygulamalar Çekmecesi (App Drawer Paneli - Açılır Katman) -->
+    <LinearLayout
+        android:id="@+id/panel_tum_uygulamalar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@color/renk_panel"
+        android:visibility="gone"
+        android:clickable="true"
+        android:focusable="true"
+        android:paddingTop="28dp">
+
+        <!-- Arama Çubuğu Başlığı -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:paddingBottom="8dp"
+            android:gravity="center_vertical">
+
+            <EditText
+                android:id="@+id/girdi_arama"
+                android:layout_width="0dp"
+                android:layout_height="42dp"
+                android:layout_weight="1"
+                android:background="@drawable/arama_arkaplan"
+                android:hint="@string/arama_ipucu"
+                android:textColorHint="@color/renk_yazi_ikincil"
+                android:textColor="@color/renk_yazi_ana"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:singleLine="true"
+                android:textSize="14sp" />
+
+            <Button
+                android:id="@+id/dugme_cekmece_sesli_arama"
+                android:layout_width="38dp"
+                android:layout_height="38dp"
+                android:layout_marginLeft="6dp"
+                android:background="@drawable/kart_arkaplan"
+                android:text="🎙️"
+                android:textSize="15sp"
+                android:textColor="@color/renk_yazi_ana" />
+
+            <Button
+                android:id="@+id/dugme_cekmece_kapat"
+                android:layout_width="wrap_content"
+                android:layout_height="38dp"
+                android:layout_marginLeft="8dp"
+                android:background="@drawable/kart_arkaplan"
+                android:text="Kapat"
+                android:textColor="@color/renk_vurgu"
+                android:textSize="12sp"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp" />
+        </LinearLayout>
+
+        <!-- Evrensel Arama Kısayolları (Web ve Play Store) -->
+        <LinearLayout
+            android:id="@+id/bar_hizli_arama_kisayollari"
+            android:layout_width="match_parent"
+            android:layout_height="32dp"
+            android:orientation="horizontal"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:layout_marginBottom="6dp"
+            android:visibility="gone">
+
+            <Button
+                android:id="@+id/dugme_ara_google"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_marginRight="4dp"
+                android:background="@drawable/kart_arkaplan"
+                android:text="🔍 Google'da Ara"
+                android:textColor="@color/renk_yazi_ana"
+                android:textSize="11sp" />
+
+            <Button
+                android:id="@+id/dugme_ara_play_store"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_marginLeft="4dp"
+                android:background="@drawable/kart_arkaplan"
+                android:text="🛍️ Play Store"
+                android:textColor="@color/renk_vurgu"
+                android:textSize="11sp" />
+        </LinearLayout>
+
+        <!-- Akıllı Hesap Makinesi Sonuç Kartı (Nova Tarzı) -->
+        <LinearLayout
+            android:id="@+id/kart_hesap_makinesi"
+            android:layout_width="match_parent"
+            android:layout_height="38dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingLeft="16dp"
+            android:paddingRight="12dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginBottom="6dp"
+            android:background="@drawable/kart_arkaplan"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/yazi_hesap_sonuc"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="🧮 Sonuç: 0"
+                android:textColor="@color/renk_vurgu"
+                android:textSize="13sp"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/dugme_hesap_kopyala"
+                android:layout_width="wrap_content"
+                android:layout_height="28dp"
+                android:background="@drawable/kart_arkaplan"
+                android:text="Kopyala"
+                android:textColor="@color/renk_yazi_ana"
+                android:textSize="11sp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp" />
+        </LinearLayout>
+
+        <!-- Menü Sekmeleri / Kategoriler (Nova Prime Drawer Groups) -->
+        <HorizontalScrollView
+            android:id="@+id/kaydirici_kategoriler"
+            android:layout_width="match_parent"
+            android:layout_height="38dp"
+            android:scrollbars="none"
+            android:fadingEdge="none"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp"
+            android:layout_marginBottom="6dp">
+
+            <LinearLayout
+                android:id="@+id/kapsayici_kategori_sekmeleri"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:orientation="horizontal" />
+        </HorizontalScrollView>
+
+        <!-- Sık Kullanılanlar Satırı -->
+        <LinearLayout
+            android:id="@+id/satir_sik_kullanilanlar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:paddingBottom="6dp"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/sik_kullanilanlar"
+                android:textColor="@color/renk_vurgu"
+                android:textSize="11sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="4dp" />
+
+            <LinearLayout
+                android:id="@+id/kapsayici_sik_kullanilanlar"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical" />
+        </LinearLayout>
+
+        <!-- Uygulamalar Izgarası ve A-Z Hızlı Alfabe Çubuğu -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <GridView
+                android:id="@+id/izgara_tum_uygulamalar"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:numColumns="4"
+                android:stretchMode="columnWidth"
+                android:gravity="center"
+                android:paddingLeft="8dp"
+                android:paddingRight="2dp"
+                android:paddingBottom="16dp"
+                android:clipToPadding="false" />
+
+            <!-- A-Z Hızlı Alfabe İndeks Çubuğu -->
+            <LinearLayout
+                android:id="@+id/cubuk_alfabe"
+                android:layout_width="22dp"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:paddingTop="2dp"
+                android:paddingBottom="8dp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <!-- 4. Güvenli Alan Kalibrasyon Kılavuz Çerçevesi (İnteraktif Ayarlama Sırasında Canlı Görünür) -->
+    <View
+        android:id="@+id/guvenli_alan_kilavuzu"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/guvenli_alan_cerceve"
+        android:visibility="gone" />
+
+    <!-- 5. Geri Al (Undo) Çubuğu (Addy Osmani Kalite Standardı) -->
+    <LinearLayout
+        android:id="@+id/bar_geri_al"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="24dp"
+        android:background="#E6212121"
+        android:orientation="horizontal"
+        android:paddingLeft="16dp"
+        android:paddingRight="12dp"
+        android:paddingTop="12dp"
+        android:paddingBottom="12dp"
+        android:gravity="center_vertical"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/yazi_geri_al_bilgi"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Öğe kaldırıldı"
+            android:textColor="#FFFFFF"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/dugme_geri_al_eylem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp"
+            android:paddingTop="6dp"
+            android:paddingBottom="6dp"
+            android:text="GERİ AL"
+            android:textColor="#4CAF50"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+</FrameLayout>

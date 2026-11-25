@@ -1,0 +1,11 @@
+* text=auto eol=lf
+*.java text diff=java
+*.xml text
+*.py text eol=lf
+*.md text
+*.json text
+*.bat text eol=crlf
+*.jks binary
+*.keystore binary
+*.apk binary
+*.png binary

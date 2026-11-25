@@ -1,0 +1,1327 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/renk_panel">
+
+    <LinearLayout
+        android:id="@+id/ayarlar_kok_liste"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:paddingTop="36dp"
+        android:paddingBottom="40dp">
+
+        <!-- Başlık ve Geri Düğmesi -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="14dp">
+
+            <Button
+                android:id="@+id/dugme_geri"
+                android:layout_width="wrap_content"
+                android:layout_height="36dp"
+                android:background="@drawable/kart_arkaplan"
+                android:text="← Geri"
+                android:textColor="@color/renk_vurgu"
+                android:textSize="12sp"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginLeft="12dp"
+                android:text="@string/ayar_baslik"
+                android:textColor="@color/renk_yazi_ana"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <!-- Anlık Ayar Arama Çubuğu -->
+        <EditText
+            android:id="@+id/girdi_ayar_ara"
+            android:layout_width="match_parent"
+            android:layout_height="42dp"
+            android:layout_marginBottom="12dp"
+            android:background="@drawable/kart_arkaplan"
+            android:hint="@string/ayar_ara_ipucu"
+            android:textColor="@color/renk_yazi_ana"
+            android:textColorHint="@color/renk_yazi_ikincil"
+            android:textSize="13sp"
+            android:paddingLeft="14dp"
+            android:paddingRight="14dp"
+            android:singleLine="true"
+            android:imeOptions="actionSearch" />
+
+        <!-- HIZLI İŞLEM: Varsayılan Başlatıcı -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@drawable/kart_arkaplan"
+            android:padding="10dp"
+            android:layout_marginBottom="14dp">
+
+            <Button
+                android:id="@+id/dugme_varsayilan_baslatici"
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:background="@drawable/kart_arkaplan"
+                android:text="🏠 Varsayılan Başlatıcı Olarak Ayarla"
+                android:textColor="@color/renk_vurgu"
+                android:textSize="13sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <!-- AKORDEON 1: Masaüstü ve Sayfalar -->
+        <LinearLayout
+            android:id="@+id/kart_akordeon_1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@drawable/kart_arkaplan"
+            android:padding="12dp"
+            android:layout_marginBottom="10dp">
+
+            <LinearLayout
+                android:id="@+id/baslik_akordeon_1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingTop="4dp"
+                android:paddingBottom="4dp"
+                android:clickable="true"
+                android:focusable="true">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="🏠 Masaüstü ve Sayfalar"
+                    android:textColor="@color/renk_vurgu"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="11 ayar"
+                    android:textColor="@color/renk_yazi_ikincil"
+                    android:textSize="11sp"
+                    android:layout_marginRight="8dp" />
+
+                <TextView
+                    android:id="@+id/ok_akordeon_1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="▸"
+                    android:textColor="@color/renk_vurgu"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/icerik_akordeon_1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingTop="10dp"
+                android:visibility="gone">
+
+                <Button
+                    android:id="@+id/dugme_masaustu_modu"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginBottom="8dp"
+                    android:background="@drawable/kart_arkaplan"
+                    android:text="Ana Ekran Düzeni: Klasik (Çekmeceli)"
+                    android:textColor="@color/renk_vurgu"
+                    android:textSize="12sp" />
+
+                <Button
+                    android:id="@+id/dugme_masaustu_izgara_canli"
+                    android:layout_width="match_parent"
+                    android:layout_height="42dp"
+                    android:layout_marginBottom="8dp"
+                    android:background="@drawable/kart_arkaplan"
+                    android:text="🏠 Masaüstü Izgarası (Dokun &amp; Canlı Ayarla)"
+                    android:textColor="@color/renk_vurgu"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+
+                <Button
+                    android:id="@+id/dugme_sayfa_sayisi"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginBottom="8dp"
+                    android:background="@drawable/kart_arkaplan"
+                    android:text="Masaüstü Sayfa Sayısı: 3 Sayfa"
+                    android:textColor="@color/renk_vurgu"
+                    android:textSize="12sp" />
+
+                <Button
+                    android:id="@+id/dugme_varsayilan_sayfa"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginBottom="8dp"
+                    android:background="@drawable/kart_arkaplan"
+                    android:text="Varsayılan Ana Sayfa: 1. Sayfa"
+                    android:textColor="@color/renk_vurgu"
+                    android:textSize="12sp" />
+
+                <Button
+                    android:id="@+id/dugme_sonsuz_kaydirma"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginBottom="8dp"
+                    android:background="@drawable/kart_arkaplan"
+                    android:text="Masaüstünde Sonsuz Kaydırma: Kapalı"
+                    android:textColor="@color/renk_vurgu"
+                    android:textSize="12sp" />
+
+                <Button
+                    android:id="@+id/dugme_gecis_efekti"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginBottom="8dp"
+                    android:background="@drawable/kart_arkaplan"
+                    android:text="Sayfa Geçiş Efekti: Standart (Kayan)"
+                    android:textColor="@color/renk_vurgu"
+                    android:textSize="12sp" />
+
+                <Button
+                    android:id="@+id/dugme_masaustu_dolgu"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginBottom="8dp"
+                    android:background="@drawable/kart_arkaplan"
+                    android:text="Masaüstü Kenar Boşluğu: Standart"
+                    android:textColor="@color/renk_vurgu"
+                    android:textSize="12sp" />
+
+                <Button
+                    android:id="@+id/dugme_guvenli_alan"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginBottom="8dp"
+                    android:background="@drawable/kart_arkaplan"
+                    android:text="📱 Güvenli Alan &amp; Çentik Kırpma (Canlı)"
+                    android:textColor="@color/renk_vurgu"
+                    android:textSize="12sp" />
+
+                <Button
+                    android:id="@+id/dugme_duvar_kagidi_kaydirma"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginBottom="8dp"
+                    android:background="@drawable/kart_arkaplan"
+                    android:text="Duvar Kağıdı Paralaks Kaydırma: Açık"
+                    android:textColor="@color/renk_vurgu"
+                    android:textSize="12sp" />
+
+                <Button
+                    android:id="@+id/dugme_otomatik_masaustune_ekle"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginBottom="8dp"
+                    android:background="@drawable/kart_arkaplan"
+                    android:text="Yeni Yüklenenleri Masaüstüne Ekle: Açık"
+                    android:textColor="@color/renk_vurgu"
+                    android:textSize="12sp" />
+
+                <Button
+                    android:id="@+id/dugme_masaustu_kilit"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:background="@drawable/kart_arkaplan"
+                    android:text="Masaüstünü Kilitle: Kapalı"
+                    android:textColor="@color/renk_vurgu"
+                    android:textSize="12sp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- AKORDEON 2: Alt Çubuk (Dock) ve Klasörler -->
+        <LinearLayout
+            android:id="@+id/kart_akordeon_2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@drawable/kart_arkaplan"
+            android:padding="12dp"
+            android:layout_marginBottom="10dp">
+
+            <LinearLayout
+                android:id="@+id/baslik_akordeon_2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingTop="4dp"
+                android:paddingBottom="4dp"
+                android:clickable="true"
+                android:focusable="true">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="⚓ Alt Çubuk (Dock) ve Klasörler"
+                    android:textColor="@color/renk_vurgu"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="6 ayar"
+                    android:textColor="@color/renk_yazi_ikincil"
+                    android:textSize="11sp"
+                    android:layout_marginRight="8dp" />
+
+                <TextView
+                    android:id="@+id/ok_akordeon_2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="▸"
+                    android:textColor="@color/renk_vurgu"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/icerik_akordeon_2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingTop="10dp"
+                android:visibility="gone">
+
+                <Button
+                    android:id="@+id/dugme_dock_gorunurluk"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginBottom="8dp"
+                    android:background="@drawable/kart_arkaplan"
+                    android:text="Sabit Alt Çubuk (Dock): Görünür"
+                    android:textColor="@color/renk_vurgu"
+                    android:textSize="12sp" />
+
+                <Button
+                    android:id="@+id/dugme_dock_yuksekligi"
+                    android:layout_width="match_parent"
+                    android:layout_height="42dp"
+                    android:layout_marginBottom="8dp"
+                    android:background="@drawable/kart_arkaplan"
+                    android:text="⚓ Canlı Alt Bar Stüdyosu"
+                    android:textColor="@color/renk_vurgu"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+
+                <Button
+                    android:id="@+id/dugme_dock_sayisi"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginBottom="8dp"
+                    android:background="@drawable/kart_arkaplan"
+                    android:text="Alt Çubuk Simge Sayısı: 4"
+                    android:textColor="@color/renk_vurgu"
+                    android:textSize="12sp" />
+
+                <Button
+                    android:id="@+id/dugme_dock_stili"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginBottom="8dp"
+                    android:background="@drawable/kart_arkaplan"
+                    android:text="Dock Arka Plan Stili: Kayan Yuvarlak Hap"
+                    android:textColor="@color/renk_vurgu"
+                    android:textSize="12sp" />
+
+                <Button
+                    android:id="@+id/dugme_klasor_sekli"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginBottom="8dp"
+                    android:background="@drawable/kart_arkaplan"
+                    android:text="Klasör Simge Şekli: Squircle (Yuvarlatılmış)"
+                    android:textColor="@color/renk_vurgu"
+                    android:textSize="12sp" />
+
+                <Button
+                    android:id="@+id/dugme_klasor_kapak_modu"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:background="@drawable/kart_arkaplan"
+                    android:text="Klasör Kapağı Modu (İlk Uygulamayı Aç): Kapalı"
+                    android:textColor="@color/renk_vurgu"
+                    android:textSize="12sp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- AKORDEON 3: Uygulama Çekmecesi ve Arama -->
+        <LinearLayout
+            android:id="@+id/kart_akordeon_3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@drawable/kart_arkaplan"
+            android:padding="12dp"
+            android:layout_marginBottom="10dp">
+
+            <LinearLayout
+                android:id="@+id/baslik_akordeon_3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingTop="4dp"
+                android:paddingBottom="4dp"
+                android:clickable="true"
+                android:focusable="true">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="📱 Uygulama Çekmecesi ve Arama"
+                    android:textColor="@color/renk_vurgu"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="7 ayar"
+                    android:textColor="@color/renk_yazi_ikincil"
+                    android:textSize="11sp"
+                    android:layout_marginRight="8dp" />
+
+                <TextView
+                    android:id="@+id/ok_akordeon_3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="▸"
+                    android:textColor="@color/renk_vurgu"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/icerik_akordeon_3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingTop="10dp"
+                android:visibility="gone">
+
+                <Button
+                    android:id="@+id/dugme_cekmece_izgara_canli"
+                    android:layout_width="match_parent"
+                    android:layout_height="42dp"
+                    android:layout_marginBottom="8dp"
+                    android:background="@drawable/kart_arkaplan"
+                    android:text="📱 Çekmece Izgarası (Dokun &amp; Canlı Ayarla)"
+                    android:textColor="@color/renk_vurgu"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+
+                <Button
+                    android:id="@+id/dugme_cekmece_siralamasi"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginBottom="8dp"
+                    android:background="@drawable/kart_arkaplan"
+                    android:text="Menü Sıralaması: A'dan Z'ye"
+                    android:textColor="@color/renk_vurgu"
+                    android:textSize="12sp" />
+
+                <Button
+                    android:id="@+id/dugme_sik_kullanilanlar_modu"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginBottom="8dp"
+                    android:background="@drawable/kart_arkaplan"
+                    android:text="Sık Kullanılanlar Satırı: Açık"
+                    android:textColor="@color/renk_vurgu"
+                    android:textSize="12sp" />
+
+                <Button
+                    android:id="@+id/dugme_sekmeleri_yonet"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginBottom="8dp"
+                    android:background="@drawable/kart_arkaplan"
+                    android:text="🏷️ Çekmece Sekmelerini &amp; Kategorileri Yönet..."
+                    android:textColor="@color/renk_vurgu"
+                    android:textSize="12sp" />
+
+                <Button
+                    android:id="@+id/dugme_cekmece_saydamlik"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginBottom="8dp"
+                    android:background="@drawable/kart_arkaplan"
+                    android:text="Menü Şeffaflığı: %100 (Opak)"
+                    android:textColor="@color/renk_vurgu"
+                    android:textSize="12sp" />
+
+                <!-- Gizlenen Uygulamalar (özet + buton tek satır grubu) -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginBottom="8dp">
+
+                    <Button
+                        android:id="@+id/dugme_uygulamalari_gizle"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:background="@drawable/kart_arkaplan"
+                        android:text="Gizlenen Uygulamaları Yönet..."
+                        android:textColor="@color/renk_vurgu"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/yazi_gizli_sayisi"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="@string/ayar_uygulamalari_gizle_ozet"
+                        android:textColor="@color/renk_yazi_ikincil"
+                        android:textSize="11sp" />
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/dugme_arama_motoru"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:background="@drawable/kart_arkaplan"
+                    android:text="Arama Sağlayıcısı: Cihaz İçi Uygulamalar"
+                    android:textColor="@color/renk_vurgu"
+                    android:textSize="12sp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- AKORDEON 4: Tema, Simgeler ve Bildirimler -->
+        <LinearLayout
+            android:id="@+id/kart_akordeon_4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@drawable/kart_arkaplan"
+            android:padding="12dp"
+            android:layout_marginBottom="10dp">
+
+            <LinearLayout
+                android:id="@+id/baslik_akordeon_4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingTop="4dp"
+                android:paddingBottom="4dp"
+                android:clickable="true"
+                android:focusable="true">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="🎨 Tema, Simgeler ve Bildirimler"
+                    android:textColor="@color/renk_vurgu"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="11 ayar"
+                    android:textColor="@color/renk_yazi_ikincil"
+                    android:textSize="11sp"
+                    android:layout_marginRight="8dp" />
+
+                <TextView
+                    android:id="@+id/ok_akordeon_4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="▸"
+                    android:textColor="@color/renk_vurgu"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/icerik_akordeon_4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingTop="10dp"
+                android:visibility="gone">
+
+                <Button
+                    android:id="@+id/dugme_tema_rengi"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginBottom="8dp"
+                    android:background="@drawable/kart_arkaplan"
+                    android:text="Arayüz Vurgu Rengi: Mercan Kırmızısı"
+                    android:textColor="@color/renk_vurgu"
+                    android:textSize="12sp" />
+
+                <Button
+                    android:id="@+id/dugme_tam_ekran_modu"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginBottom="8dp"
+                    android:background="@drawable/kart_arkaplan"
+                    android:text="Durum Çubuğunu Gizle: Kapalı"
+                    android:textColor="@color/renk_vurgu"
+                    android:textSize="12sp" />
+
+                <!-- Simge Paketi Seçimi (başlık + özet + buton tek grup) -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginBottom="8dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/ayar_simge_paketi"
+                        android:textColor="@color/renk_yazi_ana"
+                        android:textSize="13sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/yazi_aktif_simge_paketi"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/varsayilan_simgeler"
+                        android:textColor="@color/renk_yazi_ikincil"
+                        android:textSize="11sp"
+                        android:layout_marginTop="2dp"
+                        android:layout_marginBottom="6dp" />
+
+                    <Button
+                        android:id="@+id/dugme_simge_paketi"
+                        android:layout_width="match_parent"
+                        android:layout_height="38dp"
+                        android:background="@drawable/kart_arkaplan"
+                        android:text="Simge Paketi Seç..."
+                        android:textColor="@color/renk_vurgu"
+                        android:textSize="12sp" />
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/dugme_simge_boyutu"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginBottom="8dp"
+                    android:background="@drawable/kart_arkaplan"
+                    android:text="Simge Boyutu: Standart (%100)"
+                    android:textColor="@color/renk_vurgu"
+                    android:textSize="12sp" />
+
+                <Button
+                    android:id="@+id/dugme_simge_normalizasyonu"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginBottom="8dp"
+                    android:background="@drawable/kart_arkaplan"
+                    android:text="Simge Boyut Normalizasyonu: Açık"
+                    android:textColor="@color/renk_vurgu"
+                    android:textSize="12sp" />
+
+                <Button
+                    android:id="@+id/dugme_simge_sekli"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginBottom="8dp"
+                    android:background="@drawable/kart_arkaplan"
+                    android:text="Simge Adaptif Şekli: Orijinal"
+                    android:textColor="@color/renk_vurgu"
+                    android:textSize="12sp" />
+
+                <Button
+                    android:id="@+id/dugme_simge_etiketleri_degistir"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginBottom="8dp"
+                    android:background="@drawable/kart_arkaplan"
+                    android:text="Simge Yazıları: Açık"
+                    android:textColor="@color/renk_vurgu"
+                    android:textSize="12sp" />
+
+                <Button
+                    android:id="@+id/dugme_yazi_stili"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginBottom="8dp"
+                    android:background="@drawable/kart_arkaplan"
+                    android:text="Simge Yazı Stili: Normal (Standart)"
+                    android:textColor="@color/renk_vurgu"
+                    android:textSize="12sp" />
+
+                <Button
+                    android:id="@+id/dugme_simge_yazi_boyutu"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginBottom="8dp"
+                    android:background="@drawable/kart_arkaplan"
+                    android:text="Simge Yazı Boyutu: Standart (12sp)"
+                    android:textColor="@color/renk_vurgu"
+                    android:textSize="12sp" />
+
+                <Button
+                    android:id="@+id/dugme_metin_golgesi"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginBottom="8dp"
+                    android:background="@drawable/kart_arkaplan"
+                    android:text="Simge Metin Gölgesi: Açık"
+                    android:textColor="@color/renk_vurgu"
+                    android:textSize="12sp" />
+
+                <Button
+                    android:id="@+id/dugme_bildirim_rozetleri"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:background="@drawable/kart_arkaplan"
+                    android:text="Bildirim Rozetleri: Sayı Rozeti"
+                    android:textColor="@color/renk_vurgu"
+                    android:textSize="12sp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- AKORDEON 5: Hareketler, Tuşlar ve Ekran Kilidi -->
+        <LinearLayout
+            android:id="@+id/kart_akordeon_5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@drawable/kart_arkaplan"
+            android:padding="12dp"
+            android:layout_marginBottom="10dp">
+
+            <LinearLayout
+                android:id="@+id/baslik_akordeon_5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingTop="4dp"
+                android:paddingBottom="4dp"
+                android:clickable="true"
+                android:focusable="true">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="👆 Hareketler, Tuşlar ve Ekran Kilidi"
+                    android:textColor="@color/renk_vurgu"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="9 ayar"
+                    android:textColor="@color/renk_yazi_ikincil"
+                    android:textSize="11sp"
+                    android:layout_marginRight="8dp" />
+
+                <TextView
+                    android:id="@+id/ok_akordeon_5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="▸"
+                    android:textColor="@color/renk_vurgu"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/icerik_akordeon_5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingTop="10dp"
+                android:visibility="gone">
+
+                <Button
+                    android:id="@+id/dugme_kilit_yetkisi"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/kart_arkaplan"
+                    android:text="🔒 Ekran Kilitleme İzni: Denetle"
+                    android:textColor="@color/renk_vurgu"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+
+                <!-- Ana Ekran Tuşu -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginBottom="10dp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/ayar_hareket_ana_ekran"
+                        android:textColor="@color/renk_yazi_ana"
+                        android:textSize="13sp"
+                        android:textStyle="bold" />
+                    <Button
+                        android:id="@+id/dugme_hareket_ana_ekran"
+                        android:layout_width="match_parent"
+                        android:layout_height="38dp"
+                        android:layout_marginTop="4dp"
+                        android:background="@drawable/kart_arkaplan"
+                        android:text="Hiçbir Şey Yapma"
+                        android:textColor="@color/renk_vurgu"
+                        android:textSize="12sp" />
+                </LinearLayout>
+
+                <!-- Geri Tuşu -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginBottom="10dp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/ayar_hareket_geri_tusu"
+                        android:textColor="@color/renk_yazi_ana"
+                        android:textSize="13sp"
+                        android:textStyle="bold" />
+                    <Button
+                        android:id="@+id/dugme_hareket_geri_tusu"
+                        android:layout_width="match_parent"
+                        android:layout_height="38dp"
+                        android:layout_marginTop="4dp"
+                        android:background="@drawable/kart_arkaplan"
+                        android:text="Hiçbir Şey Yapma"
+                        android:textColor="@color/renk_vurgu"
+                        android:textSize="12sp" />
+                </LinearLayout>
+
+                <!-- Aşağı Kaydırma -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginBottom="10dp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/ayar_hareket_asagi"
+                        android:textColor="@color/renk_yazi_ana"
+                        android:textSize="13sp"
+                        android:textStyle="bold" />
+                    <Button
+                        android:id="@+id/dugme_hareket_asagi"
+                        android:layout_width="match_parent"
+                        android:layout_height="38dp"
+                        android:layout_marginTop="4dp"
+                        android:background="@drawable/kart_arkaplan"
+                        android:text="Bildirim Panelini Aç"
+                        android:textColor="@color/renk_vurgu"
+                        android:textSize="12sp" />
+                </LinearLayout>
+
+                <!-- Yukarı Kaydırma -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginBottom="10dp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/ayar_hareket_yukari"
+                        android:textColor="@color/renk_yazi_ana"
+                        android:textSize="13sp"
+                        android:textStyle="bold" />
+                    <Button
+                        android:id="@+id/dugme_hareket_yukari"
+                        android:layout_width="match_parent"
+                        android:layout_height="38dp"
+                        android:layout_marginTop="4dp"
+                        android:background="@drawable/kart_arkaplan"
+                        android:text="Tüm Uygulamalar Menüsünü Aç"
+                        android:textColor="@color/renk_vurgu"
+                        android:textSize="12sp" />
+                </LinearLayout>
+
+                <!-- Çift Dokunma -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginBottom="10dp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/ayar_hareket_cift_tik"
+                        android:textColor="@color/renk_yazi_ana"
+                        android:textSize="13sp"
+                        android:textStyle="bold" />
+                    <Button
+                        android:id="@+id/dugme_hareket_cift_tik"
+                        android:layout_width="match_parent"
+                        android:layout_height="38dp"
+                        android:layout_marginTop="4dp"
+                        android:background="@drawable/kart_arkaplan"
+                        android:text="Ekranı Kilitle"
+                        android:textColor="@color/renk_vurgu"
+                        android:textSize="12sp" />
+                </LinearLayout>
+
+                <!-- İki Parmakla Aşağı -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginBottom="10dp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/ayar_hareket_iki_asagi"
+                        android:textColor="@color/renk_yazi_ana"
+                        android:textSize="13sp"
+                        android:textStyle="bold" />
+                    <Button
+                        android:id="@+id/dugme_hareket_iki_asagi"
+                        android:layout_width="match_parent"
+                        android:layout_height="38dp"
+                        android:layout_marginTop="4dp"
+                        android:background="@drawable/kart_arkaplan"
+                        android:text="Hızlı Ayarlar Panelini Aç"
+                        android:textColor="@color/renk_vurgu"
+                        android:textSize="12sp" />
+                </LinearLayout>
+
+                <!-- İki Parmakla Yukarı -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginBottom="10dp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/ayar_hareket_iki_yukari"
+                        android:textColor="@color/renk_yazi_ana"
+                        android:textSize="13sp"
+                        android:textStyle="bold" />
+                    <Button
+                        android:id="@+id/dugme_hareket_iki_yukari"
+                        android:layout_width="match_parent"
+                        android:layout_height="38dp"
+                        android:layout_marginTop="4dp"
+                        android:background="@drawable/kart_arkaplan"
+                        android:text="Başlatıcı Ayarları"
+                        android:textColor="@color/renk_vurgu"
+                        android:textSize="12sp" />
+                </LinearLayout>
+
+                <!-- Cihazı Sallama Hareketi (Shake) -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Cihazı Sallama Hareketi (Shake)"
+                        android:textColor="@color/renk_yazi_ana"
+                        android:textSize="13sp"
+                        android:textStyle="bold" />
+                    <Button
+                        android:id="@+id/dugme_hareket_sallama"
+                        android:layout_width="match_parent"
+                        android:layout_height="38dp"
+                        android:layout_marginTop="4dp"
+                        android:background="@drawable/kart_arkaplan"
+                        android:text="Sallama Eylemi: Kapalı"
+                        android:textColor="@color/renk_vurgu"
+                        android:textSize="12sp" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- AKORDEON 6: Güvenlik, Gizlilik ve Dijital Denge -->
+        <LinearLayout
+            android:id="@+id/kart_akordeon_6"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@drawable/kart_arkaplan"
+            android:padding="12dp"
+            android:layout_marginBottom="10dp">
+
+            <LinearLayout
+                android:id="@+id/baslik_akordeon_6"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingTop="4dp"
+                android:paddingBottom="4dp"
+                android:clickable="true"
+                android:focusable="true">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="🔒 Güvenlik, Gizlilik ve Dijital Denge"
+                    android:textColor="@color/renk_vurgu"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="2 ayar"
+                    android:textColor="@color/renk_yazi_ikincil"
+                    android:textSize="11sp"
+                    android:layout_marginRight="8dp" />
+
+                <TextView
+                    android:id="@+id/ok_akordeon_6"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="▸"
+                    android:textColor="@color/renk_vurgu"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/icerik_akordeon_6"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingTop="10dp"
+                android:visibility="gone">
+
+                <Button
+                    android:id="@+id/dugme_uygulama_kilidi"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginBottom="8dp"
+                    android:background="@drawable/kart_arkaplan"
+                    android:text="🔒 Uygulama Kilidi &amp; PIN Yönetimi"
+                    android:textColor="@color/renk_vurgu"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+
+                <Button
+                    android:id="@+id/dugme_kullanim_raporu"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:background="@drawable/kart_arkaplan"
+                    android:text="📊 Kullanım İstatistikleri &amp; Süre Raporu"
+                    android:textColor="@color/renk_vurgu"
+                    android:textSize="12sp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- AKORDEON 7: Yedekleme ve Geri Yükleme -->
+        <LinearLayout
+            android:id="@+id/kart_akordeon_7"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@drawable/kart_arkaplan"
+            android:padding="12dp"
+            android:layout_marginBottom="10dp">
+
+            <LinearLayout
+                android:id="@+id/baslik_akordeon_7"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingTop="4dp"
+                android:paddingBottom="4dp"
+                android:clickable="true"
+                android:focusable="true">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="💾 Yedekleme ve Geri Yükleme"
+                    android:textColor="@color/renk_vurgu"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="7 işlem"
+                    android:textColor="@color/renk_yazi_ikincil"
+                    android:textSize="11sp"
+                    android:layout_marginRight="8dp" />
+
+                <TextView
+                    android:id="@+id/ok_akordeon_7"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="▸"
+                    android:textColor="@color/renk_vurgu"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/icerik_akordeon_7"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingTop="10dp"
+                android:visibility="gone">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/ayar_yedekle_ozet"
+                    android:textColor="@color/renk_yazi_ikincil"
+                    android:textSize="11sp"
+                    android:layout_marginBottom="10dp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="8dp">
+
+                    <Button
+                        android:id="@+id/dugme_yedek_al"
+                        android:layout_width="0dp"
+                        android:layout_height="38dp"
+                        android:layout_weight="1"
+                        android:layout_marginRight="6dp"
+                        android:background="@drawable/kart_arkaplan"
+                        android:text="Yedek Al"
+                        android:textColor="@color/renk_vurgu"
+                        android:textSize="12sp" />
+
+                    <Button
+                        android:id="@+id/dugme_yedek_yukle"
+                        android:layout_width="0dp"
+                        android:layout_height="38dp"
+                        android:layout_weight="1"
+                        android:layout_marginLeft="6dp"
+                        android:background="@drawable/kart_arkaplan"
+                        android:text="Yedeği Yükle"
+                        android:textColor="@color/renk_vurgu"
+                        android:textSize="12sp" />
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/dugme_yedek_paylas"
+                    android:layout_width="match_parent"
+                    android:layout_height="38dp"
+                    android:layout_marginBottom="8dp"
+                    android:background="@drawable/kart_arkaplan"
+                    android:text="📤 Yedeği Paylaş (WhatsApp, Drive...)"
+                    android:textColor="@color/renk_vurgu"
+                    android:textSize="12sp" />
+
+                <Button
+                    android:id="@+id/dugme_yedek_dosyadan_sec"
+                    android:layout_width="match_parent"
+                    android:layout_height="38dp"
+                    android:layout_marginBottom="8dp"
+                    android:background="@drawable/kart_arkaplan"
+                    android:text="📥 Dosyadan Yedek İçe Aktar..."
+                    android:textColor="@color/renk_vurgu"
+                    android:textSize="12sp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="8dp">
+
+                    <Button
+                        android:id="@+id/dugme_yedek_indirilenler_kaydet"
+                        android:layout_width="0dp"
+                        android:layout_height="38dp"
+                        android:layout_weight="1"
+                        android:layout_marginRight="6dp"
+                        android:background="@drawable/kart_arkaplan"
+                        android:text="💾 İndirilenler'e Kaydet"
+                        android:textColor="@color/renk_vurgu"
+                        android:textSize="11sp" />
+
+                    <Button
+                        android:id="@+id/dugme_yedek_indirilenler_yukle"
+                        android:layout_width="0dp"
+                        android:layout_height="38dp"
+                        android:layout_weight="1"
+                        android:layout_marginLeft="6dp"
+                        android:background="@drawable/kart_arkaplan"
+                        android:text="📂 İndirilenler'den Yükle"
+                        android:textColor="@color/renk_vurgu"
+                        android:textSize="11sp" />
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/dugme_oto_yedek_yukle"
+                    android:layout_width="match_parent"
+                    android:layout_height="38dp"
+                    android:background="@drawable/kart_arkaplan"
+                    android:text="🔄 Otomatik Yedekten Geri Yükle (Son 3 Yedek)..."
+                    android:textColor="@color/renk_vurgu"
+                    android:textSize="12sp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- AKORDEON 8: Sistem, Güncelleme ve Hakkında -->
+        <LinearLayout
+            android:id="@+id/kart_akordeon_8"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@drawable/kart_arkaplan"
+            android:padding="12dp"
+            android:layout_marginBottom="12dp">
+
+            <LinearLayout
+                android:id="@+id/baslik_akordeon_8"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingTop="4dp"
+                android:paddingBottom="4dp"
+                android:clickable="true"
+                android:focusable="true">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="⚙️ Sistem, Güncelleme ve Hakkında"
+                    android:textColor="@color/renk_vurgu"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/ok_akordeon_8"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="▸"
+                    android:textColor="@color/renk_vurgu"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/icerik_akordeon_8"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingTop="10dp"
+                android:visibility="gone">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginBottom="10dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/ayar_guncelleme"
+                        android:textColor="@color/renk_yazi_ana"
+                        android:textSize="13sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/ayar_guncelleme_ozet"
+                        android:textColor="@color/renk_yazi_ikincil"
+                        android:textSize="11sp"
+                        android:layout_marginTop="2dp"
+                        android:layout_marginBottom="8dp" />
+
+                    <Button
+                        android:id="@+id/dugme_guncelleme_denetle"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:background="@drawable/kart_arkaplan"
+                        android:text="Güncellemeleri Şimdi Denetle"
+                        android:textColor="@color/renk_vurgu"
+                        android:textSize="13sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/yazi_guncelleme_durum"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text=""
+                        android:textColor="@color/renk_yazi_ikincil"
+                        android:textSize="12sp"
+                        android:visibility="gone" />
+                </LinearLayout>
+
+                <!-- Hakkında -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center_horizontal"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="4dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Tam Ekran: Eksiksiz Ana Arayüz"
+                        android:textColor="@color/renk_yazi_ana"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/yazi_surum_bilgisi"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="Sürüm 1.0.0 (API 8 - API 36+)"
+                        android:textColor="@color/renk_vurgu"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:gravity="center"
+                        android:text="Sıfır Reklam • Sıfır İzleyici • Tüy Kadar Hafif • Açık Kaynak\nGeliştirici: Vezir (GitHub: devezir)"
+                        android:textColor="@color/renk_yazi_ikincil"
+                        android:textSize="11sp" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+
+    </LinearLayout>
+</ScrollView>

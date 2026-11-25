@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Uygulama Kimliği -->
+    <string name="uygulama_adi">Tam Ekran</string>
+    <string name="uygulama_slogan">Eksiksiz Ana Arayüz</string>
+
+    <!-- Ana Ekran & Menü -->
+    <string name="arama_ipucu">Uygulama ara...</string>
+    <string name="tum_uygulamalar">Tüm Uygulamalar</string>
+    <string name="sik_kullanilanlar">Sık Kullanılanlar</string>
+    <string name="uygulamalar_yukleniyor">Uygulamalar listeleniyor...</string>
+    <string name="uygulama_bulunamadi">Uygulama bulunamadı.</string>
+    <string name="masaustune_ekle">Masaüstüne Ekle</string>
+    <string name="masaustunden_kaldir">Masaüstünden Kaldır</string>
+    <string name="duvar_kagidi_sec">Duvar Kağıdını Değiştir</string>
+    <string name="uygulama_bilgisi">Uygulama Bilgisi</string>
+    <string name="uygulamayi_kaldir">Kaldır</string>
+    <string name="yeniden_adlandir">Yeniden Adlandır</string>
+    <string name="klasore_ekle">Klasöre Ekle / Taşı</string>
+    <string name="klasor_olustur">Yeni Klasör</string>
+    <string name="klasor_sil">Klasörü Sil</string>
+
+    <!-- Başlatıcı Ayarları -->
+    <string name="ayar_baslik">Başlatıcı Ayarları</string>
+    <string name="ayar_kategori_genel">Görünüm ve Simgeler</string>
+    <string name="ayar_izgara">Masaüstü Izgara Düzeni</string>
+    <string name="ayar_izgara_ozet">Satır ve sütun simge sayısı</string>
+    <string name="ayar_simge_paketi">Simge Paketi</string>
+    <string name="ayar_simge_paketi_ozet">Nova / ADW uyumlu temaları uygula</string>
+    <string name="ayar_uygulamalari_gizle">Uygulamaları Gizle</string>
+    <string name="ayar_uygulamalari_gizle_ozet">Menüde görünmesini istemediğiniz uygulamaları seçin</string>
+    <string name="ayar_simge_etiketleri">Simge Yazıları</string>
+    <string name="ayar_simge_etiketleri_ozet">Simgelerin altındaki isimleri göster veya gizle</string>
+    <string name="ayar_tam_ekran_modu">Durum Çubuğunu Gizle</string>
+    <string name="ayar_tam_ekran_modu_ozet">Üst bildirim/saat çubuğunu gizleyerek gerçek tam ekran yap</string>
+    <string name="ayar_sik_kullanilanlar">Sık Kullanılanlar Satırı</string>
+    <string name="ayar_sik_kullanilanlar_ozet">Menünün üstünde en çok açılan uygulamaları göster</string>
+
+    <!-- Ekran Hareketleri -->
+    <string name="ayar_kategori_hareketler">Kişiselleştirilebilir Hareketler</string>
+    <string name="ayar_hareket_asagi">Aşağı Kaydırma</string>
+    <string name="ayar_hareket_yukari">Yukarı Kaydırma</string>
+    <string name="ayar_hareket_cift_tik">Çift Dokunma</string>
+    <string name="ayar_hareket_iki_asagi">İki Parmakla Aşağı</string>
+    <string name="ayar_hareket_iki_yukari">İki Parmakla Yukarı</string>
+    <string name="ayar_hareket_ana_ekran">Ana Ekran Tuşu (Varsayılan Sayfadayken)</string>
+    <string name="ayar_hareket_geri_tusu">Geri Tuşu (Varsayılan Sayfadayken)</string>
+    <string name="ayar_ara_ipucu">Ayarlarda ara (örn. dock, rozet, kilit)...</string>
+
+    <!-- Yedekleme & Sistem -->
+    <string name="ayar_kategori_sistem">Sistem ve Yedekleme</string>
+    <string name="ayar_yedekle">Yedekle ve Geri Yükle</string>
+    <string name="ayar_yedekle_ozet">Başlatıcı düzeninizi JSON olarak kaydedin ve geri yükleyin</string>
+    <string name="ayar_guncelleme">Güncellemeleri Denetle</string>
+    <string name="ayar_guncelleme_ozet">Yeni sürüm kontrolü ve doğrudan kurulum</string>
+    <string name="ayar_hakkinda">Hakkında</string>
+    <string name="ayar_hakkinda_ozet">Tam Ekran v%1$s • Sıfır Reklam • Açık Kaynak</string>
+
+    <!-- Servisler ve İletişimler -->
+    <string name="kilit_servis_aciklama">Tam Ekran - Çift dokunuşla ekranı kilitleme servisi</string>
+    <string name="varsayilan_simgeler">Varsayılan Sistem Simgeleri</string>
+    <string name="yedek_alindi">Ayarlar ve masaüstü düzeni başarıyla yedeklendi!</string>
+    <string name="yedek_yuklendi">Ayarlar başarıyla geri yüklendi!</string>
+    <string name="yedek_bulunamadi">Kaydedilmiş bir yedek dosyası bulunamadı.</string>
+    <string name="guncelleme_denetleniyor">Yeni sürüm denetleniyor...</string>
+    <string name="guncelleme_guncel">Harika! En güncel sürümü (v%1$s) kullanıyorsunuz.</string>
+    <string name="guncelleme_yeni_surum_bulundu">Yeni Sürüm Mevcut: v%1$s</string>
+    <string name="guncelleme_indiriliyor">Yeni sürüm indiriliyor... Lütfen bekleyin.</string>
+    <string name="guncelleme_hata">Güncelleme denetlenirken hata oluştu: %1$s</string>
+    <string name="guncelleme_indir_ve_kur">İndir ve Kur</string>
+    <string name="iptal">Vazgeç</string>
+    <string name="tamam">Tamam</string>
+    <string name="izin_ver">İzin Ver</string>
+
+    <!-- Bilinmeyen Kaynaklar Uyarısı -->
+    <string name="bilinmeyen_kaynak_baslik">Yükleme İzni Gerekli</string>
+    <string name="bilinmeyen_kaynak_mesaj">Güncellemeyi doğrudan kurabilmek için "Bilinmeyen Uygulamaları Yükleme" izni gereklidir. Lütfen açılacak ekranda Tam Ekran uygulamasına bu izni verin.</string>
+
+    <!-- Genel Uyarılar ve Aksiyon Mesajları (Ana Dil: Türkçe) -->
+    <string name="uyari_masaustu_kilitli">Masaüstü kilitli. Değişiklik yapmak için Ayarlar\'dan kilidi açın.</string>
+    <string name="magaza_acilamadi">Mağaza açılamadı.</string>
+    <string name="baslatici_bulunamadi">Uygulama başlatılamıyor: Başlatıcı bulunamadı.</string>
+    <string name="acilamadi_hata">Açılamadı: %1$s</string>
+    <string name="varsayilan_baslatici_baslik">Varsayılan Başlatıcı</string>
+    <string name="varsayilan_baslatici_ayarlandi">Tam Ekran varsayılan başlatıcı olarak ayarlandı!</string>
+    <string name="kisayol_eklendi">Kısayol masaüstüne eklendi.</string>
+    <string name="ogesi_klasore_eklendi">%1$s klasöre eklendi.</string>
+    <string name="klasor_yeni_olusturuldu">%1$s ile yeni klasör oluşturuldu.</string>
+    <string name="klasor_olusturuldu">%1$s klasörü oluşturuldu.</string>
+    <string name="konum_guncellendi">%1$s konumu güncellendi.</string>
+    <string name="sayfaya_tasindi">%1$s Sayfa %2$d\'e taşındı.</string>
+    <string name="sayfaya_eklendi">%1$s Sayfa %2$d\'e eklendi.</string>
+    <string name="klasor_silindi_mesaj">Klasör silindi, uygulamalar masaüstüne çıkarıldı.</string>
+    <string name="klasore_eklendi_mesaj">%1$s, %2$s klasörüne eklendi.</string>
+    <string name="uygulama_adi_guncellendi">Uygulama adı güncellendi.</string>
+    <string name="simge_guncellendi">Simge güncellendi.</string>
+    <string name="oge_geri_yuklendi">Öğe geri yüklendi.</string>
+    <string name="guvenli_alan_sifirlandi">Güvenli alan sıfırlandı.</string>
+    <string name="guvenli_alan_kaydedildi">Güvenli alan ayarları kaydedildi.</string>
+    <string name="duzen_studyosu_kaydedildi">Düzen stüdyosu ayarları kaydedildi.</string>
+    <string name="duzen_studyosu_sifirlandi">Aktif sekme varsayılanlara sıfırlandı.</string>
+    <string name="duzen_studyosu_baslik">📐 Canlı Düzen Stüdyosu</string>
+    <string name="guncelleme_yeni_surum_baslik">Yeni Sürüm Mevcut (v%1$s)</string>
+    <string name="guncelleme_indiriliyor_baslik">Tam Ekran Güncelleniyor</string>
+    <string name="guncelleme_adres_yok">İndirme adresi bulunamadı.</string>
+    <string name="guncelleme_paket_gecersiz">Kurulum paketi geçersiz, bütünlüğü doğrulanamadı veya imzası uyumsuz.</string>
+    <string name="guncelleme_imza_uyumsuz">Güvenlik uyarısı: APK imzası mevcut uygulamayla eşleşmiyor.</string>
+    <string name="guncelleme_guvensiz_adres">Güvenlik uyarısı: Geçersiz veya izin verilmeyen indirme adresi.</string>
+    <string name="guncelleme_hash_uyumsuz">Güvenlik uyarısı: Dosya SHA-256 doğrulamasından geçemedi.</string>
+    <string name="guncelleme_basarisiz">İndirme başarısız: %1$s</string>
+    <string name="guncelleme_yukleyici_acilamadi">Paket yükleyici açılamadı: %1$s</string>
+    <string name="guncelleme_izin_ayari_acilamadi">Güvenlik ayarları açılamadı. Lütfen Ayarlar &gt; Güvenlik menüsünü kontrol edin.</string>
+    <string name="guncelleme_izin_gerekiyor">Güncelleme için yükleme izni gerekiyor.</string>
+    <string name="ekran_kilit_izni_baslik">Ekran Kilitleme İzni Gerekli</string>
+    <string name="sekme_tumu_degismez">\'Tümü\' ana sekmedir, değiştirilemez.</string>
+    <string name="pano_kopyalandi">Sonuç panoya kopyalandı: %1$s</string>
+    <string name="pano_kopyalanamadi">Kopyalanamadı.</string>
+    <string name="tarayici_acilamadi">Tarayıcı açılamadı: %1$s</string>
+    <string name="yedek_gecersiz">Yedek dosyası okunamadı veya geçersiz.</string>
+    <string name="pin_belirlendi">PIN belirlendi. Şimdi uygulamalara uzun basarak kilitleyebilirsiniz.</string>
+    <string name="pin_sifirlandi">Uygulama kilidi ve PIN sıfırlandı.</string>
+    <string name="simge_paketi_uygulandi">Simge paketi uygulandı.</string>
+    <string name="veri_karantina_uyarisi">Bozuk masaüstü verisi tespit edildi ve koruma altına alındı.</string>
+    <string name="kisayol_ekle_baslik">Ana Ekrana Ekle</string>
+    <string name="kisayol_ekle_soru">%1$s kısayolu masaüstüne eklensin mi?</string>
+    <string name="ekle">Ekle</string>
+</resources>

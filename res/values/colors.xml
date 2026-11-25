@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="renk_arkaplan">#00000000</color>
+    <color name="renk_panel">#EE121418</color>
+    <color name="renk_kart">#22FFFFFF</color>
+    <color name="renk_kart_secili">#44FFFFFF</color>
+    <color name="renk_vurgu">#00E5FF</color>
+    <color name="renk_yazi_ana">#FFFFFFFF</color>
+    <color name="renk_yazi_ikincil">#B0BEC5</color>
+    <color name="renk_arama_arkaplan">#28FFFFFF</color>
+    <color name="renk_ayirici">#1FFFFFFF</color>
+</resources>

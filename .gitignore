@@ -1,0 +1,52 @@
+# Kök Dizin Koruması (Allowlist)
+# Ana dizine koyulan tüm kişisel dosya/video/notlar varsayılan olarak GitHub'a gitmez.
+/*
+
+# İzin Verilen Proje Dosyaları ve Klasörleri
+!.gitignore
+!.gitattributes
+!.github/
+!.github/**
+!src/
+!src/**
+!res/
+!res/**
+!tests/
+!tests/**
+!github-upload/
+!github-upload/**
+!AndroidManifest.xml
+!build.py
+!derle.bat
+!test.py
+!version.json
+!README.md
+!SPEC.md
+!GELISIM_LISTESI.md
+!LICENSE
+
+# Derleme Çıktıları ve Geçici Dosyalar
+bin/
+gen/
+obj/
+out_sign/
+releases/
+compiled_res.zip
+base.apk
+*.apk
+*.dex
+*.class
+
+# Güvenlik & Gizli Anahtarlar
+keystore/
+keystore/*.jks
+keystore/*.keystore
+keystore/*.properties
+keystore/*.env
+
+# IDE ve Sistem Dosyaları
+.idea/
+.vscode/
+*.iml
+.DS_Store
+Thumbs.db

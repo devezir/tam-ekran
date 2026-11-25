@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:layout_margin="10dp"
+    android:background="@drawable/kart_guvenli_alan"
+    android:padding="14dp">
+
+    <!-- Başlık ve Konum Değiştirme Çubuğu -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginBottom="8dp">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="📐 Güvenli Alan Kalibrasyonu"
+                android:textColor="#FFFFFF"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Masaüstünü canlı görerek kırpma boşluklarını ayarlayın."
+                android:textColor="#A0B0C0"
+                android:textSize="11sp" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/dugme_konum"
+            android:layout_width="wrap_content"
+            android:layout_height="32dp"
+            android:background="@drawable/kart_arkaplan"
+            android:text="📌 Konum (Üst/Alt)"
+            android:textColor="#40C4FF"
+            android:textSize="11sp"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp" />
+    </LinearLayout>
+
+    <!-- 1. ÜST (TOP) AYARI -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="4dp">
+
+        <TextView
+            android:id="@+id/yazi_etiket_ust"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="⬆️ Üst Boşluk (Top): 0 dp"
+            android:textColor="#FFFFFF"
+            android:textSize="12sp"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <Button
+                android:id="@+id/dugme_ust_eksi"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:text="-"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:textColor="#FFFFFF"
+                android:background="@drawable/kart_arkaplan" />
+
+            <SeekBar
+                android:id="@+id/seekbar_ust"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:max="120"
+                android:progress="0" />
+
+            <Button
+                android:id="@+id/dugme_ust_arti"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:text="+"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:textColor="#FFFFFF"
+                android:background="@drawable/kart_arkaplan" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- 2. ALT (BOTTOM) AYARI -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="4dp">
+
+        <TextView
+            android:id="@+id/yazi_etiket_alt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="⬇️ Alt Boşluk (Bottom): 0 dp"
+            android:textColor="#FFFFFF"
+            android:textSize="12sp"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <Button
+                android:id="@+id/dugme_alt_eksi"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:text="-"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:textColor="#FFFFFF"
+                android:background="@drawable/kart_arkaplan" />
+
+            <SeekBar
+                android:id="@+id/seekbar_alt"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:max="120"
+                android:progress="0" />
+
+            <Button
+                android:id="@+id/dugme_alt_arti"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:text="+"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:textColor="#FFFFFF"
+                android:background="@drawable/kart_arkaplan" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- 3. SOL (LEFT) AYARI -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="4dp">
+
+        <TextView
+            android:id="@+id/yazi_etiket_sol"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="⬅️ Sol Boşluk (Left): 0 dp"
+            android:textColor="#FFFFFF"
+            android:textSize="12sp"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <Button
+                android:id="@+id/dugme_sol_eksi"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:text="-"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:textColor="#FFFFFF"
+                android:background="@drawable/kart_arkaplan" />
+
+            <SeekBar
+                android:id="@+id/seekbar_sol"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:max="100"
+                android:progress="0" />
+
+            <Button
+                android:id="@+id/dugme_sol_arti"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:text="+"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:textColor="#FFFFFF"
+                android:background="@drawable/kart_arkaplan" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- 4. SAĞ (RIGHT) AYARI -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="6dp">
+
+        <TextView
+            android:id="@+id/yazi_etiket_sag"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="➡️ Sağ Boşluk (Right): 0 dp"
+            android:textColor="#FFFFFF"
+            android:textSize="12sp"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <Button
+                android:id="@+id/dugme_sag_eksi"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:text="-"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:textColor="#FFFFFF"
+                android:background="@drawable/kart_arkaplan" />
+
+            <SeekBar
+                android:id="@+id/seekbar_sag"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:max="100"
+                android:progress="0" />
+
+            <Button
+                android:id="@+id/dugme_sag_arti"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:text="+"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:textColor="#FFFFFF"
+                android:background="@drawable/kart_arkaplan" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- Alt Eylem Butonları (Sıfırla, İptal, Kaydet) -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="8dp"
+        android:gravity="center">
+
+        <Button
+            android:id="@+id/dugme_sifirla"
+            android:layout_width="0dp"
+            android:layout_height="38dp"
+            android:layout_weight="1"
+            android:layout_marginRight="6dp"
+            android:background="@drawable/kart_arkaplan"
+            android:text="🔄 Sıfırla"
+            android:textColor="#FFB74D"
+            android:textSize="12sp" />
+
+        <Button
+            android:id="@+id/dugme_iptal"
+            android:layout_width="0dp"
+            android:layout_height="38dp"
+            android:layout_weight="1"
+            android:layout_marginRight="6dp"
+            android:background="@drawable/kart_arkaplan"
+            android:text="❌ İptal"
+            android:textColor="#E0E0E0"
+            android:textSize="12sp" />
+
+        <Button
+            android:id="@+id/dugme_kaydet"
+            android:layout_width="0dp"
+            android:layout_height="38dp"
+            android:layout_weight="1.2"
+            android:background="@drawable/kart_arkaplan"
+            android:text="💾 Kaydet"
+            android:textColor="#40C4FF"
+            android:textStyle="bold"
+            android:textSize="12sp" />
+    </LinearLayout>
+
+</LinearLayout>

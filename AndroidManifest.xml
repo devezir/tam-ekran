@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.tamekran.launcher"
+    android:versionCode="1"
+    android:versionName="1.0.0">
+
+    <uses-sdk
+        android:minSdkVersion="8"
+        android:targetSdkVersion="34" />
+
+    <!-- Temel Başlatıcı İzinleri -->
+    <uses-permission android:name="android.permission.SET_WALLPAPER" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.EXPAND_STATUS_BAR" />
+    <uses-permission android:name="android.permission.FLASHLIGHT" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.BIND_APPWIDGET" />
+    <uses-feature android:name="android.hardware.camera" android:required="false" />
+    <uses-feature android:name="android.hardware.camera.flash" android:required="false" />
+
+    <!-- Hızlı Kontrol Araçları İzinleri (Wi-Fi, Bluetooth, Ayarlar) -->
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+
+    <!-- Android 11+ Tüm Uygulamaları Görebilme İzni -->
+    <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES" />
+
+    <!-- Güncelleme Denetimi ve Kurulum İzinleri -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
+    <uses-permission android:name="android.permission.REQUEST_DELETE_PACKAGES" />
+    <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT" />
+
+    <application
+        android:label="@string/uygulama_adi"
+        android:icon="@drawable/simge_varsayilan"
+        android:theme="@style/Tema.TamEkran"
+        android:hardwareAccelerated="true">
+
+        <!-- Ana Ekran (Home) Etkinliği -->
+        <activity
+            android:name=".AnaEkranActivity"
+            android:launchMode="singleTask"
+            android:clearTaskOnLaunch="true"
+            android:stateNotNeeded="true"
+            android:windowSoftInputMode="adjustPan"
+            android:exported="true">
+            <!-- 1. Sistem Ana Ekran (Home) Filtresi -->
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.HOME" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+            <!-- 2. Paket Yükleyici ve Menüden Doğrudan Açılabilme Filtresi -->
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!-- Başlatıcı Ayarları Etkinliği -->
+        <activity
+            android:name=".AyarlarActivity"
+            android:label="@string/ayar_baslik"
+            android:theme="@style/Tema.TamEkran.Ayarlar"
+            android:exported="false" />
+
+        <!-- Android 8.0+ Anında Pinned Shortcut Onay Etkinliği (Google Drive, Chrome vb.) -->
+        <activity
+            android:name=".PinKisayolOnayActivity"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:taskAffinity=""
+            android:launchMode="singleInstance"
+            android:excludeFromRecents="true"
+            android:autoRemoveFromRecents="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.content.pm.action.CONFIRM_PIN_SHORTCUT" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <!-- Android 2.2 - 7.1 Eski Kısayol Ekleme Yayın Alıcısı -->
+        <receiver
+            android:name=".EskiKisayolAlicisi"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.android.launcher.action.INSTALL_SHORTCUT" />
+            </intent-filter>
+        </receiver>
+
+        <!-- Sıfır Bağımlılıklı APK Kurulum Dosya Sağlayıcısı (Android 7.0+ Uyumluluğu) -->
+        <provider
+            android:name=".DosyaSaglayici"
+            android:authorities="com.tamekran.launcher.dosyasaglayici"
+            android:exported="false"
+            android:grantUriPermissions="true" />
+
+        <!-- Çift Dokunmayla Ekran Kilitleme Servisi (Android 9.0+) -->
+        <service
+            android:name=".KilitErisilebilirlikServisi"
+            android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.accessibilityservice.AccessibilityService" />
+            </intent-filter>
+            <meta-data
+                android:name="android.accessibilityservice"
+                android:resource="@xml/kilit_servis_ayari" />
+        </service>
+
+        <!-- Bildirim Rozetleri Dinleyici Servisi (Android 4.3+) -->
+        <service
+            android:name=".BildirimDinleyiciServisi"
+            android:label="Tam Ekran Bildirim Erişimi"
+            android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.service.notification.NotificationListenerService" />
+            </intent-filter>
+        </service>
+
+        <!-- Cihaz Yöneticisi Alıcısı (Android 2.2 - 8.1 Ekran Kilitleme) -->
+        <receiver
+            android:name=".CihazYoneticiAlicisi"
+            android:permission="android.permission.BIND_DEVICE_ADMIN"
+            android:exported="true">
+            <meta-data
+                android:name="android.app.device_admin"
+                android:resource="@xml/cihaz_yonetici_ayari" />
+            <intent-filter>
+                <action android:name="android.app.action.DEVICE_ADMIN_ENABLED" />
+            </intent-filter>
+        </receiver>
+
+        <!-- Paket Ekleme ve Kaldırma Dinleyicisi (Otomatik Güncelleme & Masaüstü Temizliği) -->
+        <receiver
+            android:name=".PaketDegisimAlicisi"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.PACKAGE_ADDED" />
+                <action android:name="android.intent.action.PACKAGE_REMOVED" />
+                <action android:name="android.intent.action.PACKAGE_FULLY_REMOVED" />
+                <action android:name="android.intent.action.PACKAGE_REPLACED" />
+                <action android:name="android.intent.action.PACKAGE_CHANGED" />
+                <data android:scheme="package" />
+            </intent-filter>
+        </receiver>
+
+    </application>
+
+</manifest>
