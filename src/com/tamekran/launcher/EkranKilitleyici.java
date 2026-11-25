@@ -78,38 +78,37 @@ public class EkranKilitleyici {
     public static void izinDiyaloguGoster(final Activity activity) {
         if (activity == null || activity.isFinishing()) return;
 
-        String mesaj = "Çift dokunarak ekranı kilitleyebilmek için sistem izni gereklidir.\n\n"
-            + "1. Erişilebilirlik İzni (Önerilen - Parmak izi okuyucuyu devre dışı bırakmaz)\n"
-            + "2. Cihaz Yöneticisi (Klasik hızlı kilit)\n\n"
-            + "Xiaomi / HyperOS Notu: Erişilebilirlik ekranında 'Kısıtlanmış Ayar' uyarısı alırsanız; "
-            + "Ayarlar > Uygulamalar > Tam Ekran > Sağ üstteki 3 nokta > 'Kısıtlanmış ayarlara izin ver' seçeneğini açınız.";
+        CharSequence[] secenekler = new CharSequence[]{
+            "1. Erişilebilirlik İzni Ver (Önerilen)",
+            "2. Kısıtlı Ayarları Aç (Uygulama Bilgisi)",
+            "3. Cihaz Yöneticisi (Klasik Hızlı Kilit)"
+        };
 
         new AlertDialog.Builder(activity)
-            .setTitle("Ekran Kilitleme İzni Gerekli")
-            .setMessage(mesaj)
-            .setPositiveButton("Erişilebilirlik İzni Ver", new DialogInterface.OnClickListener() {
+            .setTitle("Ekran Kilitleme İzni")
+            .setItems(secenekler, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    try {
-                        Intent niyet = new Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS);
-                        activity.startActivity(niyet);
-                        ArayuzYardimcisi.toastUzun(activity, "Lütfen listeden 'Tam Ekran'ı bulun ve etkinleştirin.");
-                    } catch (Throwable t) {
-                        ArayuzYardimcisi.toast(activity, "Erişilebilirlik ayarları açılamadı.");
-                    }
-                }
-            })
-            .setNeutralButton("Cihaz Yöneticisi", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    try {
-                        ComponentName bilesen = new ComponentName(activity, CihazYoneticiAlicisi.class);
-                        Intent niyet = new Intent(DevicePolicyManager.ACTION_ADD_DEVICE_ADMIN);
-                        niyet.putExtra(DevicePolicyManager.EXTRA_DEVICE_ADMIN, bilesen);
-                        niyet.putExtra(DevicePolicyManager.EXTRA_ADD_EXPLANATION, "Tam Ekran: Çift dokunuşla ekranı kilitlemek için kullanılır.");
-                        activity.startActivity(niyet);
-                    } catch (Throwable t) {
-                        ArayuzYardimcisi.toast(activity, "Cihaz yöneticisi açılamadı.");
+                    if (which == 0) {
+                        try {
+                            Intent niyet = new Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS);
+                            activity.startActivity(niyet);
+                            ArayuzYardimcisi.toastUzun(activity, "Lütfen listeden 'Tam Ekran'ı bulun ve etkinleştirin.");
+                        } catch (Throwable t) {
+                            ArayuzYardimcisi.toast(activity, "Erişilebilirlik ayarları açılamadı.");
+                        }
+                    } else if (which == 1) {
+                        SistemAraclariYardimcisi.kisitliAyarlarIcinUygulamaBilgisiAc(activity);
+                    } else if (which == 2) {
+                        try {
+                            ComponentName bilesen = new ComponentName(activity, CihazYoneticiAlicisi.class);
+                            Intent niyet = new Intent(DevicePolicyManager.ACTION_ADD_DEVICE_ADMIN);
+                            niyet.putExtra(DevicePolicyManager.EXTRA_DEVICE_ADMIN, bilesen);
+                            niyet.putExtra(DevicePolicyManager.EXTRA_ADD_EXPLANATION, "Tam Ekran: Çift dokunuşla ekranı kilitlemek için kullanılır.");
+                            activity.startActivity(niyet);
+                        } catch (Throwable t) {
+                            ArayuzYardimcisi.toast(activity, "Cihaz yöneticisi açılamadı.");
+                        }
                     }
                 }
             })

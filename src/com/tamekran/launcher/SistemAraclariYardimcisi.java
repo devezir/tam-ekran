@@ -178,6 +178,18 @@ public final class SistemAraclariYardimcisi {
     }
 
     /**
+     * Tam Ekran'ın kendi Android Sistem Uygulama Bilgileri ekranını açar ve Android 13+
+     * cihazlarda "Kısıtlı ayarlara izin ver" menüsü için rehber mesajı gösterir.
+     */
+    public static void kisitliAyarlarIcinUygulamaBilgisiAc(Context context) {
+        if (context == null) return;
+        uygulamaBilgisiAc(context, context.getPackageName());
+        if (Build.VERSION.SDK_INT >= 33) {
+            ArayuzYardimcisi.toastUzun(context, context.getString(R.string.ayar_kisitli_izin_rehber));
+        }
+    }
+
+    /**
      * İlgili paketi cihazdan kaldırma (Uninstall) iletişim penceresini başlatır.
      */
     public static void uygulamayiSil(Context context, String paketAdi) {

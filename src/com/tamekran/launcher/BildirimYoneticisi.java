@@ -48,6 +48,9 @@ public class BildirimYoneticisi {
             try {
                 Intent niyet = new Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS");
                 context.startActivity(niyet);
+                if (Build.VERSION.SDK_INT >= 33 && !izinVerildiMi(context)) {
+                    ArayuzYardimcisi.toastUzun(context, "Kısıtlı ayar uyarısı alırsanız: Ayarlar > Sistem > Tam Ekran Sistem Ayarları üzerinden izin verin.");
+                }
             } catch (Throwable t) {
                 try {
                     Intent niyet = new Intent(Settings.ACTION_SETTINGS);

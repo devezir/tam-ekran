@@ -675,6 +675,16 @@ public class AyarlarActivity extends Activity {
         }
 
         // --- KATEGORİ 6: Güncelleme ---
+        Button dugmeSistemUygulamaBilgisi = (Button) findViewById(R.id.dugme_sistem_uygulama_bilgisi);
+        if (dugmeSistemUygulamaBilgisi != null) {
+            dugmeSistemUygulamaBilgisi.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    SistemAraclariYardimcisi.kisitliAyarlarIcinUygulamaBilgisiAc(AyarlarActivity.this);
+                }
+            });
+        }
+
         yaziDurum = (TextView) findViewById(R.id.yazi_guncelleme_durum);
         Button dugmeGuncelle = (Button) findViewById(R.id.dugme_guncelleme_denetle);
         if (dugmeGuncelle != null) {

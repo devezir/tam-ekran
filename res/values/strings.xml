@@ -53,6 +53,8 @@
     <string name="ayar_yedekle_ozet">Başlatıcı düzeninizi JSON olarak kaydedin ve geri yükleyin</string>
     <string name="ayar_guncelleme">Güncellemeleri Denetle</string>
     <string name="ayar_guncelleme_ozet">Yeni sürüm kontrolü ve doğrudan kurulum</string>
+    <string name="ayar_sistem_uygulama_bilgisi">⚙️ Tam Ekran Sistem Ayarları (Kısıtlı Ayarlara İzin Ver)</string>
+    <string name="ayar_kisitli_izin_rehber">Açılan sayfada sağ üstteki ⋮ (3 nokta) menüsünden \"Kısıtlı ayarlara izin ver\" seçeneğini açabilirsiniz.</string>
     <string name="ayar_hakkinda">Hakkında</string>
     <string name="ayar_hakkinda_ozet">Tam Ekran v%1$s • Sıfır Reklam • Açık Kaynak</string>
 
