@@ -451,6 +451,20 @@ public class AyarlarActivity extends Activity {
         }
 
         // --- KATEGORİ 3: Ekran Hareketleri & Kilit İzni ---
+        Button dugmePilKisitlamasi = (Button) findViewById(R.id.dugme_pil_kisitlamasi);
+        if (dugmePilKisitlamasi != null) {
+            if (android.os.Build.VERSION.SDK_INT < 23) {
+                dugmePilKisitlamasi.setVisibility(View.GONE);
+            } else {
+                dugmePilKisitlamasi.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        SistemAraclariYardimcisi.pilKisitlamaRehberiGoster(AyarlarActivity.this);
+                    }
+                });
+            }
+        }
+
         Button dugmeKilitYetkisi = (Button) findViewById(R.id.dugme_kilit_yetkisi);
         if (dugmeKilitYetkisi != null) {
             dugmeKilitYetkisi.setOnClickListener(new View.OnClickListener() {
@@ -1122,6 +1136,14 @@ public class AyarlarActivity extends Activity {
         if (bYetki != null) {
             boolean yetkiVar = EkranKilitleyici.kilitYetkisiVarMi(this);
             bYetki.setText(yetkiVar ? "🔒 Ekran Kilitleme: Yetki Aktif (Test Et)" : "🔒 Ekran Kilitleme: İzin Gerekli (Dokun)");
+        }
+
+        Button bPil = (Button) findViewById(R.id.dugme_pil_kisitlamasi);
+        if (bPil != null && android.os.Build.VERSION.SDK_INT >= 23) {
+            boolean sinirsiz = SistemAraclariYardimcisi.pilKisitlamasiSinirsizMi(this);
+            bPil.setText(sinirsiz
+                    ? "🔋 Pil Kısıtlaması: Sınırsız (Korunuyor)"
+                    : "🔋 Pil Kısıtlamasını Kaldır (Kısıtlı — İzin Düşebilir!)");
         }
 
         Button bDolgu = (Button) findViewById(R.id.dugme_masaustu_dolgu);

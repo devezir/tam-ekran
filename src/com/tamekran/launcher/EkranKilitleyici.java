@@ -81,7 +81,8 @@ public class EkranKilitleyici {
         CharSequence[] secenekler = new CharSequence[]{
             "1. Erişilebilirlik İzni Ver (Önerilen)",
             "2. Kısıtlı Ayarları Aç (Uygulama Bilgisi)",
-            "3. Cihaz Yöneticisi (Klasik Hızlı Kilit)"
+            "3. Cihaz Yöneticisi (Klasik Hızlı Kilit)",
+            "4. Pil Kısıtlamasını Kaldır (İzin Düşmesini Önle)"
         };
 
         new AlertDialog.Builder(activity)
@@ -109,6 +110,8 @@ public class EkranKilitleyici {
                         } catch (Throwable t) {
                             ArayuzYardimcisi.toast(activity, "Cihaz yöneticisi açılamadı.");
                         }
+                    } else if (which == 3) {
+                        SistemAraclariYardimcisi.pilKisitlamaRehberiGoster(activity);
                     }
                 }
             })

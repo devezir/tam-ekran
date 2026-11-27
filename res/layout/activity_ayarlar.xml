@@ -745,7 +745,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="10 ayar"
+                    android:text="11 ayar"
                     android:textColor="@color/renk_yazi_ikincil"
                     android:textSize="11sp"
                     android:layout_marginRight="8dp" />
@@ -778,6 +778,16 @@
                     android:textColor="@color/renk_vurgu"
                     android:textSize="12sp"
                     android:textStyle="bold" />
+
+                <Button
+                    android:id="@+id/dugme_pil_kisitlamasi"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginBottom="8dp"
+                    android:background="@drawable/kart_arkaplan"
+                    android:text="🔋 Pil Kısıtlamasını Kaldır (İzin Düşmesini Önle)"
+                    android:textColor="@color/renk_vurgu"
+                    android:textSize="12sp" />
 
                 <Button
                     android:id="@+id/dugme_uzun_basma_ozellestir"

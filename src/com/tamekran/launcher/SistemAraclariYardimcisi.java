@@ -1,14 +1,17 @@
 package com.tamekran.launcher;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.ComponentName;
 import android.content.ContentUris;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.os.Build;
+import android.os.PowerManager;
 import android.provider.AlarmClock;
 import android.provider.CalendarContract;
 import android.provider.Settings;
@@ -432,5 +435,108 @@ public final class SistemAraclariYardimcisi {
 
     public static void bluetoothAyarlariniAc(Activity activity) {
         ayarEkraniAc(activity, Settings.ACTION_BLUETOOTH_SETTINGS, "Bluetooth ayarlari acilamadi", false);
+    }
+
+    public static boolean pilKisitlamasiSinirsizMi(Context context) {
+        if (context == null || Build.VERSION.SDK_INT < 23) return true;
+        try {
+            PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
+            return pm != null && pm.isIgnoringBatteryOptimizations(context.getPackageName());
+        } catch (Throwable t) {
+            return false;
+        }
+    }
+
+    public static void pilKisitlamaRehberiGoster(final Activity activity) {
+        if (activity == null || activity.isFinishing()) return;
+        boolean sinirsiz = pilKisitlamasiSinirsizMi(activity);
+        String marka = Build.MANUFACTURER != null ? Build.MANUFACTURER.toLowerCase(java.util.Locale.US) : "";
+        final boolean ozelUretici = marka.contains("xiaomi") || marka.contains("redmi") || marka.contains("poco")
+                || marka.contains("oppo") || marka.contains("realme") || marka.contains("oneplus")
+                || marka.contains("huawei") || marka.contains("honor");
+
+        StringBuilder mesaj = new StringBuilder();
+        mesaj.append(sinirsiz
+                ? "Durum: Pil Kısıtlaması Sınırsız (Korunuyor)\n\n"
+                : "Durum: Pil Kısıtlı (Arka planda Erişilebilirlik izni düşebilir!)\n\n");
+
+        if (marka.contains("xiaomi") || marka.contains("redmi") || marka.contains("poco")) {
+            mesaj.append("Xiaomi / HyperOS / MIUI Adımları:\n")
+                 .append("1. Pil Tasarrufu -> 'Kısıtlama yok' seçin.\n")
+                 .append("2. 'Otomatik Başlatma' anahtarını açın.\n")
+                 .append("3. Son Uygulamalar'da Tam Ekran kartını aşağı çekip/basılı tutup kilitleyin.");
+        } else if (marka.contains("samsung")) {
+            mesaj.append("Samsung OneUI Adımları:\n")
+                 .append("1. Pil Ayarları -> Tam Ekran -> 'Sınırsız' seçin.\n")
+                 .append("2. Pil -> Arka Plan Kullanım Sınırları -> 'Hiçbir zaman uyutulmayan uygulamalar'a ekleyin.");
+        } else if (ozelUretici) {
+            mesaj.append("Üretici Pil Koruması Adımları:\n")
+                 .append("1. Uygulama Bilgisi -> Pil -> Arka plan etkinliğine izin verin / Kısıtlamayı kaldırın.\n")
+                 .append("2. Otomatik Başlatma (Autostart) iznini açın.");
+        } else {
+            mesaj.append("Android Pil Koruması Adımları:\n")
+                 .append("1. Pil Optimizasyonu listesinden Tam Ekran'ı bulup 'Optimize etme / Sınırsız' yapın.\n")
+                 .append("2. Ardından Erişilebilirlik iznini tekrar kontrol edin.");
+        }
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(activity)
+            .setTitle("🔋 Pil Kısıtlama Kaldırma Rehberi")
+            .setMessage(mesaj.toString())
+            .setPositiveButton("Pil Ayarını Aç", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    if (Build.VERSION.SDK_INT >= 23) {
+                        try {
+                            Intent intent = new Intent(Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS);
+                            activity.startActivity(intent);
+                            ArayuzYardimcisi.toastUzun(activity, "Listeden 'Tam Ekran'ı bulup Sınırsız / Optimize Etme seçin.");
+                            return;
+                        } catch (Throwable t) {
+                            LauncherLog.d("SistemAraclari", "ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS basarisiz: " + t.getMessage());
+                        }
+                    }
+                    uygulamaBilgisiAc(activity, activity.getPackageName());
+                }
+            })
+            .setNegativeButton(R.string.iptal, null);
+
+        if (ozelUretici) {
+            builder.setNeutralButton("Otomatik Başlatma", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    otomatikBaslatmaAyariniAc(activity);
+                }
+            });
+        } else {
+            builder.setNeutralButton("Erişilebilirlik", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    try {
+                        activity.startActivity(new Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS));
+                    } catch (Throwable t) {
+                        uygulamaBilgisiAc(activity, activity.getPackageName());
+                    }
+                }
+            });
+        }
+        builder.show();
+    }
+
+    private static void otomatikBaslatmaAyariniAc(Activity activity) {
+        Intent[] adaylar = new Intent[]{
+            new Intent().setComponent(new ComponentName("com.miui.securitycenter", "com.miui.permcenter.autostart.AutoStartManagementActivity")),
+            new Intent("miui.intent.action.OP_AUTO_START"),
+            new Intent().setComponent(new ComponentName("com.coloros.safecenter", "com.coloros.safecenter.permission.startup.StartupAppListActivity")),
+            new Intent().setComponent(new ComponentName("com.oplus.safecenter", "com.oplus.safecenter.permission.startup.StartupAppListActivity")),
+            new Intent().setComponent(new ComponentName("com.huawei.systemmanager", "com.huawei.systemmanager.startupmgr.ui.StartupNormalAppListActivity"))
+        };
+        for (Intent intent : adaylar) {
+            try {
+                activity.startActivity(intent);
+                return;
+            } catch (Throwable ignored) {}
+        }
+        uygulamaBilgisiAc(activity, activity.getPackageName());
+        ArayuzYardimcisi.toastUzun(activity, "Açılan Uygulama Bilgisi sayfasından Pil & Otomatik Başlatma ayarını açın.");
     }
 }
