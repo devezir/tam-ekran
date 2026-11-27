@@ -472,4 +472,38 @@ public final class ArayuzYardimcisi {
     public static void uygulamaGorunumuBagla(Context context, View view, UygulamaBilgisi app) {
         uygulamaGorunumuBagla(context, view, app, true, 100);
     }
+
+    /**
+     * Tasarım Felsefesi: Sabit yükseklik yerine minHeight + padding + wrap_content
+     * kullanarak her dilde kesintisiz görüntülenen standart düğme oluşturur.
+     */
+    public static Button dugmeOlustur(Context context, CharSequence metin, int yaziRenkResId, boolean kompakt) {
+        Button btn = new Button(context);
+        btn.setText(metin);
+        dugmeStiliUygula(btn, context, yaziRenkResId, kompakt);
+        return btn;
+    }
+
+    /**
+     * Mevcut bir Button nesnesine Tam Ekran Tasarım Felsefesi stilini uygular.
+     */
+    public static void dugmeStiliUygula(Button btn, Context context, int yaziRenkResId, boolean kompakt) {
+        if (btn == null || context == null) return;
+        Resources res = context.getResources();
+        int minH = res.getDimensionPixelSize(kompakt ? R.dimen.buton_kompakt_min_yukseklik : R.dimen.buton_min_yukseklik);
+        int padYatay = res.getDimensionPixelSize(kompakt ? R.dimen.buton_kompakt_ic_bosluk_yatay : R.dimen.buton_ic_bosluk_yatay);
+        int padDikey = res.getDimensionPixelSize(kompakt ? R.dimen.buton_kompakt_ic_bosluk_dikey : R.dimen.buton_ic_bosluk_dikey);
+
+        btn.setBackgroundResource(R.drawable.kart_arkaplan);
+        btn.setTextColor(res.getColor(yaziRenkResId != 0 ? yaziRenkResId : R.color.renk_yazi_ana));
+        btn.setTextSize(kompakt ? 12 : 13);
+        btn.setGravity(Gravity.CENTER);
+        btn.setMinimumHeight(minH);
+        btn.setMinHeight(minH);
+        btn.setPadding(padYatay, padDikey, padYatay, padDikey);
+        btn.setLayoutParams(new ViewGroup.LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+        ));
+    }
 }

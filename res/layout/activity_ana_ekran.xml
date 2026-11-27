@@ -85,7 +85,8 @@
             <EditText
                 android:id="@+id/girdi_arama"
                 android:layout_width="0dp"
-                android:layout_height="42dp"
+                android:layout_height="wrap_content"
+                android:minHeight="@dimen/buton_min_yukseklik"
                 android:layout_weight="1"
                 android:background="@drawable/arama_arkaplan"
                 android:hint="@string/arama_ipucu"
@@ -93,38 +94,37 @@
                 android:textColor="@color/renk_yazi_ana"
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp"
+                android:paddingTop="@dimen/buton_ic_bosluk_dikey"
+                android:paddingBottom="@dimen/buton_ic_bosluk_dikey"
                 android:singleLine="true"
                 android:textSize="14sp" />
 
             <Button
                 android:id="@+id/dugme_cekmece_sesli_arama"
-                android:layout_width="38dp"
-                android:layout_height="38dp"
+                style="@style/TamEkran.Dugme.Kompakt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minWidth="@dimen/buton_min_yukseklik"
+                android:minHeight="@dimen/buton_min_yukseklik"
                 android:layout_marginLeft="6dp"
-                android:background="@drawable/kart_arkaplan"
                 android:text="🎙️"
-                android:textSize="15sp"
-                android:textColor="@color/renk_yazi_ana" />
+                android:textSize="15sp" />
 
             <Button
                 android:id="@+id/dugme_cekmece_kapat"
+                style="@style/TamEkran.Dugme.Vurgu"
                 android:layout_width="wrap_content"
-                android:layout_height="38dp"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
-                android:background="@drawable/kart_arkaplan"
                 android:text="Kapat"
-                android:textColor="@color/renk_vurgu"
-                android:textSize="12sp"
-                android:paddingLeft="12dp"
-                android:paddingRight="12dp" />
+                android:textSize="12sp" />
         </LinearLayout>
 
         <!-- Evrensel Arama Kısayolları (Web ve Play Store) -->
-        <LinearLayout
+        <com.tamekran.launcher.AkisSatiriLayout
             android:id="@+id/bar_hizli_arama_kisayollari"
             android:layout_width="match_parent"
-            android:layout_height="32dp"
-            android:orientation="horizontal"
+            android:layout_height="wrap_content"
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
             android:layout_marginBottom="6dp"
@@ -132,36 +132,30 @@
 
             <Button
                 android:id="@+id/dugme_ara_google"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:layout_marginRight="4dp"
-                android:background="@drawable/kart_arkaplan"
+                style="@style/TamEkran.Dugme.Kompakt"
                 android:text="🔍 Google'da Ara"
-                android:textColor="@color/renk_yazi_ana"
                 android:textSize="11sp" />
 
             <Button
                 android:id="@+id/dugme_ara_play_store"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:layout_marginLeft="4dp"
-                android:background="@drawable/kart_arkaplan"
+                style="@style/TamEkran.Dugme.Kompakt"
                 android:text="🛍️ Play Store"
                 android:textColor="@color/renk_vurgu"
                 android:textSize="11sp" />
-        </LinearLayout>
+        </com.tamekran.launcher.AkisSatiriLayout>
 
         <!-- Akıllı Hesap Makinesi Sonuç Kartı (Nova Tarzı) -->
         <LinearLayout
             android:id="@+id/kart_hesap_makinesi"
             android:layout_width="match_parent"
-            android:layout_height="38dp"
+            android:layout_height="wrap_content"
+            android:minHeight="@dimen/buton_kompakt_min_yukseklik"
             android:orientation="horizontal"
             android:gravity="center_vertical"
             android:paddingLeft="16dp"
             android:paddingRight="12dp"
+            android:paddingTop="@dimen/buton_kompakt_ic_bosluk_dikey"
+            android:paddingBottom="@dimen/buton_kompakt_ic_bosluk_dikey"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
             android:layout_marginBottom="6dp"
@@ -180,21 +174,17 @@
 
             <Button
                 android:id="@+id/dugme_hesap_kopyala"
-                android:layout_width="wrap_content"
-                android:layout_height="28dp"
-                android:background="@drawable/kart_arkaplan"
+                style="@style/TamEkran.Dugme.Kompakt"
                 android:text="Kopyala"
-                android:textColor="@color/renk_yazi_ana"
-                android:textSize="11sp"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp" />
+                android:textSize="11sp" />
         </LinearLayout>
 
         <!-- Menü Sekmeleri / Kategoriler (Nova Prime Drawer Groups) -->
         <HorizontalScrollView
             android:id="@+id/kaydirici_kategoriler"
             android:layout_width="match_parent"
-            android:layout_height="38dp"
+            android:layout_height="wrap_content"
+            android:minHeight="@dimen/buton_kompakt_min_yukseklik"
             android:scrollbars="none"
             android:fadingEdge="none"
             android:paddingLeft="12dp"

@@ -207,27 +207,14 @@ public class KullanimRaporuDiyalogu {
         scrollView.addView(listeKapsayici);
         anaLayout.addView(scrollView);
 
-        // Alt Butonlar
-        LinearLayout altBar = new LinearLayout(activity);
-        altBar.setOrientation(LinearLayout.HORIZONTAL);
+        // Alt Butonlar (Tasarım Felsefesi: AkisSatiriLayout + Sabit Yükseklik Yok)
+        AkisSatiriLayout altBar = new AkisSatiriLayout(activity);
 
-        int dp40 = ArayuzYardimcisi.dpToPx(activity, 40);
-
-        Button btnSifirla = new Button(activity);
-        btnSifirla.setText("🗑️ Sıfırla");
-        btnSifirla.setBackgroundResource(R.drawable.kart_arkaplan);
+        Button btnSifirla = ArayuzYardimcisi.dugmeOlustur(activity, "🗑️ Sıfırla", R.color.renk_yazi_ana, false);
         btnSifirla.setTextColor(0xFFE57373);
-        LinearLayout.LayoutParams lpReset = new LinearLayout.LayoutParams(0, dp40, 1.0f);
-        lpReset.setMargins(0, 0, 8, 0);
-        btnSifirla.setLayoutParams(lpReset);
         altBar.addView(btnSifirla);
 
-        Button btnKapat = new Button(activity);
-        btnKapat.setText("Kapat");
-        btnKapat.setBackgroundResource(R.drawable.kart_arkaplan);
-        btnKapat.setTextColor(Color.WHITE);
-        LinearLayout.LayoutParams lpClose = new LinearLayout.LayoutParams(0, dp40, 1.0f);
-        btnKapat.setLayoutParams(lpClose);
+        Button btnKapat = ArayuzYardimcisi.dugmeOlustur(activity, "Kapat", R.color.renk_yazi_ana, false);
         altBar.addView(btnKapat);
 
         anaLayout.addView(altBar);

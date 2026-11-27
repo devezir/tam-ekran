@@ -128,45 +128,40 @@ public class UygulamaDetayDiyalogu {
         scrollView.addView(detayKapsayici);
         layout.addView(scrollView);
 
-        // Alt Eylemler
-        LinearLayout altBar = new LinearLayout(activity);
-        altBar.setOrientation(LinearLayout.HORIZONTAL);
+        // Alt Eylemler (Tasarım Felsefesi: AkisSatiriLayout + Sabit Yükseklik Yok)
+        AkisSatiriLayout altBar = new AkisSatiriLayout(activity);
         altBar.setPadding(0, pad, 0, 0);
 
-        int dp40 = ArayuzYardimcisi.dpToPx(activity, 40);
-
-        Button btnAyarlar = new Button(activity);
-        btnAyarlar.setText("⚙️ Sistem Ayarları");
-        btnAyarlar.setBackgroundResource(R.drawable.kart_arkaplan);
-        btnAyarlar.setTextColor(activity.getResources().getColor(R.color.renk_vurgu));
-        LinearLayout.LayoutParams lpAyarlar = new LinearLayout.LayoutParams(0, dp40, 1.0f);
-        lpAyarlar.setMargins(0, 0, 8, 0);
-        btnAyarlar.setLayoutParams(lpAyarlar);
+        Button btnAyarlar = ArayuzYardimcisi.dugmeOlustur(activity, "⚙️ Sistem", R.color.renk_vurgu, false);
         altBar.addView(btnAyarlar);
 
-        Button btnPlay = new Button(activity);
-        btnPlay.setText("🛍️ Play Store");
-        btnPlay.setBackgroundResource(R.drawable.kart_arkaplan);
-        btnPlay.setTextColor(Color.WHITE);
-        LinearLayout.LayoutParams lpPlay = new LinearLayout.LayoutParams(0, dp40, 1.0f);
-        lpPlay.setMargins(0, 0, 8, 0);
-        btnPlay.setLayoutParams(lpPlay);
+        Button btnPlay = ArayuzYardimcisi.dugmeOlustur(activity, "🛍️ Play Store", R.color.renk_yazi_ana, false);
         altBar.addView(btnPlay);
 
-        Button btnApkPaylas = new Button(activity);
-        btnApkPaylas.setText("📦 APK Paylaş");
-        btnApkPaylas.setBackgroundResource(R.drawable.kart_arkaplan);
-        btnApkPaylas.setTextColor(Color.WHITE);
-        LinearLayout.LayoutParams lpApk = new LinearLayout.LayoutParams(0, dp40, 1.0f);
-        btnApkPaylas.setLayoutParams(lpApk);
+        Button btnApkPaylas = ArayuzYardimcisi.dugmeOlustur(activity, "📦 APK Paylaş", R.color.renk_yazi_ana, false);
         altBar.addView(btnApkPaylas);
 
         layout.addView(altBar);
 
+        Button btnKapat = ArayuzYardimcisi.dugmeOlustur(activity, "Kapat", R.color.renk_yazi_ikincil, false);
+        LinearLayout.LayoutParams lpKapat = new LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+        );
+        lpKapat.setMargins(0, ArayuzYardimcisi.dpToPx(activity, 8), 0, 0);
+        btnKapat.setLayoutParams(lpKapat);
+        layout.addView(btnKapat);
+
         final AlertDialog diyalog = new AlertDialog.Builder(activity)
             .setView(layout)
-            .setNegativeButton("Kapat", null)
             .create();
+
+        btnKapat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                diyalog.dismiss();
+            }
+        });
 
         btnAyarlar.setOnClickListener(new View.OnClickListener() {
             @Override

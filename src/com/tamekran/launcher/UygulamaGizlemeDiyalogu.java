@@ -181,37 +181,32 @@ public class UygulamaGizlemeDiyalogu {
             }
         });
 
-        // Alt Butonlar (Kaydet ve Temizle)
-        LinearLayout altBar = new LinearLayout(activity);
-        altBar.setOrientation(LinearLayout.HORIZONTAL);
+        // Alt Butonlar (Tasarım Felsefesi: AkisSatiriLayout + Sabit Yükseklik Yok)
+        AkisSatiriLayout altBar = new AkisSatiriLayout(activity);
         altBar.setPadding(0, ArayuzYardimcisi.dpToPx(activity, 8), 0, 0);
 
-        int dp40 = ArayuzYardimcisi.dpToPx(activity, 40);
-
-        Button btnTemizle = new Button(activity);
-        btnTemizle.setText("Tümünü Göster");
-        btnTemizle.setBackgroundResource(R.drawable.kart_arkaplan);
-        btnTemizle.setTextColor(Color.LTGRAY);
-        LinearLayout.LayoutParams lpTemizle = new LinearLayout.LayoutParams(0, dp40, 1.0f);
-        lpTemizle.setMargins(0, 0, 8, 0);
-        btnTemizle.setLayoutParams(lpTemizle);
+        Button btnTemizle = ArayuzYardimcisi.dugmeOlustur(activity, "Tümünü Göster", R.color.renk_yazi_ikincil, false);
         altBar.addView(btnTemizle);
 
-        Button btnKaydet = new Button(activity);
-        btnKaydet.setText("Kaydet (" + seciliPaketler.size() + ")");
-        btnKaydet.setBackgroundResource(R.drawable.kart_arkaplan);
-        btnKaydet.setTextColor(activity.getResources().getColor(R.color.renk_vurgu));
+        Button btnKaydet = ArayuzYardimcisi.dugmeOlustur(activity, "Kaydet (" + seciliPaketler.size() + ")", R.color.renk_vurgu, false);
         btnKaydet.setTypeface(null, android.graphics.Typeface.BOLD);
-        LinearLayout.LayoutParams lpKaydet = new LinearLayout.LayoutParams(0, dp40, 1.0f);
-        btnKaydet.setLayoutParams(lpKaydet);
         altBar.addView(btnKaydet);
+
+        Button btnIptal = ArayuzYardimcisi.dugmeOlustur(activity, "İptal", R.color.renk_yazi_ikincil, false);
+        altBar.addView(btnIptal);
 
         layout.addView(altBar);
 
         final AlertDialog diyalog = new AlertDialog.Builder(activity)
             .setView(layout)
-            .setNegativeButton("İptal", null)
             .create();
+
+        btnIptal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                diyalog.dismiss();
+            }
+        });
 
         btnTemizle.setOnClickListener(new View.OnClickListener() {
             @Override

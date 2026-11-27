@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Tam Ekran Tasarım Felsefesi: Merkezi Ölçüler (Sabit Yükseklik Yerine minHeight + Padding) -->
+    <dimen name="buton_min_yukseklik">44dp</dimen>
+    <dimen name="buton_kompakt_min_yukseklik">36dp</dimen>
+    <dimen name="buton_ic_bosluk_yatay">12dp</dimen>
+    <dimen name="buton_ic_bosluk_dikey">8dp</dimen>
+    <dimen name="buton_kompakt_ic_bosluk_yatay">10dp</dimen>
+    <dimen name="buton_kompakt_ic_bosluk_dikey">6dp</dimen>
+    <dimen name="buton_aralik">8dp</dimen>
+    <dimen name="satir_min_yukseklik">44dp</dimen>
+</resources>

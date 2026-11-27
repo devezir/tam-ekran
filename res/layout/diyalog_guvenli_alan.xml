@@ -261,46 +261,30 @@
         </LinearLayout>
     </LinearLayout>
 
-    <!-- Alt Eylem Butonları (Sıfırla, İptal, Kaydet) -->
-    <LinearLayout
+    <!-- Alt Eylem Butonları (Tasarım Felsefesi: AkisSatiriLayout + Sabit Yükseklik Yok) -->
+    <com.tamekran.launcher.AkisSatiriLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="8dp"
-        android:gravity="center">
+        android:layout_marginTop="8dp">
 
         <Button
             android:id="@+id/dugme_sifirla"
-            android:layout_width="0dp"
-            android:layout_height="38dp"
-            android:layout_weight="1"
-            android:layout_marginRight="6dp"
-            android:background="@drawable/kart_arkaplan"
+            style="@style/TamEkran.Dugme.Kompakt"
             android:text="🔄 Sıfırla"
-            android:textColor="#FFB74D"
-            android:textSize="12sp" />
+            android:textColor="#FFB74D" />
 
         <Button
             android:id="@+id/dugme_iptal"
-            android:layout_width="0dp"
-            android:layout_height="38dp"
-            android:layout_weight="1"
-            android:layout_marginRight="6dp"
-            android:background="@drawable/kart_arkaplan"
+            style="@style/TamEkran.Dugme.Kompakt"
             android:text="❌ İptal"
-            android:textColor="#E0E0E0"
-            android:textSize="12sp" />
+            android:textColor="#E0E0E0" />
 
         <Button
             android:id="@+id/dugme_kaydet"
-            android:layout_width="0dp"
-            android:layout_height="38dp"
-            android:layout_weight="1.2"
-            android:background="@drawable/kart_arkaplan"
+            style="@style/TamEkran.Dugme.Kompakt"
             android:text="💾 Kaydet"
             android:textColor="#40C4FF"
-            android:textStyle="bold"
-            android:textSize="12sp" />
-    </LinearLayout>
+            android:textStyle="bold" />
+    </com.tamekran.launcher.AkisSatiriLayout>
 
 </LinearLayout>

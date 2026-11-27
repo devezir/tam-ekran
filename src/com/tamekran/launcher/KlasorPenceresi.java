@@ -379,27 +379,15 @@ public class KlasorPenceresi {
         // İlk sayfa içeriklerini yükle
         sayfaGuncelleyici.run();
 
-        // Alt Eylem Butonları
-        LinearLayout altBar = new LinearLayout(activity);
-        altBar.setOrientation(LinearLayout.HORIZONTAL);
+        // Alt Eylem Butonları (Tasarım Felsefesi: AkisSatiriLayout + Sabit Yükseklik Yok)
+        AkisSatiriLayout altBar = new AkisSatiriLayout(activity);
         altBar.setPadding(0, pad / 2, 0, 0);
 
-        Button dugmeEkle = new Button(activity);
-        dugmeEkle.setText("+ Uygulama Ekle");
-        dugmeEkle.setBackgroundResource(R.drawable.kart_arkaplan);
-        dugmeEkle.setTextColor(activity.getResources().getColor(R.color.renk_vurgu));
-        int dp40 = ArayuzYardimcisi.dpToPx(activity, 40);
-        LinearLayout.LayoutParams lpEkle = new LinearLayout.LayoutParams(0, dp40, 1.0f);
-        lpEkle.setMargins(0, 0, 8, 0);
-        dugmeEkle.setLayoutParams(lpEkle);
+        Button dugmeEkle = ArayuzYardimcisi.dugmeOlustur(activity, "+ Uygulama Ekle", R.color.renk_vurgu, false);
         altBar.addView(dugmeEkle);
 
-        Button dugmeSil = new Button(activity);
-        dugmeSil.setText("🗑️ Klasörü Sil");
-        dugmeSil.setBackgroundResource(R.drawable.kart_arkaplan);
+        Button dugmeSil = ArayuzYardimcisi.dugmeOlustur(activity, "🗑️ Klasörü Sil", R.color.renk_yazi_ana, false);
         dugmeSil.setTextColor(0xFFE57373);
-        LinearLayout.LayoutParams lpSil = new LinearLayout.LayoutParams(0, dp40, 1.0f);
-        dugmeSil.setLayoutParams(lpSil);
         altBar.addView(dugmeSil);
 
         kok.addView(altBar);

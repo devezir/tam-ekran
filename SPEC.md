@@ -47,3 +47,12 @@
 - **Kör `catch` Yasağı:** `catch (Throwable ignored) {}` kullanılmaz; beklenen platform atlamaları `LauncherLog.d` ile, iş/I/O hataları `LauncherLog.w`/`e` ile kaydedilir ve kullanıcıya Türkçe `strings.xml` mesajı sunulur.
 - **Veri Kaybı Koruması:** Masaüstü JSON bozuksa (`VERI_DURUMU_BOZUK`) ilk kurulum verisiyle veya boş listeyle üzerine yazılmaz; ham veri `karantina_` anahtarında saklanır.
 - **Sır Güvenliği ve Doğrulama:** `build.py` hiçbir sürüm takip edilen dosyada parola bulundurmaz (`TAMEKRAN_KS_PASS` ortam değişkeni veya gitignore'lı `keystore/signing.properties`); `test.py` taze klonda `gen/R.java` dosyasını `aapt2` ile otomatik üretip güncelliğini denetleyerek sıfır harici test bağımlılığıyla çalışır. `.github/workflows/build.yml` otomatik `push`/`pull_request` tetiklemeleri için **bilinçli olarak devre dışı bırakılmıştır** (yalnızca manuel `workflow_dispatch` açıktır); derleme ve testler yerel `build.py` / `test.py` kapısı üzerinden yürütülür.
+
+---
+
+## 4. UI ve Tasarım Felsefesi (Esnek ve İçerik Odaklı Arayüz)
+
+1. **Sabit Yükseklik Yasağı:** Metin içeren buton, rozet ve satırlarda sabit `dp` yükseklik (`36dp`, `40dp`, `44dp` vb.) kullanılmaz. Her zaman `wrap_content` yükseklik + `@dimen/buton_min_yukseklik` (`44dp`) + dikey `padding` (`8dp`) uygulanır; böylece hiçbir dilde metin kesilmez.
+2. **İçerik ve Ekran Duyarlı Akış (`AkisSatiriLayout`):** Çoklu buton grupları sabit piksel veya sabit sütun sayısıyla sıkıştırılmaz. `AkisSatiriLayout` butonların doğal metin genişliğini ölçer; sığanları yan yana eşit yükseklikte ve satıra yayılmış şekilde dizer, sığmayanları otomatik olarak alt satıra indirir.
+3. **Tek Doğruluk Kaynağı (`dimens.xml` + `styles.xml` + `ArayuzYardimcisi`):** Ekranlarda tek tek sihirli sayı yazılmaz; XML tarafında `@style/TamEkran.Dugme.*`, Java tarafında `ArayuzYardimcisi.dugmeStiliUygula` ve `ArayuzYardimcisi.akisButonGrubuOlustur` kullanılır.
+4. **Koyu Tema Bütünlüğü:** Diyaloglarda sistemin açık gri alt çubuğu (`AlertDialog.setNegativeButton` vb.) yerine koyu tema ve `AkisSatiriLayout` felsefesine uygun özel alt buton barı kullanılır.
