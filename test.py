@@ -58,7 +58,53 @@ def ensure_r_java():
 
 
 import glob
+import json
+import re
 
+
+def run_static_guards():
+    """SPEC.md ve Tasarım Felsefesi statik mimari denetimleri."""
+    hatalar = []
+
+    # 1. UI Tasarım Felsefesi Guard: res/layout/*.xml icinde sabit 36-44dp yukseklik yasagi
+    layout_pattern = re.compile(r'android:layout_height="(36|38|40|42|44)dp"')
+    for xml_path in glob.glob(os.path.join(base_dir, "res", "layout", "*.xml")):
+        with open(xml_path, "r", encoding="utf-8", errors="replace") as f:
+            for lineno, line in enumerate(f, 1):
+                if layout_pattern.search(line):
+                    rel = os.path.relpath(xml_path, base_dir)
+                    hatalar.append(f"[UI Felsefe Ihlali] {rel}:{lineno} -> {line.strip()}")
+
+    # 2. SPEC.md Kor catch yasagi: catch (Throwable/Exception ignored) {}
+    catch_pattern = re.compile(r'catch\s*\(\s*(?:Throwable|Exception)\s+ignored\s*\)\s*\{\s*\}')
+    for java_path in glob.glob(os.path.join(base_dir, "src", "**", "*.java"), recursive=True):
+        with open(java_path, "r", encoding="utf-8", errors="replace") as f:
+            content = f.read()
+        for m in catch_pattern.finditer(content):
+            lineno = content[:m.start()].count("\n") + 1
+            rel = os.path.relpath(java_path, base_dir)
+            hatalar.append(f"[Kor Catch Ihlali] {rel}:{lineno}")
+
+    # 3. version.json sema kontrolu
+    v_path = os.path.join(base_dir, "version.json")
+    try:
+        with open(v_path, "r", encoding="utf-8") as f:
+            vj = json.load(f)
+        for key in ("versionCode", "versionName", "apkSha256"):
+            if key not in vj or not vj[key]:
+                hatalar.append(f"[version.json Eksik Alan] {key}")
+    except Exception as e:
+        hatalar.append(f"[version.json Okuma Hatasi] {e}")
+
+    if hatalar:
+        print("[!] STATIK MIMARI GUARD HATALARI:")
+        for h in hatalar:
+            print("  -", h)
+        sys.exit(1)
+    print("[*] Statik mimari guard kontrolleri gecti (UI Felsefesi + Kor Catch + version.json).")
+
+
+run_static_guards()
 ensure_r_java()
 
 test_files = glob.glob(os.path.join(base_dir, "tests", "**", "*.java"), recursive=True)

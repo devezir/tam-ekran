@@ -389,7 +389,7 @@ public class YedeklemeYoneticisi {
             }
             return baos.toByteArray();
         } finally {
-            try { fis.close(); } catch (Exception ignored) {}
+            try { fis.close(); } catch (Exception e) { LauncherLog.d("YedeklemeYoneticisi", "Yedek akisi kapatilamadi: " + e.getMessage()); }
         }
     }
 }

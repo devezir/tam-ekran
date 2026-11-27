@@ -38,7 +38,9 @@ public class ApkPaylasimYardimcisi {
                 try {
                     PackageInfo pi = activity.getPackageManager().getPackageInfo(activity.getPackageName(), 0);
                     if (pi != null && pi.versionName != null) surum = pi.versionName;
-                } catch (Throwable ignored) {}
+                } catch (Throwable t) {
+                    LauncherLog.d("ApkPaylasimYardimcisi", "Surum bilgisi alinamadi: " + t.getMessage());
+                }
                 String dosyaEtiketi = "TamEkran_v" + surum;
                 if (which == 0) {
                     UygulamaBilgisi selfApp = new UygulamaBilgisi(
@@ -100,8 +102,8 @@ public class ApkPaylasimYardimcisi {
                 } catch (final Throwable t) {
                     toastUi(activity, "APK kaydedilemedi: " + t.getMessage());
                 } finally {
-                    try { if (in != null) in.close(); } catch (Exception ignored) {}
-                    try { if (out != null) out.close(); } catch (Exception ignored) {}
+                    try { if (in != null) in.close(); } catch (Exception e) { LauncherLog.d("ApkPaylasimYardimcisi", "Girdi akisi kapatilamadi: " + e.getMessage()); }
+                    try { if (out != null) out.close(); } catch (Exception e) { LauncherLog.d("ApkPaylasimYardimcisi", "Cikti akisi kapatilamadi: " + e.getMessage()); }
                 }
             }
         }).start();
@@ -160,8 +162,8 @@ public class ApkPaylasimYardimcisi {
                         }
                         out.flush();
                     } finally {
-                        try { if (in != null) in.close(); } catch (Exception ignored) {}
-                        try { if (out != null) out.close(); } catch (Exception ignored) {}
+                        try { if (in != null) in.close(); } catch (Exception e) { LauncherLog.d("ApkPaylasimYardimcisi", "Paylasim girdi akisi kapatilamadi: " + e.getMessage()); }
+                        try { if (out != null) out.close(); } catch (Exception e) { LauncherLog.d("ApkPaylasimYardimcisi", "Paylasim cikti akisi kapatilamadi: " + e.getMessage()); }
                     }
 
                     activity.runOnUiThread(new Runnable() {

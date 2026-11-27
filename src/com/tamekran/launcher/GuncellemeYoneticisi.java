@@ -316,7 +316,7 @@ public class GuncellemeYoneticisi {
             LauncherLog.w("GuncellemeYoneticisi", "SHA-256 hesaplama hatasi", e);
             return null;
         } finally {
-            try { if (fis != null) fis.close(); } catch (Exception ignored) {}
+            try { if (fis != null) fis.close(); } catch (Exception e) { LauncherLog.d("GuncellemeYoneticisi", "Akis kapatilamadi: " + e.getMessage()); }
         }
     }
 

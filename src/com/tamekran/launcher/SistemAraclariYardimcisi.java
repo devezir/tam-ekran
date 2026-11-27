@@ -534,7 +534,9 @@ public final class SistemAraclariYardimcisi {
             try {
                 activity.startActivity(intent);
                 return;
-            } catch (Throwable ignored) {}
+            } catch (Throwable t) {
+                LauncherLog.d("SistemAraclariYardimcisi", "Otomatik baslatma adayi atlandi: " + t.getMessage());
+            }
         }
         uygulamaBilgisiAc(activity, activity.getPackageName());
         ArayuzYardimcisi.toastUzun(activity, "Açılan Uygulama Bilgisi sayfasından Pil & Otomatik Başlatma ayarını açın.");

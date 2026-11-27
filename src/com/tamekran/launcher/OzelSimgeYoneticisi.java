@@ -193,9 +193,9 @@ public class OzelSimgeYoneticisi {
             LauncherLog.e("OzelSimgeYoneticisi", "galeriSimgeKaydet hatasi", t);
             return false;
         } finally {
-            try { if (isBounds != null) isBounds.close(); } catch (Exception ignored) {}
-            try { if (isDecode != null) isDecode.close(); } catch (Exception ignored) {}
-            try { if (fos != null) fos.close(); } catch (Exception ignored) {}
+            try { if (isBounds != null) isBounds.close(); } catch (Exception e) { LauncherLog.d("OzelSimgeYoneticisi", "isBounds kapatilamadi: " + e.getMessage()); }
+            try { if (isDecode != null) isDecode.close(); } catch (Exception e) { LauncherLog.d("OzelSimgeYoneticisi", "isDecode kapatilamadi: " + e.getMessage()); }
+            try { if (fos != null) fos.close(); } catch (Exception e) { LauncherLog.d("OzelSimgeYoneticisi", "fos kapatilamadi: " + e.getMessage()); }
         }
     }
 
@@ -219,7 +219,9 @@ public class OzelSimgeYoneticisi {
             try {
                 File f = new File(deger.substring("file:".length()));
                 if (f.exists()) f.delete();
-            } catch (Throwable ignored) {}
+            } catch (Throwable t) {
+                LauncherLog.d("OzelSimgeYoneticisi", "Eski simge dosyasi silinemedi: " + t.getMessage());
+            }
         }
     }
 }
