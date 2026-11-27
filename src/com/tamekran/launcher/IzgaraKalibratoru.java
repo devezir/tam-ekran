@@ -96,6 +96,7 @@ public class IzgaraKalibratoru {
         final int basGecisEfekti = AyarBankasi.getInt(aktivite, AyarBankasi.PREF_GECIS_EFEKTI, SayfaliMasaustuGorunumu.EFEKT_STANDART);
         final int basSaydamlik = AyarBankasi.getCekmeceSaydamlik(aktivite);
         final boolean basSikKullanilanlar = AyarBankasi.getBoolean(aktivite, AyarBankasi.PREF_SIK_KULLANILANLAR_MODU, true);
+        final boolean basCekmeceSekmeleri = AyarBankasi.isCekmeceSekmeleriGoster(aktivite);
         final int basSiralama = CekmeceSiralamasi.getSiralamaTuru(aktivite);
 
         // Düzenlenebilir anlık durumlar
@@ -118,6 +119,7 @@ public class IzgaraKalibratoru {
         final int[] gecisEfekti = new int[]{basGecisEfekti};
         final int[] saydamlik = new int[]{basSaydamlik};
         final boolean[] sikKullanilanlar = new boolean[]{basSikKullanilanlar};
+        final boolean[] cekmeceSekmeleri = new boolean[]{basCekmeceSekmeleri};
         final int[] siralama = new int[]{basSiralama};
 
         final int[] aktifMod = new int[]{baslangicModu};
@@ -171,6 +173,7 @@ public class IzgaraKalibratoru {
         final Button dugmeSaydamlikArti = (Button) dialog.findViewById(R.id.dugme_saydamlik_arti);
         final Button dugmeKilavuzCekmece = (Button) dialog.findViewById(R.id.dugme_kilavuz_cekmece);
         final Button dugmeSikKullanilanlar = (Button) dialog.findViewById(R.id.dugme_sik_kullanilanlar_canli);
+        final Button dugmeCekmeceSekmeleri = (Button) dialog.findViewById(R.id.dugme_cekmece_sekmeleri_canli);
         final Button dugmeSiralama = (Button) dialog.findViewById(R.id.dugme_siralama_canli);
 
         // Alt Bar Ek Kontrolleri
@@ -292,6 +295,9 @@ public class IzgaraKalibratoru {
                         if (dugmeSikKullanilanlar != null) {
                             dugmeSikKullanilanlar.setText(sikKullanilanlar[0] ? "⭐ Sık Kullanılanlar Satırı: Açık" : "⭐ Sık Kullanılanlar Satırı: Kapalı");
                         }
+                        if (dugmeCekmeceSekmeleri != null) {
+                            dugmeCekmeceSekmeleri.setText(cekmeceSekmeleri[0] ? "🏷️ Çekmece Sekmeleri: Görünür" : "🏷️ Çekmece Sekmeleri: Gizli");
+                        }
                         if (dugmeSiralama != null) {
                             String sirAdi = CekmeceSiralamasi.SIRALAMA_ISIMLERI[Math.max(0, Math.min(CekmeceSiralamasi.SIRALAMA_ISIMLERI.length - 1, siralama[0]))];
                             dugmeSiralama.setText("🔤 Sıralama: " + sirAdi);
@@ -301,6 +307,7 @@ public class IzgaraKalibratoru {
                         aktivite.canliCekmeceSimgeBoyutuGuncelle(cSimge[0]);
                         aktivite.canliCekmeceSaydamlikGuncelle(saydamlik[0]);
                         aktivite.canliSikKullanilanlarGuncelle(sikKullanilanlar[0]);
+                        aktivite.canliCekmeceSekmeleriGuncelle(cekmeceSekmeleri[0]);
                     }
                 }
             }
@@ -448,6 +455,16 @@ public class IzgaraKalibratoru {
                 }
             });
         }
+        if (dugmeCekmeceSekmeleri != null) {
+            dugmeCekmeceSekmeleri.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    cekmeceSekmeleri[0] = !cekmeceSekmeleri[0];
+                    aktivite.canliCekmeceSekmeleriGuncelle(cekmeceSekmeleri[0]);
+                    guncelleArayuz.run();
+                }
+            });
+        }
         if (dugmeSiralama != null) {
             dugmeSiralama.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -504,8 +521,10 @@ public class IzgaraKalibratoru {
                     } else if (aktifMod[0] == MOD_CEKMECE) {
                         cSutun[0] = 4; cSatir[0] = 6; cSimge[0] = 100;
                         saydamlik[0] = 95; sikKullanilanlar[0] = true;
+                        cekmeceSekmeleri[0] = true;
                         siralama[0] = CekmeceSiralamasi.SIRALAMA_A_TO_Z;
                         aktivite.canliSikKullanilanlarGuncelle(sikKullanilanlar[0]);
+                        aktivite.canliCekmeceSekmeleriGuncelle(cekmeceSekmeleri[0]);
                         aktivite.canliSiralamaGuncelle(siralama[0]);
                     } else {
                         dYukseklik[0] = 72; dYuva[0] = 4; dSimge[0] = 100;
@@ -551,6 +570,7 @@ public class IzgaraKalibratoru {
                             .putInt(AyarBankasi.PREF_GECIS_EFEKTI, gecisEfekti[0])
                             .putInt(AyarBankasi.PREF_CEKMECE_SAYDAMLIK, saydamlik[0])
                             .putBoolean(AyarBankasi.PREF_SIK_KULLANILANLAR_MODU, sikKullanilanlar[0])
+                            .putBoolean(AyarBankasi.PREF_CEKMECE_SEKMELERI_GOSTER, cekmeceSekmeleri[0])
                             .putInt(AyarBankasi.PREF_DOCK_YUKSEKLIK, dYukseklik[0])
                             .putInt(AyarBankasi.PREF_DOCK_SIMGE_SAYISI, dYuva[0])
                             .putBoolean(AyarBankasi.PREF_DOCK_KAYDIRILABILIR, dKaydirilabilir[0])
@@ -569,6 +589,7 @@ public class IzgaraKalibratoru {
                     aktivite.canliMasaustuSimgeBoyutuGuncelle(mSimge[0]);
                     aktivite.canliCekmeceSimgeBoyutuGuncelle(cSimge[0]);
                     aktivite.canliSikKullanilanlarGuncelle(sikKullanilanlar[0]);
+                    aktivite.canliCekmeceSekmeleriGuncelle(cekmeceSekmeleri[0]);
                     aktivite.canliEtiketGosterGuncelle(etiketGoster[0]);
                     aktivite.canliMasaustuDolguGuncelle(masaustuDolgu[0]);
                     aktivite.canliDockGorunurlukGuncelle(dGorunur[0]);
@@ -599,6 +620,7 @@ public class IzgaraKalibratoru {
                 aktivite.canliMasaustuDolguGuncelle(basMasaustuDolgu);
                 aktivite.canliCekmeceSaydamlikGuncelle(basSaydamlik);
                 aktivite.canliSikKullanilanlarGuncelle(basSikKullanilanlar);
+                aktivite.canliCekmeceSekmeleriGuncelle(basCekmeceSekmeleri);
                 aktivite.canliDockGorunurlukGuncelle(basDockGorunur);
                 aktivite.canliDockStiliGuncelle(basDockStil);
                 aktivite.canliDockStudiouGuncelle(basDockYukseklik, basDockSimge, basDockYuva, basDockKaydirilabilir);

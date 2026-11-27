@@ -399,6 +399,19 @@ public class AnaEkranActivity extends Activity implements BildirimDinleyiciServi
         }
     }
 
+    public void canliCekmeceSekmeleriGuncelle(boolean goster) {
+        if (kapsayiciKategoriSekmeleri != null && kapsayiciKategoriSekmeleri.getParent() instanceof View) {
+            ((View) kapsayiciKategoriSekmeleri.getParent()).setVisibility(goster ? View.VISIBLE : View.GONE);
+            if (goster && kapsayiciKategoriSekmeleri.getChildCount() == 0) {
+                SharedPreferences sp = AyarBankasi.getAyarlar(this);
+                boolean eski = sp.getBoolean(AyarBankasi.PREF_CEKMECE_SEKMELERI_GOSTER, true);
+                AyarBankasi.editorKaydet(sp.edit().putBoolean(AyarBankasi.PREF_CEKMECE_SEKMELERI_GOSTER, true));
+                kategoriSekmeleriniYukle();
+                AyarBankasi.editorKaydet(sp.edit().putBoolean(AyarBankasi.PREF_CEKMECE_SEKMELERI_GOSTER, eski));
+            }
+        }
+    }
+
     public void canliSiralamaGuncelle(int siralama) {
         CekmeceSiralamasi.setSiralamaTuru(this, siralama);
         CekmeceSiralamasi.sirala(this, tumUygulamalarListesi);

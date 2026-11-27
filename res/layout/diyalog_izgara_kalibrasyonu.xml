@@ -384,6 +384,16 @@
                     android:layout_marginBottom="6dp" />
 
                 <Button
+                    android:id="@+id/dugme_cekmece_sekmeleri_canli"
+                    android:layout_width="match_parent"
+                    android:layout_height="36dp"
+                    android:background="@drawable/kart_arkaplan"
+                    android:text="🏷️ Çekmece Sekmeleri: Görünür"
+                    android:textColor="#E0E0E0"
+                    android:textSize="12sp"
+                    android:layout_marginBottom="6dp" />
+
+                <Button
                     android:id="@+id/dugme_siralama_canli"
                     android:layout_width="match_parent"
                     android:layout_height="36dp"
