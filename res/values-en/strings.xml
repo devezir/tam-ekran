@@ -49,6 +49,8 @@
     <string name="ayar_guncelleme">Check for Updates</string>
     <string name="ayar_guncelleme_ozet">Check latest release and install directly</string>
     <string name="ayar_sistem_uygulama_bilgisi">⚙️ Tam Ekran System Settings (Allow Restricted Settings)</string>
+    <string name="ayar_kendini_apk_paylas">📦 Share / Save Tam Ekran APK</string>
+    <string name="ayar_kendini_apk_paylas_baslik">Tam Ekran APK Action</string>
     <string name="ayar_kisitli_izin_rehber">On the opened App Info page, tap the top-right ⋮ menu and select \"Allow restricted settings\".</string>
     <string name="ayar_hakkinda">About</string>
     <string name="ayar_hakkinda_ozet">Tam Ekran v%1$s • Zero Ads • Open Source</string>

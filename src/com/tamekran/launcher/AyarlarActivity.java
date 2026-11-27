@@ -696,6 +696,16 @@ public class AyarlarActivity extends Activity {
             });
         }
 
+        Button dugmeKendiniApkPaylas = (Button) findViewById(R.id.dugme_kendini_apk_paylas);
+        if (dugmeKendiniApkPaylas != null) {
+            dugmeKendiniApkPaylas.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ApkPaylasimYardimcisi.kendiniApkOlarakPaylasSecimli(AyarlarActivity.this);
+                }
+            });
+        }
+
         yaziDurum = (TextView) findViewById(R.id.yazi_guncelleme_durum);
         Button dugmeGuncelle = (Button) findViewById(R.id.dugme_guncelleme_denetle);
         if (dugmeGuncelle != null) {
