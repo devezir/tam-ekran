@@ -399,7 +399,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="7 ayar"
+                    android:text="8 ayar"
                     android:textColor="@color/renk_yazi_ikincil"
                     android:textSize="11sp"
                     android:layout_marginRight="8dp" />
@@ -450,6 +450,16 @@
                     android:layout_marginBottom="8dp"
                     android:background="@drawable/kart_arkaplan"
                     android:text="Sık Kullanılanlar Satırı: Açık"
+                    android:textColor="@color/renk_vurgu"
+                    android:textSize="12sp" />
+
+                <Button
+                    android:id="@+id/dugme_cekmece_sekmeleri_goster"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginBottom="8dp"
+                    android:background="@drawable/kart_arkaplan"
+                    android:text="Çekmece Sekmeleri (Kategoriler): Görünür"
                     android:textColor="@color/renk_vurgu"
                     android:textSize="12sp" />
 
@@ -735,7 +745,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="9 ayar"
+                    android:text="10 ayar"
                     android:textColor="@color/renk_yazi_ikincil"
                     android:textSize="11sp"
                     android:layout_marginRight="8dp" />
@@ -762,12 +772,22 @@
                     android:id="@+id/dugme_kilit_yetkisi"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
-                    android:layout_marginBottom="10dp"
+                    android:layout_marginBottom="8dp"
                     android:background="@drawable/kart_arkaplan"
                     android:text="🔒 Ekran Kilitleme İzni: Denetle"
                     android:textColor="@color/renk_vurgu"
                     android:textSize="12sp"
                     android:textStyle="bold" />
+
+                <Button
+                    android:id="@+id/dugme_uzun_basma_ozellestir"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/kart_arkaplan"
+                    android:text="🎛️ Uzun Basma Menüsü Öğelerini Özelleştir..."
+                    android:textColor="@color/renk_vurgu"
+                    android:textSize="12sp" />
 
                 <!-- Ana Ekran Tuşu -->
                 <LinearLayout

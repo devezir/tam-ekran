@@ -1277,5 +1277,26 @@ public class BirimTestler {
                 com.tamekran.launcher.MasaustuModelDeposu.klasoruSilVeMasaustuneDokBellek(kDurum, kId)
                 && kDurum.klasorKaydiBul(kId) == null
                 && kDurum.sayfaOgeleri(0).size() == 2);
+
+        // 17. V2 Çoklu Ekleme ile Klasör Oluşturma
+        java.util.List<String> coklu = new java.util.ArrayList<String>();
+        coklu.add("com.x/Main");
+        coklu.add("com.y/Main");
+        String ckId = com.tamekran.launcher.MasaustuModelDeposu.klasorOlusturVeCokluEkleBellek(kDurum, 1, "Sosyal", coklu);
+        dogrula("V2 Çoklu Klasör: 2 öğeli klasör sayfa 1'de oluşturuldu",
+                ckId != null && kDurum.klasorKaydiBul(ckId) != null
+                && kDurum.klasorKaydiBul(ckId).sayfa == 1
+                && kDurum.klasorOgeleri(ckId).size() == 2);
+
+        // 18. Ekran Süresi Biçimlendirme & Null Güvenlik Kontrolleri
+        dogrula("KullanimSayaci.sureBicimlendir: Saat/dakika biçimlendirme doğru",
+                "".equals(com.tamekran.launcher.KullanimSayaci.sureBicimlendir(0L))
+                && "< 1 dk".equals(com.tamekran.launcher.KullanimSayaci.sureBicimlendir(30000L))
+                && "15 dk".equals(com.tamekran.launcher.KullanimSayaci.sureBicimlendir(900000L))
+                && "1 sa 30 dk".equals(com.tamekran.launcher.KullanimSayaci.sureBicimlendir(5400000L)));
+        dogrula("AyarBankasi & OzelSimgeYoneticisi: Null context güvenli",
+                AyarBankasi.isCekmeceSekmeleriGoster(null)
+                && AyarBankasi.uzunBasmaOgesiAktifMi(null, "adlandir")
+                && com.tamekran.launcher.OzelSimgeYoneticisi.ozelSimgeKaydiAl(null, "a/b", "a") == null);
     }
 }

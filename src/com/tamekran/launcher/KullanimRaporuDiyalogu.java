@@ -33,13 +33,19 @@ public class KullanimRaporuDiyalogu {
     public static void goster(final Activity activity, List<UygulamaBilgisi> tumUygulamalar, final Runnable sifirlamaGorevi) {
         if (activity == null || tumUygulamalar == null) return;
 
-        // Kullanım sayılarını topla
+        // Kullanım sayılarını ve (izin varsa) son 7 gün ekran süresini topla
+        final java.util.Map<String, Long> sureler = KullanimSayaci.son7GunEkranSureleriniAl(activity);
+        long toplamSureMs = 0L;
+        for (Long v : sureler.values()) {
+            if (v != null) toplamSureMs += v;
+        }
         int toplamAcilis = 0;
         final List<UygulamaBilgisi> siraliListe = new ArrayList<UygulamaBilgisi>();
 
         for (UygulamaBilgisi app : tumUygulamalar) {
             int sayi = KullanimSayaci.getKullanimSayisi(activity, app.paketAdi);
-            if (sayi > 0) {
+            Long sureMs = sureler.get(app.paketAdi);
+            if (sayi > 0 || (sureMs != null && sureMs > 60000L)) {
                 toplamAcilis += sayi;
                 siraliListe.add(app);
             }
@@ -75,10 +81,36 @@ public class KullanimRaporuDiyalogu {
         kartOzet.addView(yaziToplam);
 
         TextView yaziAciklama = new TextView(activity);
-        yaziAciklama.setText(siraliListe.size() + " farklı uygulama başlatıldı. %100 çevrimdışı, sıfır telemetri.");
+        String sureOzet = toplamSureMs > 0L
+                ? (" • Son 7 gün: " + KullanimSayaci.sureBicimlendir(toplamSureMs))
+                : "";
+        yaziAciklama.setText(siraliListe.size() + " uygulama" + sureOzet + " • %0 batarya, çevrimdışı");
         yaziAciklama.setTextSize(12);
         yaziAciklama.setTextColor(Color.LTGRAY);
         kartOzet.addView(yaziAciklama);
+
+        if (android.os.Build.VERSION.SDK_INT >= 21 && !KullanimSayaci.ekranSuresiIzniVarMi(activity)) {
+            Button btnSureIzni = new Button(activity);
+            btnSureIzni.setText("⏱️ Ekran Süresi (Saat/Dk) İçin İzin Ver");
+            btnSureIzni.setTextSize(11);
+            btnSureIzni.setTextColor(activity.getResources().getColor(R.color.renk_vurgu));
+            btnSureIzni.setBackgroundResource(R.drawable.kart_arkaplan);
+            LinearLayout.LayoutParams lpIzin = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            lpIzin.setMargins(0, ArayuzYardimcisi.dpToPx(activity, 8), 0, 0);
+            btnSureIzni.setLayoutParams(lpIzin);
+            btnSureIzni.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    try {
+                        activity.startActivity(new android.content.Intent(android.provider.Settings.ACTION_USAGE_ACCESS_SETTINGS));
+                        ArayuzYardimcisi.toastUzun(activity, "Lütfen listeden 'Tam Ekran' için Kullanım Erişimi iznini açın.");
+                    } catch (Throwable t) {
+                        ArayuzYardimcisi.toast(activity, "Kullanım erişimi ayarları açılamadı.");
+                    }
+                }
+            });
+            kartOzet.addView(btnSureIzni);
+        }
 
         anaLayout.addView(kartOzet);
 
@@ -148,7 +180,11 @@ public class KullanimRaporuDiyalogu {
                 baslikSatiri.addView(ad);
 
                 TextView sayac = new TextView(activity);
-                sayac.setText(sayi + " kez (%" + yuzde + ")");
+                Long sureMs = sureler.get(app.paketAdi);
+                String sureMetin = (sureMs != null && sureMs > 0L)
+                        ? (" • " + KullanimSayaci.sureBicimlendir(sureMs))
+                        : "";
+                sayac.setText(sayi + " kez" + sureMetin + " (%" + yuzde + ")");
                 sayac.setTextSize(12);
                 sayac.setTextColor(Color.LTGRAY);
                 baslikSatiri.addView(sayac);

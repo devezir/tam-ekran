@@ -34,6 +34,14 @@ public class AramaVeCekmeceKontrolcusu {
             final KategoriDegisimDinleyici dinleyici) {
 
         if (context == null || kapsayiciKategoriSekmeleri == null) return;
+        boolean sekmelerGoster = AyarBankasi.isCekmeceSekmeleriGoster(context);
+        if (kapsayiciKategoriSekmeleri.getParent() instanceof View) {
+            ((View) kapsayiciKategoriSekmeleri.getParent()).setVisibility(sekmelerGoster ? View.VISIBLE : View.GONE);
+        }
+        if (!sekmelerGoster) {
+            kapsayiciKategoriSekmeleri.removeAllViews();
+            return;
+        }
         kapsayiciKategoriSekmeleri.removeAllViews();
 
         List<String> kategoriler = KategoriYoneticisi.getKategoriler(context);

@@ -443,6 +443,7 @@ public class IzgaraKalibratoru {
                 @Override
                 public void onClick(View v) {
                     sikKullanilanlar[0] = !sikKullanilanlar[0];
+                    aktivite.canliSikKullanilanlarGuncelle(sikKullanilanlar[0]);
                     guncelleArayuz.run();
                 }
             });
@@ -504,6 +505,7 @@ public class IzgaraKalibratoru {
                         cSutun[0] = 4; cSatir[0] = 6; cSimge[0] = 100;
                         saydamlik[0] = 95; sikKullanilanlar[0] = true;
                         siralama[0] = CekmeceSiralamasi.SIRALAMA_A_TO_Z;
+                        aktivite.canliSikKullanilanlarGuncelle(sikKullanilanlar[0]);
                         aktivite.canliSiralamaGuncelle(siralama[0]);
                     } else {
                         dYukseklik[0] = 72; dYuva[0] = 4; dSimge[0] = 100;
@@ -566,6 +568,7 @@ public class IzgaraKalibratoru {
                     aktivite.cekmeceIzgaraGuncelle(cSutun[0], cSatir[0], false);
                     aktivite.canliMasaustuSimgeBoyutuGuncelle(mSimge[0]);
                     aktivite.canliCekmeceSimgeBoyutuGuncelle(cSimge[0]);
+                    aktivite.canliSikKullanilanlarGuncelle(sikKullanilanlar[0]);
                     aktivite.canliEtiketGosterGuncelle(etiketGoster[0]);
                     aktivite.canliMasaustuDolguGuncelle(masaustuDolgu[0]);
                     aktivite.canliDockGorunurlukGuncelle(dGorunur[0]);

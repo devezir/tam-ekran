@@ -1059,4 +1059,29 @@ public class MasaustuModelDeposu {
         butunlukDogrulaVeOnar(durum);
         return true;
     }
+
+    public static String klasorOlusturVeCokluEkle(Context context, int sayfa, String klasorAdi, List<String> bilesenKimlikleri) {
+        if (context == null || bilesenKimlikleri == null || bilesenKimlikleri.isEmpty()) return null;
+        synchronized (MODEL_KILIDI) {
+            ModelDurumu durum = yukle(context);
+            String yeniId = klasorOlusturVeCokluEkleBellek(durum, sayfa, klasorAdi, bilesenKimlikleri);
+            if (yeniId != null) {
+                kaydetDahili(context, durum);
+                KlasorSimgeUretici.onbellegiTemizle();
+            }
+            return yeniId;
+        }
+    }
+
+    public static String klasorOlusturVeCokluEkleBellek(ModelDurumu durum, int sayfa, String klasorAdi, List<String> bilesenKimlikleri) {
+        if (durum == null || bilesenKimlikleri == null || bilesenKimlikleri.isEmpty()) return null;
+        String yeniKlasorId = bosKlasorOlusturBellek(durum, sayfa, klasorAdi);
+        if (yeniKlasorId == null) return null;
+        for (String kimlik : bilesenKimlikleri) {
+            if (kimlik != null && kimlik.trim().length() > 0 && !kimlik.startsWith("klasor:")) {
+                klasoreUygulamaEkleBellek(durum, yeniKlasorId, kimlik);
+            }
+        }
+        return yeniKlasorId;
+    }
 }

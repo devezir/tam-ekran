@@ -275,12 +275,29 @@ public class HizliEylemlerDiyalogu {
             }
 
             if (!masaustuKilitli) {
-                novaSatiriEkle(aktivite, listeKutusu, popup, "✏️ Yeniden Adlandır", Color.WHITE, new Runnable() {
-                    @Override public void run() { adlandirDiyalogu(aktivite, app, dinleyici); }
-                });
-                novaSatiriEkle(aktivite, listeKutusu, popup, "🖼️ Özel Simge Seç", Color.WHITE, new Runnable() {
-                    @Override public void run() { ozelSimgeSecimDiyalogu(aktivite, app, dinleyici); }
-                });
+                if (AyarBankasi.uzunBasmaOgesiAktifMi(aktivite, "adlandir")) {
+                    novaSatiriEkle(aktivite, listeKutusu, popup, "✏️ Yeniden Adlandır", Color.WHITE, new Runnable() {
+                        @Override public void run() { adlandirDiyalogu(aktivite, app, dinleyici); }
+                    });
+                }
+                if (AyarBankasi.uzunBasmaOgesiAktifMi(aktivite, "ozel_simge")) {
+                    novaSatiriEkle(aktivite, listeKutusu, popup, "🖼️ Özel Simge Seç", Color.WHITE, new Runnable() {
+                        @Override public void run() { ozelSimgeSecimDiyalogu(aktivite, app, dinleyici); }
+                    });
+                }
+                if ((masaustundeMi || docktaMi) && AyarBankasi.uzunBasmaOgesiAktifMi(aktivite, "kaydirma")) {
+                    String eylemOzeti = SimgeKaydirmaYoneticisi.getEylemOzeti(aktivite, app.paketAdi);
+                    novaSatiriEkle(aktivite, listeKutusu, popup, "👆 Yukarı Kaydırma (" + eylemOzeti + ")", Color.WHITE, new Runnable() {
+                        @Override
+                        public void run() {
+                            List<UygulamaBilgisi> apps = (aktivite instanceof AnaEkranActivity)
+                                    ? ((AnaEkranActivity) aktivite).getTumUygulamalarListesi() : null;
+                            SimgeKaydirmaYoneticisi.secimDiyalogu(aktivite, app.paketAdi, app.etiket, apps, new Runnable() {
+                                @Override public void run() { if (dinleyici != null) dinleyici.listeYenile(); }
+                            });
+                        }
+                    });
+                }
             }
 
             if ((masaustundeMi || docktaMi) && !masaustuKilitli) {
@@ -295,7 +312,7 @@ public class HizliEylemlerDiyalogu {
                 });
             }
 
-            if (!docktaMi && !masaustuKilitli) {
+            if (!docktaMi && !masaustuKilitli && AyarBankasi.uzunBasmaOgesiAktifMi(aktivite, "dock")) {
                 final boolean docktaVar = DockYoneticisi.docktaVarMi(aktivite, app.getBilesenKimligi());
                 novaSatiriEkle(aktivite, listeKutusu, popup, docktaVar ? "📌 Alt Bardan Kaldır" : "📌 Alt Bara Sabitle", Color.WHITE, new Runnable() {
                     @Override
@@ -305,49 +322,53 @@ public class HizliEylemlerDiyalogu {
                 });
             }
 
-            if (!klasorIcindeMi && !masaustuKilitli) {
+            if (!klasorIcindeMi && !masaustuKilitli && AyarBankasi.uzunBasmaOgesiAktifMi(aktivite, "klasor")) {
                 novaSatiriEkle(aktivite, listeKutusu, popup, "📁 Klasöre Ekle", Color.WHITE, new Runnable() {
                     @Override public void run() { klasorSecimDiyalogu(aktivite, app, veri, dinleyici); }
                 });
             }
 
             final boolean kilitli = UygulamaKilidiYoneticisi.kilitliMi(aktivite, app.paketAdi);
-            novaSatiriEkle(aktivite, listeKutusu, popup, kilitli ? "🔓 Kilidi Kaldır" : "🔒 Uygulamayı Kilitle", Color.WHITE, new Runnable() {
-                @Override
-                public void run() {
-                    if (!kilitli) {
-                        if (!UygulamaKilidiYoneticisi.pinAyarliMi(aktivite)) {
-                            UygulamaKilidiYoneticisi.yeniPinBelirleDiyalogu(aktivite, new Runnable() {
+            if (AyarBankasi.uzunBasmaOgesiAktifMi(aktivite, "kilit")) {
+                novaSatiriEkle(aktivite, listeKutusu, popup, kilitli ? "🔓 Kilidi Kaldır" : "🔒 Uygulamayı Kilitle", Color.WHITE, new Runnable() {
+                    @Override
+                    public void run() {
+                        if (!kilitli) {
+                            if (!UygulamaKilidiYoneticisi.pinAyarliMi(aktivite)) {
+                                UygulamaKilidiYoneticisi.yeniPinBelirleDiyalogu(aktivite, new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        UygulamaKilidiYoneticisi.kilitle(aktivite, app.paketAdi);
+                                        ArayuzYardimcisi.toast(aktivite, "🔒 " + app.etiket + " kilitlendi.");
+                                        if (dinleyici != null) dinleyici.listeYenile();
+                                    }
+                                });
+                            } else {
+                                UygulamaKilidiYoneticisi.kilitle(aktivite, app.paketAdi);
+                                ArayuzYardimcisi.toast(aktivite, "🔒 " + app.etiket + " kilitlendi.");
+                                if (dinleyici != null) dinleyici.listeYenile();
+                            }
+                        } else {
+                            UygulamaKilidiYoneticisi.pinSorgulaVeCalistir(aktivite, new Runnable() {
                                 @Override
                                 public void run() {
-                                    UygulamaKilidiYoneticisi.kilitle(aktivite, app.paketAdi);
-                                    ArayuzYardimcisi.toast(aktivite, "🔒 " + app.etiket + " kilitlendi.");
+                                    UygulamaKilidiYoneticisi.kilidiKaldir(aktivite, app.paketAdi);
+                                    ArayuzYardimcisi.toast(aktivite, "🔓 " + app.etiket + " kilidi kaldırıldı.");
                                     if (dinleyici != null) dinleyici.listeYenile();
                                 }
                             });
-                        } else {
-                            UygulamaKilidiYoneticisi.kilitle(aktivite, app.paketAdi);
-                            ArayuzYardimcisi.toast(aktivite, "🔒 " + app.etiket + " kilitlendi.");
-                            if (dinleyici != null) dinleyici.listeYenile();
                         }
-                    } else {
-                        UygulamaKilidiYoneticisi.pinSorgulaVeCalistir(aktivite, new Runnable() {
-                            @Override
-                            public void run() {
-                                UygulamaKilidiYoneticisi.kilidiKaldir(aktivite, app.paketAdi);
-                                ArayuzYardimcisi.toast(aktivite, "🔓 " + app.etiket + " kilidi kaldırıldı.");
-                                if (dinleyici != null) dinleyici.listeYenile();
-                            }
-                        });
                     }
-                }
-            });
+                });
+            }
 
-            novaSatiriEkle(aktivite, listeKutusu, popup, "ℹ️ Uygulama Bilgisi", Color.WHITE, new Runnable() {
-                @Override public void run() { UygulamaDetayDiyalogu.goster(aktivite, app); }
-            });
+            if (AyarBankasi.uzunBasmaOgesiAktifMi(aktivite, "uygulama_bilgisi")) {
+                novaSatiriEkle(aktivite, listeKutusu, popup, "ℹ️ Uygulama Bilgisi", Color.WHITE, new Runnable() {
+                    @Override public void run() { UygulamaDetayDiyalogu.goster(aktivite, app); }
+                });
+            }
 
-            if (!masaustundeMi && !docktaMi && !klasorIcindeMi) {
+            if (!masaustundeMi && !docktaMi && !klasorIcindeMi && AyarBankasi.uzunBasmaOgesiAktifMi(aktivite, "gizle")) {
                 novaSatiriEkle(aktivite, listeKutusu, popup, "👁️ Menüde Gizle", Color.WHITE, new Runnable() {
                     @Override
                     public void run() {
@@ -362,16 +383,20 @@ public class HizliEylemlerDiyalogu {
                 });
             }
 
-            novaSatiriEkle(aktivite, listeKutusu, popup, "📲 Uygulamayı Sil (Uninstall)", 0xFFFF8A80, new Runnable() {
-                @Override public void run() { uygulamayiSil(aktivite, app.paketAdi); }
-            });
+            if (AyarBankasi.uzunBasmaOgesiAktifMi(aktivite, "kaldir")) {
+                novaSatiriEkle(aktivite, listeKutusu, popup, "📲 Uygulamayı Sil (Uninstall)", 0xFFFF8A80, new Runnable() {
+                    @Override public void run() { uygulamayiSil(aktivite, app.paketAdi); }
+                });
+            }
 
-            novaSatiriEkle(aktivite, listeKutusu, popup, "⋯ Tüm Seçenekler", 0xFFB0BEC5, new Runnable() {
-                @Override
-                public void run() {
-                    goster(aktivite, kaynakGorunum, app, masaustundeMi, masaustuSayfasi, dinleyici);
-                }
-            });
+            if (!masaustundeMi && !docktaMi && !klasorIcindeMi) {
+                novaSatiriEkle(aktivite, listeKutusu, popup, "⋯ Tüm Seçenekler", 0xFFB0BEC5, new Runnable() {
+                    @Override
+                    public void run() {
+                        goster(aktivite, kaynakGorunum, app, masaustundeMi, masaustuSayfasi, dinleyici);
+                    }
+                });
+            }
         }
 
         // Boyutu ölç ve ikonun hemen üstüne (yer yoksa altına) hizala
@@ -594,22 +619,30 @@ public class HizliEylemlerDiyalogu {
         final List<Integer> eylemKodlari = new ArrayList<Integer>();
 
         // 2. Yeniden Adlandır
-        secenekler.add("✏️ Yeniden Adlandır (" + app.etiket + ")");
-        eylemKodlari.add(2);
+        if (AyarBankasi.uzunBasmaOgesiAktifMi(aktivite, "adlandir")) {
+            secenekler.add("✏️ Yeniden Adlandır (" + app.etiket + ")");
+            eylemKodlari.add(2);
+        }
 
         // 2b. Özel Simge Seç
-        secenekler.add("🖼️ Özel Simge Seç");
-        eylemKodlari.add(12);
+        if (AyarBankasi.uzunBasmaOgesiAktifMi(aktivite, "ozel_simge")) {
+            secenekler.add("🖼️ Özel Simge Seç");
+            eylemKodlari.add(12);
+        }
 
         // 2c. Uygulama Kilidi & PIN Koruması
         final boolean kilitli = UygulamaKilidiYoneticisi.kilitliMi(aktivite, app.paketAdi);
-        secenekler.add(kilitli ? "🔓 Uygulama Kilidini Kaldır" : "🔒 Uygulamayı Kilitle (PIN)");
-        eylemKodlari.add(13);
+        if (AyarBankasi.uzunBasmaOgesiAktifMi(aktivite, "kilit")) {
+            secenekler.add(kilitli ? "🔓 Uygulama Kilidini Kaldır" : "🔒 Uygulamayı Kilitle (PIN)");
+            eylemKodlari.add(13);
+        }
 
         // 2d. Nova Swipe Action: Yukarı Kaydırma Eylemi
-        String eylemOzeti = SimgeKaydirmaYoneticisi.getEylemOzeti(aktivite, app.paketAdi);
-        secenekler.add("👆 Yukarı Kaydırma Eylemi (" + eylemOzeti + ")");
-        eylemKodlari.add(14);
+        if (AyarBankasi.uzunBasmaOgesiAktifMi(aktivite, "kaydirma")) {
+            String eylemOzeti = SimgeKaydirmaYoneticisi.getEylemOzeti(aktivite, app.paketAdi);
+            secenekler.add("👆 Yukarı Kaydırma Eylemi (" + eylemOzeti + ")");
+            eylemKodlari.add(14);
+        }
 
         // 3. Masaüstü İşlemleri
         if (masaustundeMi) {
@@ -625,38 +658,52 @@ public class HizliEylemlerDiyalogu {
 
         // 3b. Alt Bar (Dock) İşlemleri
         final boolean dockta = DockYoneticisi.docktaVarMi(aktivite, app.getBilesenKimligi());
-        secenekler.add(dockta ? "📌 Alt Bardan Kaldır" : "📌 Alt Bara Sabitle");
-        eylemKodlari.add(16);
+        if (AyarBankasi.uzunBasmaOgesiAktifMi(aktivite, "dock")) {
+            secenekler.add(dockta ? "📌 Alt Bardan Kaldır" : "📌 Alt Bara Sabitle");
+            eylemKodlari.add(16);
+        }
 
         // 4. Klasöre Ekle
-        secenekler.add("📁 Klasöre Ekle");
-        eylemKodlari.add(6);
+        if (AyarBankasi.uzunBasmaOgesiAktifMi(aktivite, "klasor")) {
+            secenekler.add("📁 Klasöre Ekle");
+            eylemKodlari.add(6);
+        }
 
-        // 5. Kategori Ata
-        secenekler.add("🏷️ Menü Kategorisi Belirle");
-        eylemKodlari.add(7);
+        // 5. Kategori Ata (Yalnızca Çekmece)
+        if (!masaustundeMi && AyarBankasi.uzunBasmaOgesiAktifMi(aktivite, "kategori")) {
+            secenekler.add("🏷️ Menü Kategorisi Belirle");
+            eylemKodlari.add(7);
+        }
 
         // 6. Uygulama Bilgisi & Boyut
-        secenekler.add("ℹ️ Uygulama Bilgisi & Boyutu");
-        eylemKodlari.add(8);
+        if (AyarBankasi.uzunBasmaOgesiAktifMi(aktivite, "uygulama_bilgisi")) {
+            secenekler.add("ℹ️ Uygulama Bilgisi & Boyutu");
+            eylemKodlari.add(8);
+        }
 
-        // 7. Mağaza / Google Play
-        secenekler.add("🛍️ Google Play'de Göster");
-        eylemKodlari.add(9);
+        // 7. Mağaza / Google Play (Yalnızca Çekmece)
+        if (!masaustundeMi && AyarBankasi.uzunBasmaOgesiAktifMi(aktivite, "play_store")) {
+            secenekler.add("🛍️ Google Play'de Göster");
+            eylemKodlari.add(9);
+        }
 
-        // 7b. APK Paylaşımı
-        secenekler.add("📦 APK Dosyasını Paylaş");
-        eylemKodlari.add(15);
+        // 7b. APK Paylaşımı (Yalnızca Çekmece)
+        if (!masaustundeMi && AyarBankasi.uzunBasmaOgesiAktifMi(aktivite, "apk_paylas")) {
+            secenekler.add("📦 APK Dosyasını Paylaş");
+            eylemKodlari.add(15);
+        }
 
-        // 8. Menüde Gizle
-        if (!masaustundeMi) {
+        // 8. Menüde Gizle (Yalnızca Çekmece)
+        if (!masaustundeMi && AyarBankasi.uzunBasmaOgesiAktifMi(aktivite, "gizle")) {
             secenekler.add("👁️ Menüde Gizle");
             eylemKodlari.add(10);
         }
 
         // 9. Kaldır (Uninstall)
-        secenekler.add("📲 Uygulamayı Kaldır (Uninstall)");
-        eylemKodlari.add(11);
+        if (AyarBankasi.uzunBasmaOgesiAktifMi(aktivite, "kaldir")) {
+            secenekler.add("📲 Uygulamayı Kaldır (Uninstall)");
+            eylemKodlari.add(11);
+        }
 
         new AlertDialog.Builder(aktivite)
             .setTitle(app.etiket)
@@ -776,11 +823,12 @@ public class HizliEylemlerDiyalogu {
     }
 
     private static void ozelSimgeSecimDiyalogu(final Activity aktivite, final UygulamaBilgisi app, final IslemDinleyici dinleyici) {
-        SimgePaketiYoneticisi motor = new SimgePaketiYoneticisi(aktivite);
+        final SimgePaketiYoneticisi motor = new SimgePaketiYoneticisi(aktivite);
         final List<SimgePaketiYoneticisi.SimgePaketiBilgisi> paketler = motor.yukluPaketleriBul();
 
         List<String> basliklar = new ArrayList<String>();
         basliklar.add("Varsayılan (Ana Temaya Uy)");
+        basliklar.add("🖼️ Galeriden Resim Seç (PNG/JPG)");
         for (SimgePaketiYoneticisi.SimgePaketiBilgisi p : paketler) {
             basliklar.add("🎨 " + p.baslik);
         }
@@ -790,15 +838,35 @@ public class HizliEylemlerDiyalogu {
             .setItems(basliklar.toArray(new CharSequence[0]), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
+                    if (which == 1) {
+                        OzelSimgeYoneticisi.galeriSeciminiBaslat(aktivite, app.getBilesenKimligi(), app.paketAdi);
+                        return;
+                    }
                     if (which == 0) {
-                        OzelSimgeYoneticisi.setOzelPaket(aktivite, app.paketAdi, null);
+                        OzelSimgeYoneticisi.setOzelSimge(aktivite, app.getBilesenKimligi(), app.paketAdi, null);
                     } else {
-                        String secilen = paketler.get(which - 1).paketAdi;
-                        OzelSimgeYoneticisi.setOzelPaket(aktivite, app.paketAdi, secilen);
+                        String secilen = paketler.get(which - 2).paketAdi;
+                        OzelSimgeYoneticisi.setOzelSimge(aktivite, app.getBilesenKimligi(), app.paketAdi, secilen);
                     }
                     SimgeOnbellegi.paketTemizle(app.paketAdi);
                     KlasorSimgeUretici.onbellegiTemizle();
+                    try {
+                        android.content.pm.PackageManager pm = aktivite.getPackageManager();
+                        android.graphics.drawable.Drawable ham = null;
+                        if (app.etkinlikAdi != null && app.etkinlikAdi.length() > 0) {
+                            ham = pm.getActivityIcon(new android.content.ComponentName(app.paketAdi, app.etkinlikAdi));
+                        } else {
+                            ham = pm.getApplicationIcon(app.paketAdi);
+                        }
+                        app.simge = motor.simgeyiGetir(app.paketAdi, app.etkinlikAdi, ham);
+                    } catch (Throwable t) {
+                        LauncherLog.d("HizliEylemler", "Anlik simge yenileme uyarisi: " + t.getMessage());
+                    }
                     ArayuzYardimcisi.toast(aktivite, aktivite.getString(R.string.simge_guncellendi));
+                    if (aktivite instanceof AnaEkranActivity) {
+                        ((AnaEkranActivity) aktivite).uygulamalariYukle();
+                        ((AnaEkranActivity) aktivite).masaustuSayfalariniTazele();
+                    }
                     if (dinleyici != null) dinleyici.listeYenile();
                 }
             })
@@ -988,24 +1056,70 @@ public class HizliEylemlerDiyalogu {
                     if (which == 0) {
                         AyarDiyalogYardimcisi.metinGirdiDiyalogu(aktivite, aktivite.getString(R.string.klasor_olustur), null, "Klasör Adı", new AyarDiyalogYardimcisi.MetinGirdiDinleyicisi() {
                             @Override
-                            public void onMetinGirildi(String ad) {
-                                if (ad != null && ad.length() > 0) {
-                                    String appKimlik = app.getBilesenKimligi();
-                                    KlasorYoneticisi.KlasorBilgisi yeniKlasor = KlasorYoneticisi.klasorOlustur(aktivite, ad, appKimlik);
+                            public void onMetinGirildi(final String ad) {
+                                if (ad == null || ad.trim().length() == 0) return;
+                                final String appKimlik = app.getBilesenKimligi();
+                                final int aktifSayfa = (aktivite instanceof AnaEkranActivity)
+                                        ? ((AnaEkranActivity) aktivite).getAktifSayfa() : 0;
+
+                                List<UygulamaBilgisi> adaylar = new ArrayList<UygulamaBilgisi>();
+                                if (aktivite instanceof AnaEkranActivity) {
+                                    for (UygulamaBilgisi u : ((AnaEkranActivity) aktivite).getTumUygulamalarListesi()) {
+                                        if (u != null && !DockYoneticisi.bilesenEslesiyorMu(u.getBilesenKimligi(), appKimlik)) {
+                                            adaylar.add(u);
+                                        }
+                                    }
+                                }
+                                if (adaylar.isEmpty()) {
+                                    List<String> tek = new ArrayList<String>();
+                                    tek.add(appKimlik);
+                                    MasaustuModelDeposu.klasorOlusturVeCokluEkle(aktivite, aktifSayfa, ad.trim(), tek);
                                     if (veri != null && (veri.kaynakTuru == SuruklemeVerisi.KAYNAK_MASAUSTU || veri.kaynakTuru == SuruklemeVerisi.KAYNAK_DOCK)) {
                                         MasaustuModelDeposu.ogeKaldir(aktivite, veri.itemId, veri.kaynakTuru, veri.kaynakSayfa, appKimlik);
-                                    } else if (MasaustuYoneticisi.isTekKatmanModu(aktivite)) {
-                                        MasaustuYoneticisi.masaustundenKaldir(aktivite, appKimlik);
                                     }
-                                    // Klasörü masaüstüne de ekle
-                                    int aktifSayfa = 0;
-                                    if (aktivite instanceof AnaEkranActivity) {
-                                        aktifSayfa = ((AnaEkranActivity) aktivite).getAktifSayfa();
-                                    }
-                                    MasaustuYoneticisi.sayfayaUygulamaEkle(aktivite, aktifSayfa, "klasor:" + yeniKlasor.id);
                                     ArayuzYardimcisi.toast(aktivite, app.etiket + ", " + ad + " klasörüne eklendi.");
                                     if (dinleyici != null) dinleyici.listeYenile();
+                                    return;
                                 }
+
+                                final List<UygulamaBilgisi> sonAdaylar = adaylar;
+                                CharSequence[] adlar = new CharSequence[sonAdaylar.size()];
+                                final boolean[] secimler = new boolean[sonAdaylar.size()];
+                                for (int i = 0; i < sonAdaylar.size(); i++) {
+                                    adlar[i] = sonAdaylar.get(i).etiket;
+                                }
+                                new AlertDialog.Builder(aktivite)
+                                    .setTitle("En az 1 uygulama daha seçin (" + ad + ")")
+                                    .setMultiChoiceItems(adlar, secimler, new DialogInterface.OnMultiChoiceClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface d, int idx, boolean isChecked) {
+                                            secimler[idx] = isChecked;
+                                        }
+                                    })
+                                    .setPositiveButton(R.string.tamam, new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface d, int w) {
+                                            List<String> secilenKimlikler = new ArrayList<String>();
+                                            secilenKimlikler.add(appKimlik);
+                                            for (int i = 0; i < secimler.length; i++) {
+                                                if (secimler[i]) {
+                                                    secilenKimlikler.add(sonAdaylar.get(i).getBilesenKimligi());
+                                                }
+                                            }
+                                            if (secilenKimlikler.size() < 2) {
+                                                ArayuzYardimcisi.toast(aktivite, "Klasör için en az 2 uygulama gerekir.");
+                                                return;
+                                            }
+                                            if (veri != null && (veri.kaynakTuru == SuruklemeVerisi.KAYNAK_MASAUSTU || veri.kaynakTuru == SuruklemeVerisi.KAYNAK_DOCK)) {
+                                                MasaustuModelDeposu.ogeKaldir(aktivite, veri.itemId, veri.kaynakTuru, veri.kaynakSayfa, appKimlik);
+                                            }
+                                            MasaustuModelDeposu.klasorOlusturVeCokluEkle(aktivite, aktifSayfa, ad.trim(), secilenKimlikler);
+                                            ArayuzYardimcisi.toast(aktivite, ad + " klasörü oluşturuldu.");
+                                            if (dinleyici != null) dinleyici.listeYenile();
+                                        }
+                                    })
+                                    .setNegativeButton(R.string.iptal, null)
+                                    .show();
                             }
                         });
                     } else {
@@ -1014,7 +1128,7 @@ public class HizliEylemlerDiyalogu {
                         if (veri != null) {
                             eklendi = MasaustuModelDeposu.klasoreOgeTasi(aktivite, secilen.id, veri);
                         } else {
-                            eklendi = KlasorYoneticisi.klasoreUygulamaEkle(aktivite, secilen.id, app.getBilesenKimligi());
+                            eklendi = MasaustuModelDeposu.klasoreUygulamaEkle(aktivite, secilen.id, app.getBilesenKimligi());
                         }
                         if (eklendi) {
                             ArayuzYardimcisi.toast(aktivite, aktivite.getString(R.string.klasore_eklendi_mesaj, app.etiket, secilen.ad));

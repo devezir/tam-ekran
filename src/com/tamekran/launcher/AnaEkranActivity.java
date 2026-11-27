@@ -520,6 +520,20 @@ public class AnaEkranActivity extends Activity implements BildirimDinleyiciServi
             return;
         }
 
+        if (requestCode == OzelSimgeYoneticisi.KOD_GALERI_SIMGE_SEC && resultCode == RESULT_OK && data != null) {
+            String guncellenenPaket = OzelSimgeYoneticisi.bekleyenGaleriSonucunuIsle(this, data.getData());
+            if (guncellenenPaket != null) {
+                SimgeOnbellegi.paketTemizle(guncellenenPaket);
+                KlasorSimgeUretici.onbellegiTemizle();
+                uygulamalariYukle();
+                masaustuSayfalariniTazele();
+                ArayuzYardimcisi.toast(this, getString(R.string.simge_guncellendi));
+            } else {
+                ArayuzYardimcisi.toast(this, "Seçilen görsel yüklenemedi.");
+            }
+            return;
+        }
+
         if (requestCode == KisayolYoneticisi.KOD_KISAYOL_SEC && resultCode == RESULT_OK && data != null) {
             int sayfa = getAktifSayfa();
             if (KisayolYoneticisi.kisayolSonucunuKaydet(this, data, sayfa)) {
@@ -1490,21 +1504,27 @@ public class AnaEkranActivity extends Activity implements BildirimDinleyiciServi
         satirSikKullanilanlar.setVisibility(View.VISIBLE);
         kapsayiciSikKullanilanlar.removeAllViews();
 
+        int cekmeceOlcek = AyarBankasi.getCekmeceSimgeBoyutu(this);
+        int simgePx = ArayuzYardimcisi.dpToPx(this, 56 * (cekmeceOlcek / 100.0f));
+
         for (final UygulamaBilgisi app : siklar) {
             ImageView simge = new ImageView(this);
-            int dp40 = ArayuzYardimcisi.dpToPx(this, 40);
-            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(dp40, dp40);
+            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(simgePx, simgePx);
             lp.setMargins(6, 0, 6, 0);
             simge.setLayoutParams(lp);
-            simge.setImageDrawable(app.simge);
+            simge.setImageDrawable(SimgeNormalizasyonYoneticisi.normalizeEt(this, app.simge));
             simge.setScaleType(ImageView.ScaleType.FIT_CENTER);
             simge.setClickable(true);
             simge.setFocusable(true);
             simge.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    uygulamaBaslat(app);
-                    cekmeceyiKapat();
+                    ArayuzYardimcisi.guvenliUygulamaBaslat(AnaEkranActivity.this, app, new Runnable() {
+                        @Override
+                        public void run() {
+                            cekmeceyiKapat();
+                        }
+                    });
                 }
             });
             simge.setOnLongClickListener(new View.OnLongClickListener() {

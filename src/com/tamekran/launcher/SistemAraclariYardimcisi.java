@@ -47,9 +47,17 @@ public final class SistemAraclariYardimcisi {
     /**
      * Cihazdaki varsayılan saat / alarm uygulamasını başlatır.
      */
-    public static void saatUygulamasiniAc(Context context) {
+    public static void saatUygulamasiniAc(final Context context) {
         if (context == null) return;
+        paketKilitliMiKontrolEtVeCalistir(context, SAAT_PAKETLERI, new Runnable() {
+            @Override
+            public void run() {
+                saatUygulamasiniAcDahili(context);
+            }
+        });
+    }
 
+    private static void saatUygulamasiniAcDahili(Context context) {
         // 1. Standart AlarmClock niyetini dene
         try {
             Intent intent = new Intent(AlarmClock.ACTION_SHOW_ALARMS);
@@ -83,8 +91,17 @@ public final class SistemAraclariYardimcisi {
     /**
      * Cihazdaki takvim uygulamasını başlatır.
      */
-    public static void takvimUygulamasiniAc(Context context) {
+    public static void takvimUygulamasiniAc(final Context context) {
         if (context == null) return;
+        paketKilitliMiKontrolEtVeCalistir(context, TAKVIM_PAKETLERI, new Runnable() {
+            @Override
+            public void run() {
+                takvimUygulamasiniAcDahili(context);
+            }
+        });
+    }
+
+    private static void takvimUygulamasiniAcDahili(Context context) {
 
         try {
             long baslangic = System.currentTimeMillis();
@@ -106,6 +123,18 @@ public final class SistemAraclariYardimcisi {
         }
 
         ArayuzYardimcisi.toast(context, "Takvim veya Saat uygulaması bulunamadı.");
+    }
+
+    private static void paketKilitliMiKontrolEtVeCalistir(Context context, String[] adayPaketler, Runnable gorev) {
+        if (context instanceof Activity && adayPaketler != null) {
+            for (String pkg : adayPaketler) {
+                if (UygulamaKilidiYoneticisi.kilitliMi(context, pkg)) {
+                    UygulamaKilidiYoneticisi.pinSorgulaVeCalistir((Activity) context, gorev);
+                    return;
+                }
+            }
+        }
+        gorev.run();
     }
 
     /**

@@ -1,12 +1,18 @@
 package com.tamekran.launcher;
 
+import android.app.AppOpsManager;
+import android.app.usage.UsageStats;
+import android.app.usage.UsageStatsManager;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.Build;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Tam Ekran - Sık Kullanılan Uygulamalar Sayacı
@@ -48,5 +54,57 @@ public class KullanimSayaci {
             }
         }
         return sonuc;
+    }
+
+    public static boolean ekranSuresiIzniVarMi(Context context) {
+        if (context == null || Build.VERSION.SDK_INT < 21) return false;
+        try {
+            AppOpsManager appOps = (AppOpsManager) context.getSystemService(Context.APP_OPS_SERVICE);
+            if (appOps == null) return false;
+            int mode = appOps.checkOpNoThrow(AppOpsManager.OPSTR_GET_USAGE_STATS,
+                    android.os.Process.myUid(), context.getPackageName());
+            return mode == AppOpsManager.MODE_ALLOWED;
+        } catch (Throwable t) {
+            return false;
+        }
+    }
+
+    public static Map<String, Long> son7GunEkranSureleriniAl(Context context) {
+        Map<String, Long> sonuc = new HashMap<String, Long>();
+        if (context == null || Build.VERSION.SDK_INT < 21 || !ekranSuresiIzniVarMi(context)) {
+            return sonuc;
+        }
+        try {
+            UsageStatsManager usm = (UsageStatsManager) context.getSystemService(Context.USAGE_STATS_SERVICE);
+            if (usm == null) return sonuc;
+            long simdi = System.currentTimeMillis();
+            long yediGunOnce = simdi - (7L * 24L * 60L * 60L * 1000L);
+            List<UsageStats> stats = usm.queryUsageStats(UsageStatsManager.INTERVAL_DAILY, yediGunOnce, simdi);
+            if (stats != null) {
+                for (UsageStats u : stats) {
+                    if (u == null || u.getPackageName() == null) continue;
+                    long sure = u.getTotalTimeInForeground();
+                    if (sure > 0L) {
+                        Long mevcut = sonuc.get(u.getPackageName());
+                        sonuc.put(u.getPackageName(), (mevcut != null ? mevcut : 0L) + sure);
+                    }
+                }
+            }
+        } catch (Throwable t) {
+            LauncherLog.d("KullanimSayaci", "UsageStats okunamadi: " + t.getMessage());
+        }
+        return sonuc;
+    }
+
+    public static String sureBicimlendir(long ms) {
+        if (ms <= 0L) return "";
+        long toplamDk = ms / 60000L;
+        if (toplamDk <= 0L) return "< 1 dk";
+        long saat = toplamDk / 60L;
+        long dk = toplamDk % 60L;
+        if (saat > 0L) {
+            return dk > 0L ? (saat + " sa " + dk + " dk") : (saat + " sa");
+        }
+        return dk + " dk";
     }
 }

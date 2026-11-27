@@ -136,10 +136,18 @@ public final class SimgePaketiYoneticisi {
     public Drawable simgeyiGetir(String paketAdi, String etkinlikAdi, Drawable varsayilan) {
         Drawable sonSimge = varsayilan;
 
-        // 1. Bireysel özel simge paketi var mı?
-        String ozelPaket = OzelSimgeYoneticisi.getOzelPaket(baglam, paketAdi);
-        if (ozelPaket != null && ozelPaket.length() > 0) {
-            Drawable ozelSimge = pakettenSimgeCek(ozelPaket, paketAdi, etkinlikAdi);
+        // 1. Bireysel özel simge (galeri görseli veya özel simge paketi) var mı?
+        String bilesenKimligi = (etkinlikAdi != null && etkinlikAdi.length() > 0)
+                ? (paketAdi + "/" + etkinlikAdi)
+                : paketAdi;
+        String ozelDeger = OzelSimgeYoneticisi.ozelSimgeKaydiAl(baglam, bilesenKimligi, paketAdi);
+        if (ozelDeger != null && ozelDeger.startsWith("file:")) {
+            Drawable galeriSimge = OzelSimgeYoneticisi.galeriSimgeYukle(baglam, ozelDeger);
+            if (galeriSimge != null) {
+                sonSimge = galeriSimge;
+            }
+        } else if (ozelDeger != null && ozelDeger.length() > 0) {
+            Drawable ozelSimge = pakettenSimgeCek(ozelDeger, paketAdi, etkinlikAdi);
             if (ozelSimge != null) {
                 sonSimge = ozelSimge;
             }

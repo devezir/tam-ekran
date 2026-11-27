@@ -173,7 +173,9 @@ public class YedeklemeYoneticisi {
             new YedekAnahtari(MasaustuModelDeposu.PREF_MODEL_V2_KLASIK, MasaustuModelDeposu.PREF_MODEL_V2_KLASIK, TIP_STRING, ""),
             new YedekAnahtari(MasaustuModelDeposu.PREF_MODEL_V2_TEK_KATMAN, MasaustuModelDeposu.PREF_MODEL_V2_TEK_KATMAN, TIP_STRING, ""),
             new YedekAnahtari(HareketYoneticisi.PREF_HAREKET_ANA_EKRAN, HareketYoneticisi.PREF_HAREKET_ANA_EKRAN, TIP_INT, HareketYoneticisi.EYLEM_YOK),
-            new YedekAnahtari(HareketYoneticisi.PREF_HAREKET_GERI_TUSU, HareketYoneticisi.PREF_HAREKET_GERI_TUSU, TIP_INT, HareketYoneticisi.EYLEM_YOK)
+            new YedekAnahtari(HareketYoneticisi.PREF_HAREKET_GERI_TUSU, HareketYoneticisi.PREF_HAREKET_GERI_TUSU, TIP_INT, HareketYoneticisi.EYLEM_YOK),
+            new YedekAnahtari(AyarBankasi.PREF_CEKMECE_SEKMELERI_GOSTER, AyarBankasi.PREF_CEKMECE_SEKMELERI_GOSTER, TIP_BOOL, true),
+            new YedekAnahtari(AyarBankasi.PREF_UZUN_BASMA_OGELERI, AyarBankasi.PREF_UZUN_BASMA_OGELERI, TIP_STRING, "")
         };
     }
 

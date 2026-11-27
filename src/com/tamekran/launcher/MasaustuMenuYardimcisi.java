@@ -19,7 +19,6 @@ public final class MasaustuMenuYardimcisi {
             "🧩 Ekran Aracı Ekle (Sistem/Uygulama)",
             "⚡ Tam Ekran Araçları (Widget & Kontroller)",
             "🔗 Sistem Kısayolu Ekle",
-            activity.getString(R.string.klasor_olustur),
             "📐 Canlı Düzen Stüdyosu",
             "📐 Güvenli Alan / Kenar Kırpma",
             "📊 Kullanım Raporu",
@@ -30,7 +29,7 @@ public final class MasaustuMenuYardimcisi {
         AyarDiyalogYardimcisi.listeSecimDiyalogu(activity, activity.getString(R.string.uygulama_adi), secenekler, new AyarDiyalogYardimcisi.SecimDinleyicisi() {
             @Override
             public void onSecildi(int which) {
-                if (which >= 1 && which <= 6 && ArayuzYardimcisi.kilitliMiVeUyar(activity)) {
+                if (which >= 1 && which <= 5 && ArayuzYardimcisi.kilitliMiVeUyar(activity)) {
                     return;
                 }
                 switch (which) {
@@ -59,15 +58,12 @@ public final class MasaustuMenuYardimcisi {
                         KisayolYoneticisi.kisayolEkleIstegiBaslat(activity);
                         break;
                     case 4:
-                        activity.klasorOlusturDiyalogu();
-                        break;
-                    case 5:
                         IzgaraKalibratoru.goster(activity, IzgaraKalibratoru.MOD_MASAUSTU);
                         break;
-                    case 6:
+                    case 5:
                         GuvenliAlanKalibratoru.goster(activity);
                         break;
-                    case 7:
+                    case 6:
                         KullanimRaporuDiyalogu.goster(activity, activity.getTumUygulamalarListesi(), new Runnable() {
                             @Override
                             public void run() {
@@ -75,10 +71,10 @@ public final class MasaustuMenuYardimcisi {
                             }
                         });
                         break;
-                    case 8:
+                    case 7:
                         EkranKilitleyici.kilitle(activity);
                         break;
-                    case 9:
+                    case 8:
                         activity.startActivity(new Intent(activity, AyarlarActivity.class));
                         break;
                 }

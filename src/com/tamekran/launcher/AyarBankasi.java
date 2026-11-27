@@ -36,6 +36,8 @@ public final class AyarBankasi {
     public static final String PREF_MASAUSTU_DOLGU = "masaustu_kenar_dolgusu";
     public static final String PREF_TAM_EKRAN_MODU = "tam_ekran_modu";
     public static final String PREF_SIK_KULLANILANLAR_MODU = "sik_kullanilanlar_modu";
+    public static final String PREF_CEKMECE_SEKMELERI_GOSTER = "cekmece_sekmeleri_goster";
+    public static final String PREF_UZUN_BASMA_OGELERI = "uzun_basma_devre_disi_ogeler";
     public static final String PREF_MASAUSTU_MODU = "masaustu_modu";
     public static final String PREF_DEGISTIRME_DAMGASI = "son_degisiklik_damgasi";
     public static final int MOD_KLASIK_CIFTE_KATMAN = 0;
@@ -267,6 +269,45 @@ public final class AyarBankasi {
     public static boolean isDuvarKagidiKaydirma(Context context) {
         SharedPreferences sp = getAyarlar(context);
         return sp != null && sp.getBoolean(PREF_DUVAR_KAGIDI_KAYDIRMA, true);
+    }
+
+    public static boolean isCekmeceSekmeleriGoster(Context context) {
+        SharedPreferences sp = getAyarlar(context);
+        return sp == null || sp.getBoolean(PREF_CEKMECE_SEKMELERI_GOSTER, true);
+    }
+
+    public static java.util.Set<String> getUzunBasmaDevreDisiOgeler(Context context) {
+        java.util.Set<String> sonuc = new java.util.HashSet<String>();
+        SharedPreferences sp = getAyarlar(context);
+        if (sp == null) return sonuc;
+        String csv = sp.getString(PREF_UZUN_BASMA_OGELERI, "");
+        if (csv != null && csv.trim().length() > 0) {
+            for (String p : csv.split(",")) {
+                String t = p.trim();
+                if (t.length() > 0) sonuc.add(t);
+            }
+        }
+        return sonuc;
+    }
+
+    public static void setUzunBasmaDevreDisiOgeler(Context context, java.util.Set<String> devreDisi) {
+        SharedPreferences sp = getAyarlar(context);
+        if (sp == null) return;
+        StringBuilder sb = new StringBuilder();
+        if (devreDisi != null) {
+            for (String s : devreDisi) {
+                if (s != null && s.trim().length() > 0) {
+                    if (sb.length() > 0) sb.append(",");
+                    sb.append(s.trim());
+                }
+            }
+        }
+        editorKaydet(sp.edit().putString(PREF_UZUN_BASMA_OGELERI, sb.toString()));
+    }
+
+    public static boolean uzunBasmaOgesiAktifMi(Context context, String ogeAnahtari) {
+        if (context == null || ogeAnahtari == null) return true;
+        return !getUzunBasmaDevreDisiOgeler(context).contains(ogeAnahtari);
     }
 
     /**
