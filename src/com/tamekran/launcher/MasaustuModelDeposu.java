@@ -941,17 +941,47 @@ public class MasaustuModelDeposu {
         return null;
     }
 
-    public static String bosKlasorOlustur(Context context, int sayfa, String klasorAdi) {
-        if (context == null) return null;
+    private interface ModelMutasyonu {
+        boolean uygula(ModelDurumu durum);
+    }
+
+    private interface ModelIdMutasyonu {
+        String uygula(ModelDurumu durum);
+    }
+
+    private static boolean modelMutasyonuCalistir(Context context, ModelMutasyonu islem) {
+        if (context == null || islem == null) return false;
         synchronized (MODEL_KILIDI) {
             ModelDurumu durum = yukle(context);
-            String yeniKlasorId = bosKlasorOlusturBellek(durum, sayfa, klasorAdi);
-            if (yeniKlasorId != null) {
+            if (islem.uygula(durum)) {
+                kaydetDahili(context, durum);
+                KlasorSimgeUretici.onbellegiTemizle();
+                return true;
+            }
+            return false;
+        }
+    }
+
+    private static String modelIdMutasyonuCalistir(Context context, ModelIdMutasyonu islem) {
+        if (context == null || islem == null) return null;
+        synchronized (MODEL_KILIDI) {
+            ModelDurumu durum = yukle(context);
+            String sonuc = islem.uygula(durum);
+            if (sonuc != null) {
                 kaydetDahili(context, durum);
                 KlasorSimgeUretici.onbellegiTemizle();
             }
-            return yeniKlasorId;
+            return sonuc;
         }
+    }
+
+    public static String bosKlasorOlustur(Context context, final int sayfa, final String klasorAdi) {
+        return modelIdMutasyonuCalistir(context, new ModelIdMutasyonu() {
+            @Override
+            public String uygula(ModelDurumu durum) {
+                return bosKlasorOlusturBellek(durum, sayfa, klasorAdi);
+            }
+        });
     }
 
     public static String bosKlasorOlusturBellek(ModelDurumu durum, int sayfa, String klasorAdi) {
@@ -973,17 +1003,14 @@ public class MasaustuModelDeposu {
         return yeniKlasorId;
     }
 
-    public static boolean klasorAdiDegistir(Context context, String klasorId, String yeniAd) {
-        if (context == null || klasorId == null || yeniAd == null || yeniAd.trim().length() == 0) return false;
-        synchronized (MODEL_KILIDI) {
-            ModelDurumu durum = yukle(context);
-            if (klasorAdiDegistirBellek(durum, klasorId, yeniAd)) {
-                kaydetDahili(context, durum);
-                KlasorSimgeUretici.onbellegiTemizle();
-                return true;
+    public static boolean klasorAdiDegistir(Context context, final String klasorId, final String yeniAd) {
+        if (klasorId == null || yeniAd == null || yeniAd.trim().length() == 0) return false;
+        return modelMutasyonuCalistir(context, new ModelMutasyonu() {
+            @Override
+            public boolean uygula(ModelDurumu durum) {
+                return klasorAdiDegistirBellek(durum, klasorId, yeniAd);
             }
-            return false;
-        }
+        });
     }
 
     public static boolean klasorAdiDegistirBellek(ModelDurumu durum, String klasorId, String yeniAd) {
@@ -994,17 +1021,14 @@ public class MasaustuModelDeposu {
         return true;
     }
 
-    public static boolean klasoreUygulamaEkle(Context context, String klasorId, String bilesenKimligi) {
-        if (context == null || klasorId == null || bilesenKimligi == null) return false;
-        synchronized (MODEL_KILIDI) {
-            ModelDurumu durum = yukle(context);
-            if (klasoreUygulamaEkleBellek(durum, klasorId, bilesenKimligi)) {
-                kaydetDahili(context, durum);
-                KlasorSimgeUretici.onbellegiTemizle();
-                return true;
+    public static boolean klasoreUygulamaEkle(Context context, final String klasorId, final String bilesenKimligi) {
+        if (klasorId == null || bilesenKimligi == null) return false;
+        return modelMutasyonuCalistir(context, new ModelMutasyonu() {
+            @Override
+            public boolean uygula(ModelDurumu durum) {
+                return klasoreUygulamaEkleBellek(durum, klasorId, bilesenKimligi);
             }
-            return false;
-        }
+        });
     }
 
     public static boolean klasoreUygulamaEkleBellek(ModelDurumu durum, String klasorId, String bilesenKimligi) {
@@ -1020,17 +1044,14 @@ public class MasaustuModelDeposu {
         return true;
     }
 
-    public static boolean klasoruSilVeMasaustuneDok(Context context, String klasorId) {
-        if (context == null || klasorId == null) return false;
-        synchronized (MODEL_KILIDI) {
-            ModelDurumu durum = yukle(context);
-            if (klasoruSilVeMasaustuneDokBellek(durum, klasorId)) {
-                kaydetDahili(context, durum);
-                KlasorSimgeUretici.onbellegiTemizle();
-                return true;
+    public static boolean klasoruSilVeMasaustuneDok(Context context, final String klasorId) {
+        if (klasorId == null) return false;
+        return modelMutasyonuCalistir(context, new ModelMutasyonu() {
+            @Override
+            public boolean uygula(ModelDurumu durum) {
+                return klasoruSilVeMasaustuneDokBellek(durum, klasorId);
             }
-            return false;
-        }
+        });
     }
 
     public static boolean klasoruSilVeMasaustuneDokBellek(ModelDurumu durum, String klasorId) {
@@ -1060,17 +1081,14 @@ public class MasaustuModelDeposu {
         return true;
     }
 
-    public static String klasorOlusturVeCokluEkle(Context context, int sayfa, String klasorAdi, List<String> bilesenKimlikleri) {
-        if (context == null || bilesenKimlikleri == null || bilesenKimlikleri.isEmpty()) return null;
-        synchronized (MODEL_KILIDI) {
-            ModelDurumu durum = yukle(context);
-            String yeniId = klasorOlusturVeCokluEkleBellek(durum, sayfa, klasorAdi, bilesenKimlikleri);
-            if (yeniId != null) {
-                kaydetDahili(context, durum);
-                KlasorSimgeUretici.onbellegiTemizle();
+    public static String klasorOlusturVeCokluEkle(Context context, final int sayfa, final String klasorAdi, final List<String> bilesenKimlikleri) {
+        if (bilesenKimlikleri == null || bilesenKimlikleri.isEmpty()) return null;
+        return modelIdMutasyonuCalistir(context, new ModelIdMutasyonu() {
+            @Override
+            public String uygula(ModelDurumu durum) {
+                return klasorOlusturVeCokluEkleBellek(durum, sayfa, klasorAdi, bilesenKimlikleri);
             }
-            return yeniId;
-        }
+        });
     }
 
     public static String klasorOlusturVeCokluEkleBellek(ModelDurumu durum, int sayfa, String klasorAdi, List<String> bilesenKimlikleri) {

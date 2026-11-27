@@ -398,59 +398,39 @@ public final class SistemAraclariYardimcisi {
         }
     }
 
-    public static void pilAyarlariniAc(Activity activity) {
+    private static void ayarEkraniAc(Activity activity, String action, String hataEtiketi, boolean genelAyarYedegi) {
         if (activity == null) return;
         try {
-            Intent intent = new Intent(Intent.ACTION_POWER_USAGE_SUMMARY);
+            Intent intent = new Intent(action);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             activity.startActivity(intent);
         } catch (Throwable t) {
-            try {
-                activity.startActivity(new Intent(Settings.ACTION_SETTINGS));
-            } catch (Throwable t2) {
-                LauncherLog.d("SistemAraclari", "Ayarlar acilamadi: " + t2.getMessage());
+            if (genelAyarYedegi) {
+                try {
+                    activity.startActivity(new Intent(Settings.ACTION_SETTINGS));
+                    return;
+                } catch (Throwable t2) {
+                    LauncherLog.d("SistemAraclari", hataEtiketi + ": " + t2.getMessage());
+                    return;
+                }
             }
+            LauncherLog.d("SistemAraclari", hataEtiketi + ": " + t.getMessage());
         }
+    }
+
+    public static void pilAyarlariniAc(Activity activity) {
+        ayarEkraniAc(activity, Intent.ACTION_POWER_USAGE_SUMMARY, "Ayarlar acilamadi", true);
     }
 
     public static void parlaklikAyarlariniAc(Activity activity) {
-        if (activity == null) return;
-        try {
-            Intent intent = new Intent(Settings.ACTION_DISPLAY_SETTINGS);
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            activity.startActivity(intent);
-        } catch (Throwable t) {
-            try {
-                activity.startActivity(new Intent(Settings.ACTION_SETTINGS));
-            } catch (Throwable t2) {
-                LauncherLog.d("SistemAraclari", "Ekran ayarlari acilamadi: " + t2.getMessage());
-            }
-        }
+        ayarEkraniAc(activity, Settings.ACTION_DISPLAY_SETTINGS, "Ekran ayarlari acilamadi", true);
     }
 
     public static void ucakModuAyarlariniAc(Activity activity) {
-        if (activity == null) return;
-        try {
-            Intent intent = new Intent(Settings.ACTION_AIRPLANE_MODE_SETTINGS);
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            activity.startActivity(intent);
-        } catch (Throwable t) {
-            try {
-                activity.startActivity(new Intent(Settings.ACTION_SETTINGS));
-            } catch (Throwable t2) {
-                LauncherLog.d("SistemAraclari", "Ucak modu ayarlari acilamadi: " + t2.getMessage());
-            }
-        }
+        ayarEkraniAc(activity, Settings.ACTION_AIRPLANE_MODE_SETTINGS, "Ucak modu ayarlari acilamadi", true);
     }
 
     public static void bluetoothAyarlariniAc(Activity activity) {
-        if (activity == null) return;
-        try {
-            Intent intent = new Intent(Settings.ACTION_BLUETOOTH_SETTINGS);
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            activity.startActivity(intent);
-        } catch (Throwable t) {
-            LauncherLog.d("SistemAraclari", "Bluetooth ayarlari acilamadi: " + t.getMessage());
-        }
+        ayarEkraniAc(activity, Settings.ACTION_BLUETOOTH_SETTINGS, "Bluetooth ayarlari acilamadi", false);
     }
 }

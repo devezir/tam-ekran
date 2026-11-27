@@ -329,35 +329,14 @@ public class HizliEylemlerDiyalogu {
             }
 
             final boolean kilitli = UygulamaKilidiYoneticisi.kilitliMi(aktivite, app.paketAdi);
+            if (AyarBankasi.uzunBasmaOgesiAktifMi(aktivite, "kaydirma") && (masaustundeMi || docktaMi)) {
+                // Yukarı kaydırma satırı yukarıda eklendi
+            }
             if (AyarBankasi.uzunBasmaOgesiAktifMi(aktivite, "kilit")) {
                 novaSatiriEkle(aktivite, listeKutusu, popup, kilitli ? "🔓 Kilidi Kaldır" : "🔒 Uygulamayı Kilitle", Color.WHITE, new Runnable() {
                     @Override
                     public void run() {
-                        if (!kilitli) {
-                            if (!UygulamaKilidiYoneticisi.pinAyarliMi(aktivite)) {
-                                UygulamaKilidiYoneticisi.yeniPinBelirleDiyalogu(aktivite, new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        UygulamaKilidiYoneticisi.kilitle(aktivite, app.paketAdi);
-                                        ArayuzYardimcisi.toast(aktivite, "🔒 " + app.etiket + " kilitlendi.");
-                                        if (dinleyici != null) dinleyici.listeYenile();
-                                    }
-                                });
-                            } else {
-                                UygulamaKilidiYoneticisi.kilitle(aktivite, app.paketAdi);
-                                ArayuzYardimcisi.toast(aktivite, "🔒 " + app.etiket + " kilitlendi.");
-                                if (dinleyici != null) dinleyici.listeYenile();
-                            }
-                        } else {
-                            UygulamaKilidiYoneticisi.pinSorgulaVeCalistir(aktivite, new Runnable() {
-                                @Override
-                                public void run() {
-                                    UygulamaKilidiYoneticisi.kilidiKaldir(aktivite, app.paketAdi);
-                                    ArayuzYardimcisi.toast(aktivite, "🔓 " + app.etiket + " kilidi kaldırıldı.");
-                                    if (dinleyici != null) dinleyici.listeYenile();
-                                }
-                            });
-                        }
+                        uygulamaKilitDegistirIsle(aktivite, app, kilitli, dinleyici);
                     }
                 });
             }
@@ -372,13 +351,7 @@ public class HizliEylemlerDiyalogu {
                 novaSatiriEkle(aktivite, listeKutusu, popup, "👁️ Menüde Gizle", Color.WHITE, new Runnable() {
                     @Override
                     public void run() {
-                        List<String> gizliler = YedeklemeYoneticisi.gizlenenleriAl(aktivite);
-                        if (!gizliler.contains(app.paketAdi)) {
-                            gizliler.add(app.paketAdi);
-                            YedeklemeYoneticisi.gizlenenleriKaydet(aktivite, gizliler);
-                            ArayuzYardimcisi.toast(aktivite, app.etiket + " menüden gizlendi.");
-                            if (dinleyici != null) dinleyici.listeYenile();
-                        }
+                        menudeGizleIsle(aktivite, app, dinleyici);
                     }
                 });
             }
@@ -754,13 +727,7 @@ public class HizliEylemlerDiyalogu {
                             break;
 
                         case 10: // Menüde gizle
-                            List<String> gizliler = YedeklemeYoneticisi.gizlenenleriAl(aktivite);
-                            if (!gizliler.contains(app.paketAdi)) {
-                                gizliler.add(app.paketAdi);
-                                YedeklemeYoneticisi.gizlenenleriKaydet(aktivite, gizliler);
-                                ArayuzYardimcisi.toast(aktivite, app.etiket + " menüden gizlendi.");
-                                if (dinleyici != null) dinleyici.listeYenile();
-                            }
+                            menudeGizleIsle(aktivite, app, dinleyici);
                             break;
 
                         case 11: // Uygulama sil
@@ -772,44 +739,11 @@ public class HizliEylemlerDiyalogu {
                             break;
 
                         case 13: // Uygulama Kilidi & PIN
-                            if (!kilitli) {
-                                if (!UygulamaKilidiYoneticisi.pinAyarliMi(aktivite)) {
-                                    UygulamaKilidiYoneticisi.yeniPinBelirleDiyalogu(aktivite, new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            UygulamaKilidiYoneticisi.kilitle(aktivite, app.paketAdi);
-                                            ArayuzYardimcisi.toast(aktivite, "🔒 " + app.etiket + " kilitlendi.");
-                                            if (dinleyici != null) dinleyici.listeYenile();
-                                        }
-                                    });
-                                } else {
-                                    UygulamaKilidiYoneticisi.kilitle(aktivite, app.paketAdi);
-                                    ArayuzYardimcisi.toast(aktivite, "🔒 " + app.etiket + " kilitlendi.");
-                                    if (dinleyici != null) dinleyici.listeYenile();
-                                }
-                            } else {
-                                UygulamaKilidiYoneticisi.pinSorgulaVeCalistir(aktivite, new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        UygulamaKilidiYoneticisi.kilidiKaldir(aktivite, app.paketAdi);
-                                        ArayuzYardimcisi.toast(aktivite, "🔓 " + app.etiket + " kilidi kaldırıldı.");
-                                        if (dinleyici != null) dinleyici.listeYenile();
-                                    }
-                                });
-                            }
+                            uygulamaKilitDegistirIsle(aktivite, app, kilitli, dinleyici);
                             break;
 
                         case 14: // Yukarı Kaydırma Eylemi
-                            List<UygulamaBilgisi> apps = null;
-                            if (aktivite instanceof AnaEkranActivity) {
-                                apps = ((AnaEkranActivity) aktivite).getTumUygulamalarListesi();
-                            }
-                            SimgeKaydirmaYoneticisi.secimDiyalogu(aktivite, app.paketAdi, app.etiket, apps, new Runnable() {
-                                @Override
-                                public void run() {
-                                    if (dinleyici != null) dinleyici.listeYenile();
-                                }
-                            });
+                            kaydirmaEylemiSecIsle(aktivite, app, dinleyici);
                             break;
 
                         case 15: // APK Paylaş
@@ -1141,6 +1075,55 @@ public class HizliEylemlerDiyalogu {
             })
             .setNegativeButton(R.string.iptal, null)
             .show();
+    }
+
+    private static void uygulamaKilitDegistirIsle(final Activity aktivite, final UygulamaBilgisi app, boolean kilitli, final IslemDinleyici dinleyici) {
+        if (!kilitli) {
+            if (!UygulamaKilidiYoneticisi.pinAyarliMi(aktivite)) {
+                UygulamaKilidiYoneticisi.yeniPinBelirleDiyalogu(aktivite, new Runnable() {
+                    @Override
+                    public void run() {
+                        UygulamaKilidiYoneticisi.kilitle(aktivite, app.paketAdi);
+                        ArayuzYardimcisi.toast(aktivite, "🔒 " + app.etiket + " kilitlendi.");
+                        if (dinleyici != null) dinleyici.listeYenile();
+                    }
+                });
+            } else {
+                UygulamaKilidiYoneticisi.kilitle(aktivite, app.paketAdi);
+                ArayuzYardimcisi.toast(aktivite, "🔒 " + app.etiket + " kilitlendi.");
+                if (dinleyici != null) dinleyici.listeYenile();
+            }
+        } else {
+            UygulamaKilidiYoneticisi.pinSorgulaVeCalistir(aktivite, new Runnable() {
+                @Override
+                public void run() {
+                    UygulamaKilidiYoneticisi.kilidiKaldir(aktivite, app.paketAdi);
+                    ArayuzYardimcisi.toast(aktivite, "🔓 " + app.etiket + " kilidi kaldırıldı.");
+                    if (dinleyici != null) dinleyici.listeYenile();
+                }
+            });
+        }
+    }
+
+    private static void menudeGizleIsle(Activity aktivite, UygulamaBilgisi app, IslemDinleyici dinleyici) {
+        List<String> gizliler = YedeklemeYoneticisi.gizlenenleriAl(aktivite);
+        if (!gizliler.contains(app.paketAdi)) {
+            gizliler.add(app.paketAdi);
+            YedeklemeYoneticisi.gizlenenleriKaydet(aktivite, gizliler);
+            ArayuzYardimcisi.toast(aktivite, app.etiket + " menüden gizlendi.");
+            if (dinleyici != null) dinleyici.listeYenile();
+        }
+    }
+
+    private static void kaydirmaEylemiSecIsle(Activity aktivite, UygulamaBilgisi app, final IslemDinleyici dinleyici) {
+        List<UygulamaBilgisi> apps = (aktivite instanceof AnaEkranActivity)
+                ? ((AnaEkranActivity) aktivite).getTumUygulamalarListesi() : null;
+        SimgeKaydirmaYoneticisi.secimDiyalogu(aktivite, app.paketAdi, app.etiket, apps, new Runnable() {
+            @Override
+            public void run() {
+                if (dinleyici != null) dinleyici.listeYenile();
+            }
+        });
     }
 
     private static void uygulamaBilgisiAc(Context context, String paketAdi) {

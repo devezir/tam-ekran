@@ -130,29 +130,7 @@ public class MasaustuGorunumKontrolcusu {
     }
 
     private void rozetGuncelle(TextView rozet, String paketAdi) {
-        if (rozet == null || paketAdi == null) return;
-        int bildirimSayisi = BildirimYoneticisi.getBildirimSayisi(aktivite, paketAdi);
-        int rozetTuru = BildirimYoneticisi.getRozetTuru(aktivite);
-        if (bildirimSayisi > 0 && rozetTuru != BildirimYoneticisi.ROZET_KAPALI) {
-            rozet.setVisibility(View.VISIBLE);
-            if (rozetTuru == BildirimYoneticisi.ROZET_NOKTA) {
-                rozet.setText("");
-                int dp10 = ArayuzYardimcisi.dpToPx(aktivite, 10);
-                FrameLayout.LayoutParams rlp = new FrameLayout.LayoutParams(dp10, dp10);
-                rlp.gravity = Gravity.TOP | Gravity.RIGHT;
-                rozet.setLayoutParams(rlp);
-            } else {
-                int dp18 = ArayuzYardimcisi.dpToPx(aktivite, 18);
-                FrameLayout.LayoutParams rlp = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, dp18);
-                rlp.gravity = Gravity.TOP | Gravity.RIGHT;
-                rozet.setLayoutParams(rlp);
-                rozet.setMinWidth(dp18);
-                rozet.setPadding(4, 0, 4, 0);
-                rozet.setText(bildirimSayisi > 99 ? "99+" : String.valueOf(bildirimSayisi));
-            }
-        } else {
-            rozet.setVisibility(View.GONE);
-        }
+        ArayuzYardimcisi.rozetGorunumuBagla(aktivite, rozet, paketAdi);
     }
 
     public void sayfaNoktalariniGuncelle(int aktifSayfa, int toplamSayfa) {

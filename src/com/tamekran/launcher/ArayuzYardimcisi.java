@@ -437,29 +437,35 @@ public final class ArayuzYardimcisi {
             }
         }
 
-        if (rozet != null) {
-            int bildirimSayisi = BildirimYoneticisi.getBildirimSayisi(context, app.paketAdi);
-            int rozetTuru = BildirimYoneticisi.getRozetTuru(context);
-            if (bildirimSayisi > 0 && rozetTuru != BildirimYoneticisi.ROZET_KAPALI) {
-                rozet.setVisibility(View.VISIBLE);
-                if (rozetTuru == BildirimYoneticisi.ROZET_NOKTA) {
-                    rozet.setText("");
-                    int dp10 = dpToPx(context, 10);
-                    FrameLayout.LayoutParams rlp = new FrameLayout.LayoutParams(dp10, dp10);
-                    rlp.gravity = Gravity.TOP | Gravity.RIGHT;
-                    rozet.setLayoutParams(rlp);
-                } else {
-                    rozet.setText(bildirimSayisi > 99 ? "99+" : String.valueOf(bildirimSayisi));
-                    int dp18 = dpToPx(context, 18);
-                    FrameLayout.LayoutParams rlp = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, dp18);
-                    rlp.gravity = Gravity.TOP | Gravity.RIGHT;
-                    rozet.setLayoutParams(rlp);
-                    rozet.setMinWidth(dp18);
-                    rozet.setPadding(4, 0, 4, 0);
-                }
+        rozetGorunumuBagla(context, rozet, app.paketAdi);
+    }
+
+    /**
+     * Bildirim rozetini (nokta veya sayı) tek merkezden görünümle bağlar (DRY SSOT).
+     */
+    public static void rozetGorunumuBagla(Context context, TextView rozet, String paketAdi) {
+        if (context == null || rozet == null || paketAdi == null) return;
+        int bildirimSayisi = BildirimYoneticisi.getBildirimSayisi(context, paketAdi);
+        int rozetTuru = BildirimYoneticisi.getRozetTuru(context);
+        if (bildirimSayisi > 0 && rozetTuru != BildirimYoneticisi.ROZET_KAPALI) {
+            rozet.setVisibility(View.VISIBLE);
+            if (rozetTuru == BildirimYoneticisi.ROZET_NOKTA) {
+                rozet.setText("");
+                int dp10 = dpToPx(context, 10);
+                FrameLayout.LayoutParams rlp = new FrameLayout.LayoutParams(dp10, dp10);
+                rlp.gravity = Gravity.TOP | Gravity.RIGHT;
+                rozet.setLayoutParams(rlp);
             } else {
-                rozet.setVisibility(View.GONE);
+                rozet.setText(bildirimSayisi > 99 ? "99+" : String.valueOf(bildirimSayisi));
+                int dp18 = dpToPx(context, 18);
+                FrameLayout.LayoutParams rlp = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, dp18);
+                rlp.gravity = Gravity.TOP | Gravity.RIGHT;
+                rozet.setLayoutParams(rlp);
+                rozet.setMinWidth(dp18);
+                rozet.setPadding(4, 0, 4, 0);
             }
+        } else {
+            rozet.setVisibility(View.GONE);
         }
     }
 

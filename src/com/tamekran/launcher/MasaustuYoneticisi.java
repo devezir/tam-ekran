@@ -275,26 +275,37 @@ public class MasaustuYoneticisi {
         sayfayaOgeYerlestir(context, sayfa, paketAdi, cellX, cellY, 1, 1);
     }
 
+    private static List<MasaustuOgesi> sayfaListesiAlVeyaOlustur(Map<Integer, List<MasaustuOgesi>> harita, int sayfa) {
+        List<MasaustuOgesi> sayfaListesi = harita.get(sayfa);
+        if (sayfaListesi == null) {
+            sayfaListesi = new ArrayList<MasaustuOgesi>();
+            harita.put(sayfa, sayfaListesi);
+        }
+        return sayfaListesi;
+    }
+
+    private static void tekilPaketSayfadanVeDigerlerindenTemizle(
+            Context context,
+            Map<Integer, List<MasaustuOgesi>> harita,
+            List<MasaustuOgesi> sayfaListesi,
+            int sayfa,
+            String paketAdi) {
+        for (int i = sayfaListesi.size() - 1; i >= 0; i--) {
+            if (DockYoneticisi.bilesenEslesiyorMu(sayfaListesi.get(i).paketAdi, paketAdi)) {
+                sayfaListesi.remove(i);
+            }
+        }
+        if (isTekKatmanModu(context)) {
+            digerSayfalardanKopyalariTemizle(harita, sayfa, paketAdi);
+        }
+    }
+
     public static void sayfayaOgeYerlestir(Context context, int sayfa, String paketAdi, int cellX, int cellY, int spanX, int spanY) {
         if (paketAdi == null) return;
         synchronized (MASAUSTU_KILIDI) {
             Map<Integer, List<MasaustuOgesi>> harita = sayfalariYukle(context);
-            List<MasaustuOgesi> sayfaListesi = harita.get(sayfa);
-            if (sayfaListesi == null) {
-                sayfaListesi = new ArrayList<MasaustuOgesi>();
-                harita.put(sayfa, sayfaListesi);
-            }
-            // Eğer zaten bu paket varsa eskisini sil
-            for (int i = sayfaListesi.size() - 1; i >= 0; i--) {
-                if (DockYoneticisi.bilesenEslesiyorMu(sayfaListesi.get(i).paketAdi, paketAdi)) {
-                    sayfaListesi.remove(i);
-                }
-            }
-
-            // Tek katmanlı (iOS) modda diğer sayfalardaki olası kopyayı da kaldır (katı tekillik)
-            if (isTekKatmanModu(context)) {
-                digerSayfalardanKopyalariTemizle(harita, sayfa, paketAdi);
-            }
+            List<MasaustuOgesi> sayfaListesi = sayfaListesiAlVeyaOlustur(harita, sayfa);
+            tekilPaketSayfadanVeDigerlerindenTemizle(context, harita, sayfaListesi, sayfa, paketAdi);
             int sutun = AyarBankasi.getMasaustuSutun(context);
             int satir = AyarBankasi.getMasaustuSatir(context);
             if (spanX > sutun) spanX = sutun;
@@ -382,21 +393,8 @@ public class MasaustuYoneticisi {
         if (paketAdi == null) return;
         synchronized (MASAUSTU_KILIDI) {
             Map<Integer, List<MasaustuOgesi>> harita = sayfalariYukle(context);
-            List<MasaustuOgesi> sayfaListesi = harita.get(sayfa);
-            if (sayfaListesi == null) {
-                sayfaListesi = new ArrayList<MasaustuOgesi>();
-                harita.put(sayfa, sayfaListesi);
-            }
-            for (int i = sayfaListesi.size() - 1; i >= 0; i--) {
-                if (DockYoneticisi.bilesenEslesiyorMu(sayfaListesi.get(i).paketAdi, paketAdi)) {
-                    sayfaListesi.remove(i);
-                }
-            }
-
-            // Tek katmanlı (iOS) modda diğer sayfalardaki olası kopyayı da kaldır (katı tekillik)
-            if (isTekKatmanModu(context)) {
-                digerSayfalardanKopyalariTemizle(harita, sayfa, paketAdi);
-            }
+            List<MasaustuOgesi> sayfaListesi = sayfaListesiAlVeyaOlustur(harita, sayfa);
+            tekilPaketSayfadanVeDigerlerindenTemizle(context, harita, sayfaListesi, sayfa, paketAdi);
 
             int sutun = AyarBankasi.getMasaustuSutun(context);
             int satir = AyarBankasi.getMasaustuSatir(context);
@@ -445,11 +443,7 @@ public class MasaustuYoneticisi {
         if (context == null || paketAdi == null) return false;
         synchronized (MASAUSTU_KILIDI) {
             Map<Integer, List<MasaustuOgesi>> harita = sayfalariYukle(context);
-            List<MasaustuOgesi> sayfaListesi = harita.get(sayfa);
-            if (sayfaListesi == null) {
-                sayfaListesi = new ArrayList<MasaustuOgesi>();
-                harita.put(sayfa, sayfaListesi);
-            }
+            List<MasaustuOgesi> sayfaListesi = sayfaListesiAlVeyaOlustur(harita, sayfa);
 
             int sutun = AyarBankasi.getMasaustuSutun(context);
             int satir = AyarBankasi.getMasaustuSatir(context);
