@@ -1,14 +1,20 @@
 {
-  "versionCode": 9,
-  "versionName": "1.0.8",
+  "versionCode": 10,
+  "versionName": "1.0.9",
   "appName": "Tam Ekran: Eksiksiz Ana Arayüz",
   "packageName": "com.tamekran.launcher",
-  "apkName": "TamEkran_v1.0.8_vc9.apk",
-  "releaseDate": "2026-11-25",
+  "apkName": "TamEkran_v1.0.9_vc10.apk",
+  "releaseDate": "2026-11-27",
   "githubRepo": "devezir/tam-ekran",
   "downloadUrl": "https://github.com/devezir/tam-ekran/releases/latest/download/TamEkran.apk",
   "changelog": "Tam Ekran v1.0.0: İlk kararlı sürüm. Akordeon ayarlar ve anlık Türkçe arama, V2 tek yazar masaüstü/klasör motoru, tuzlu SHA-256 PIN + LaunchGate, zorunlu SHA-256 OTA güncelleme ve Android 2.2 - 17 tam uyumluluğu.",
   "history": [
+    {
+      "versionCode": 10,
+      "versionName": "1.0.9",
+      "date": "2026-11-27",
+      "changes": "Esnek tasarim felsefesi (AkisSatiriLayout, merkezi dimens/styles), tum buton ve diyaloglarda kesintisiz gorunum ve Sistem dugmesi duzenlemesi"
+    },
     {
       "versionCode": 9,
       "versionName": "1.0.8",
@@ -64,5 +70,5 @@
       "changes": "Tam Ekran v1.0.0 ilk kararlı sürüm"
     }
   ],
-  "apkSha256": "6c976349e3458ced73fe2f9d0ce157da844007d6836cd456956557f6113a8951"
+  "apkSha256": "4118aa21b975cef599688447a556755860b5765fd81014c5494ab0a672f7b161"
 }
