@@ -136,6 +136,21 @@ public class HizliEylemlerDiyalogu {
         baslik.setSingleLine(true);
         baslik.setLayoutParams(new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1.0f));
         baslikSatiri.addView(baslik);
+
+        final boolean masaustuBaglami = masaustundeMi || docktaMi || klasorIcindeMi;
+        final boolean ozelOge = app.paketAdi != null
+                && (app.paketAdi.startsWith("klasor:") || app.paketAdi.startsWith("kisayol:") || app.paketAdi.startsWith("arac:"));
+
+        TextView dugmeDuzenle = null;
+        if (!ozelOge) {
+            dugmeDuzenle = new TextView(aktivite);
+            dugmeDuzenle.setText("⚙️");
+            dugmeDuzenle.setTextSize(15);
+            dugmeDuzenle.setPadding(dp8, 2, 2, 2);
+            dugmeDuzenle.setClickable(true);
+            dugmeDuzenle.setFocusable(true);
+            baslikSatiri.addView(dugmeDuzenle);
+        }
         kart.addView(baslikSatiri);
 
         View ayirici = new View(aktivite);
@@ -153,6 +168,15 @@ public class HizliEylemlerDiyalogu {
         kart.addView(kaydirici, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
 
         final PopupWindow popup = new PopupWindow(kart, kartGenislik, ViewGroup.LayoutParams.WRAP_CONTENT, false);
+        if (dugmeDuzenle != null) {
+            dugmeDuzenle.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    popup.dismiss();
+                    uzunBasmaOzellestirDiyalogu(aktivite, masaustuBaglami);
+                }
+            });
+        }
         popup.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         popup.setOutsideTouchable(true);
         popup.setTouchable(true);
@@ -260,26 +284,22 @@ public class HizliEylemlerDiyalogu {
             }
 
             if (!masaustuKilitli) {
-                if (AyarBankasi.uzunBasmaOgesiAktifMi(aktivite, "adlandir")) {
+                if (AyarBankasi.uzunBasmaOgesiAktifMi(aktivite, masaustuBaglami, "adlandir")) {
                     novaSatiriEkle(aktivite, listeKutusu, popup, "✏️ Yeniden Adlandır", Color.WHITE, new Runnable() {
                         @Override public void run() { adlandirDiyalogu(aktivite, app, dinleyici); }
                     });
                 }
-                if (AyarBankasi.uzunBasmaOgesiAktifMi(aktivite, "ozel_simge")) {
+                if (AyarBankasi.uzunBasmaOgesiAktifMi(aktivite, masaustuBaglami, "ozel_simge")) {
                     novaSatiriEkle(aktivite, listeKutusu, popup, "🖼️ Özel Simge Seç", Color.WHITE, new Runnable() {
                         @Override public void run() { ozelSimgeSecimDiyalogu(aktivite, app, dinleyici); }
                     });
                 }
-                if ((masaustundeMi || docktaMi) && AyarBankasi.uzunBasmaOgesiAktifMi(aktivite, "kaydirma")) {
+                if ((masaustundeMi || docktaMi) && AyarBankasi.uzunBasmaOgesiAktifMi(aktivite, masaustuBaglami, "kaydirma")) {
                     String eylemOzeti = SimgeKaydirmaYoneticisi.getEylemOzeti(aktivite, app.paketAdi);
                     novaSatiriEkle(aktivite, listeKutusu, popup, "👆 Yukarı Kaydırma (" + eylemOzeti + ")", Color.WHITE, new Runnable() {
                         @Override
                         public void run() {
-                            List<UygulamaBilgisi> apps = (aktivite instanceof AnaEkranActivity)
-                                    ? ((AnaEkranActivity) aktivite).getTumUygulamalarListesi() : null;
-                            SimgeKaydirmaYoneticisi.secimDiyalogu(aktivite, app.paketAdi, app.etiket, apps, new Runnable() {
-                                @Override public void run() { if (dinleyici != null) dinleyici.listeYenile(); }
-                            });
+                            kaydirmaEylemiSecIsle(aktivite, app, dinleyici);
                         }
                     });
                 }
@@ -291,13 +311,13 @@ public class HizliEylemlerDiyalogu {
                 });
             }
 
-            if (!masaustundeMi && !docktaMi && !klasorIcindeMi) {
+            if (!masaustundeMi && !docktaMi && !klasorIcindeMi && AyarBankasi.uzunBasmaOgesiAktifMi(aktivite, masaustuBaglami, "masaustune_ekle")) {
                 novaSatiriEkle(aktivite, listeKutusu, popup, "➕ Masaüstüne Ekle", Color.WHITE, new Runnable() {
                     @Override public void run() { sayfaSecimDiyalogu(aktivite, app, veri, dinleyici); }
                 });
             }
 
-            if (!docktaMi && !masaustuKilitli && AyarBankasi.uzunBasmaOgesiAktifMi(aktivite, "dock")) {
+            if (!docktaMi && !masaustuKilitli && AyarBankasi.uzunBasmaOgesiAktifMi(aktivite, masaustuBaglami, "dock")) {
                 final boolean docktaVar = DockYoneticisi.docktaVarMi(aktivite, app.getBilesenKimligi());
                 novaSatiriEkle(aktivite, listeKutusu, popup, docktaVar ? "📌 Alt Bardan Kaldır" : "📌 Alt Bara Sabitle", Color.WHITE, new Runnable() {
                     @Override
@@ -307,17 +327,14 @@ public class HizliEylemlerDiyalogu {
                 });
             }
 
-            if (!klasorIcindeMi && !masaustuKilitli && AyarBankasi.uzunBasmaOgesiAktifMi(aktivite, "klasor")) {
+            if (!klasorIcindeMi && !masaustuKilitli && AyarBankasi.uzunBasmaOgesiAktifMi(aktivite, masaustuBaglami, "klasor")) {
                 novaSatiriEkle(aktivite, listeKutusu, popup, "📁 Klasöre Ekle", Color.WHITE, new Runnable() {
                     @Override public void run() { klasorSecimDiyalogu(aktivite, app, veri, dinleyici); }
                 });
             }
 
             final boolean kilitli = UygulamaKilidiYoneticisi.kilitliMi(aktivite, app.paketAdi);
-            if (AyarBankasi.uzunBasmaOgesiAktifMi(aktivite, "kaydirma") && (masaustundeMi || docktaMi)) {
-                // Yukarı kaydırma satırı yukarıda eklendi
-            }
-            if (AyarBankasi.uzunBasmaOgesiAktifMi(aktivite, "kilit")) {
+            if (AyarBankasi.uzunBasmaOgesiAktifMi(aktivite, masaustuBaglami, "kilit")) {
                 novaSatiriEkle(aktivite, listeKutusu, popup, kilitli ? "🔓 Kilidi Kaldır" : "🔒 Uygulamayı Kilitle", Color.WHITE, new Runnable() {
                     @Override
                     public void run() {
@@ -326,13 +343,13 @@ public class HizliEylemlerDiyalogu {
                 });
             }
 
-            if (AyarBankasi.uzunBasmaOgesiAktifMi(aktivite, "uygulama_bilgisi")) {
+            if (AyarBankasi.uzunBasmaOgesiAktifMi(aktivite, masaustuBaglami, "uygulama_bilgisi")) {
                 novaSatiriEkle(aktivite, listeKutusu, popup, "ℹ️ Uygulama Bilgisi", Color.WHITE, new Runnable() {
                     @Override public void run() { UygulamaDetayDiyalogu.goster(aktivite, app); }
                 });
             }
 
-            if (!masaustundeMi && !docktaMi && !klasorIcindeMi && AyarBankasi.uzunBasmaOgesiAktifMi(aktivite, "gizle")) {
+            if (!masaustundeMi && !docktaMi && !klasorIcindeMi && AyarBankasi.uzunBasmaOgesiAktifMi(aktivite, masaustuBaglami, "gizle")) {
                 novaSatiriEkle(aktivite, listeKutusu, popup, "👁️ Menüde Gizle", Color.WHITE, new Runnable() {
                     @Override
                     public void run() {
@@ -341,7 +358,7 @@ public class HizliEylemlerDiyalogu {
                 });
             }
 
-            if (AyarBankasi.uzunBasmaOgesiAktifMi(aktivite, "kaldir")) {
+            if (AyarBankasi.uzunBasmaOgesiAktifMi(aktivite, masaustuBaglami, "kaldir")) {
                 novaSatiriEkle(aktivite, listeKutusu, popup, "📲 Uygulamayı Sil (Uninstall)", 0xFFFF8A80, new Runnable() {
                     @Override public void run() { uygulamayiSil(aktivite, app.paketAdi); }
                 });
@@ -562,26 +579,26 @@ public class HizliEylemlerDiyalogu {
         final List<Integer> eylemKodlari = new ArrayList<Integer>();
 
         // 2. Yeniden Adlandır
-        if (AyarBankasi.uzunBasmaOgesiAktifMi(aktivite, "adlandir")) {
+        if (AyarBankasi.uzunBasmaOgesiAktifMi(aktivite, masaustundeMi, "adlandir")) {
             secenekler.add("✏️ Yeniden Adlandır (" + app.etiket + ")");
             eylemKodlari.add(2);
         }
 
         // 2b. Özel Simge Seç
-        if (AyarBankasi.uzunBasmaOgesiAktifMi(aktivite, "ozel_simge")) {
+        if (AyarBankasi.uzunBasmaOgesiAktifMi(aktivite, masaustundeMi, "ozel_simge")) {
             secenekler.add("🖼️ Özel Simge Seç");
             eylemKodlari.add(12);
         }
 
         // 2c. Uygulama Kilidi & PIN Koruması
         final boolean kilitli = UygulamaKilidiYoneticisi.kilitliMi(aktivite, app.paketAdi);
-        if (AyarBankasi.uzunBasmaOgesiAktifMi(aktivite, "kilit")) {
+        if (AyarBankasi.uzunBasmaOgesiAktifMi(aktivite, masaustundeMi, "kilit")) {
             secenekler.add(kilitli ? "🔓 Uygulama Kilidini Kaldır" : "🔒 Uygulamayı Kilitle (PIN)");
             eylemKodlari.add(13);
         }
 
         // 2d. Nova Swipe Action: Yukarı Kaydırma Eylemi
-        if (AyarBankasi.uzunBasmaOgesiAktifMi(aktivite, "kaydirma")) {
+        if (AyarBankasi.uzunBasmaOgesiAktifMi(aktivite, masaustundeMi, "kaydirma")) {
             String eylemOzeti = SimgeKaydirmaYoneticisi.getEylemOzeti(aktivite, app.paketAdi);
             secenekler.add("👆 Yukarı Kaydırma Eylemi (" + eylemOzeti + ")");
             eylemKodlari.add(14);
@@ -594,56 +611,56 @@ public class HizliEylemlerDiyalogu {
 
             secenekler.add("📄 Başka Sayfaya Taşı");
             eylemKodlari.add(4);
-        } else {
+        } else if (AyarBankasi.uzunBasmaOgesiAktifMi(aktivite, masaustundeMi, "masaustune_ekle")) {
             secenekler.add("➕ Masaüstüne Ekle (Sayfa Seç)");
             eylemKodlari.add(5);
         }
 
         // 3b. Alt Bar (Dock) İşlemleri
         final boolean dockta = DockYoneticisi.docktaVarMi(aktivite, app.getBilesenKimligi());
-        if (AyarBankasi.uzunBasmaOgesiAktifMi(aktivite, "dock")) {
+        if (AyarBankasi.uzunBasmaOgesiAktifMi(aktivite, masaustundeMi, "dock")) {
             secenekler.add(dockta ? "📌 Alt Bardan Kaldır" : "📌 Alt Bara Sabitle");
             eylemKodlari.add(16);
         }
 
         // 4. Klasöre Ekle
-        if (AyarBankasi.uzunBasmaOgesiAktifMi(aktivite, "klasor")) {
+        if (AyarBankasi.uzunBasmaOgesiAktifMi(aktivite, masaustundeMi, "klasor")) {
             secenekler.add("📁 Klasöre Ekle");
             eylemKodlari.add(6);
         }
 
         // 5. Kategori Ata (Yalnızca Çekmece)
-        if (!masaustundeMi && AyarBankasi.uzunBasmaOgesiAktifMi(aktivite, "kategori")) {
+        if (!masaustundeMi && AyarBankasi.uzunBasmaOgesiAktifMi(aktivite, masaustundeMi, "kategori")) {
             secenekler.add("🏷️ Menü Kategorisi Belirle");
             eylemKodlari.add(7);
         }
 
         // 6. Uygulama Bilgisi & Boyut
-        if (AyarBankasi.uzunBasmaOgesiAktifMi(aktivite, "uygulama_bilgisi")) {
+        if (AyarBankasi.uzunBasmaOgesiAktifMi(aktivite, masaustundeMi, "uygulama_bilgisi")) {
             secenekler.add("ℹ️ Uygulama Bilgisi & Boyutu");
             eylemKodlari.add(8);
         }
 
         // 7. Mağaza / Google Play (Yalnızca Çekmece)
-        if (!masaustundeMi && AyarBankasi.uzunBasmaOgesiAktifMi(aktivite, "play_store")) {
+        if (!masaustundeMi && AyarBankasi.uzunBasmaOgesiAktifMi(aktivite, masaustundeMi, "play_store")) {
             secenekler.add("🛍️ Google Play'de Göster");
             eylemKodlari.add(9);
         }
 
         // 7b. APK Paylaşımı (Yalnızca Çekmece)
-        if (!masaustundeMi && AyarBankasi.uzunBasmaOgesiAktifMi(aktivite, "apk_paylas")) {
+        if (!masaustundeMi && AyarBankasi.uzunBasmaOgesiAktifMi(aktivite, masaustundeMi, "apk_paylas")) {
             secenekler.add("📦 APK Dosyasını Paylaş");
             eylemKodlari.add(15);
         }
 
         // 8. Menüde Gizle (Yalnızca Çekmece)
-        if (!masaustundeMi && AyarBankasi.uzunBasmaOgesiAktifMi(aktivite, "gizle")) {
+        if (!masaustundeMi && AyarBankasi.uzunBasmaOgesiAktifMi(aktivite, masaustundeMi, "gizle")) {
             secenekler.add("👁️ Menüde Gizle");
             eylemKodlari.add(10);
         }
 
         // 9. Kaldır (Uninstall)
-        if (AyarBankasi.uzunBasmaOgesiAktifMi(aktivite, "kaldir")) {
+        if (AyarBankasi.uzunBasmaOgesiAktifMi(aktivite, masaustundeMi, "kaldir")) {
             secenekler.add("📲 Uygulamayı Kaldır (Uninstall)");
             eylemKodlari.add(11);
         }
@@ -1041,6 +1058,65 @@ public class HizliEylemlerDiyalogu {
                             ArayuzYardimcisi.toast(aktivite, app.etiket + " zaten bu klasörde var.");
                         }
                     }
+                }
+            })
+            .setNegativeButton(R.string.iptal, null)
+            .show();
+    }
+
+    public static void uzunBasmaOzellestirDiyalogu(final Activity aktivite, final boolean masaustuMu) {
+        if (aktivite == null) return;
+        final String[] anahtarlar = masaustuMu
+                ? new String[]{"adlandir", "ozel_simge", "kaydirma", "dock", "klasor", "kilit", "uygulama_bilgisi", "kaldir"}
+                : new String[]{"masaustune_ekle", "dock", "klasor", "kategori", "gizle", "adlandir", "ozel_simge", "kilit", "uygulama_bilgisi", "play_store", "apk_paylas", "kaldir"};
+        final String[] etiketler = masaustuMu
+                ? new String[]{
+                    "✏️ Yeniden Adlandır",
+                    "🖼️ Özel Simge Seç",
+                    "👆 Yukarı Kaydırma Eylemi",
+                    "📌 Alt Bara Sabitle / Kaldır",
+                    "📁 Klasöre Ekle",
+                    "🔒 Uygulamayı Kilitle / Aç",
+                    "ℹ️ Uygulama Bilgisi",
+                    "📲 Uygulamayı Kaldır (Uninstall)"
+                }
+                : new String[]{
+                    "➕ Masaüstüne Ekle",
+                    "📌 Alt Bara Sabitle / Kaldır",
+                    "📁 Klasöre Ekle",
+                    "🏷️ Menü Kategorisi Belirle",
+                    "👁️ Menüde Gizle",
+                    "✏️ Yeniden Adlandır",
+                    "🖼️ Özel Simge Seç",
+                    "🔒 Uygulamayı Kilitle / Aç",
+                    "ℹ️ Uygulama Bilgisi",
+                    "🛍️ Google Play'de Göster",
+                    "📦 APK Dosyasını Paylaş",
+                    "📲 Uygulamayı Kaldır (Uninstall)"
+                };
+
+        java.util.Set<String> devreDisi = AyarBankasi.getUzunBasmaDevreDisiOgeler(aktivite, masaustuMu);
+        final boolean[] secimler = new boolean[anahtarlar.length];
+        for (int i = 0; i < anahtarlar.length; i++) {
+            secimler[i] = !devreDisi.contains(anahtarlar[i]);
+        }
+        new AlertDialog.Builder(aktivite)
+            .setTitle(masaustuMu ? "🏠 Ana Sayfa Uzun Basma Menüsü" : "📱 Çekmece Uzun Basma Menüsü")
+            .setMultiChoiceItems(etiketler, secimler, new DialogInterface.OnMultiChoiceClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which, boolean isChecked) {
+                    secimler[which] = isChecked;
+                }
+            })
+            .setPositiveButton(R.string.tamam, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    java.util.Set<String> yeniDevreDisi = new java.util.HashSet<String>();
+                    for (int i = 0; i < anahtarlar.length; i++) {
+                        if (!secimler[i]) yeniDevreDisi.add(anahtarlar[i]);
+                    }
+                    AyarBankasi.setUzunBasmaDevreDisiOgeler(aktivite, masaustuMu, yeniDevreDisi);
+                    ArayuzYardimcisi.toast(aktivite, "Uzun basma menüsü güncellendi.");
                 }
             })
             .setNegativeButton(R.string.iptal, null)

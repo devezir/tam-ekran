@@ -113,7 +113,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="11 ayar"
+                    android:text="12 ayar"
                     android:textColor="@color/renk_yazi_ikincil"
                     android:textSize="11sp"
                     android:layout_marginRight="8dp" />
@@ -553,7 +553,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="11 ayar"
+                    android:text="12 ayar"
                     android:textColor="@color/renk_yazi_ikincil"
                     android:textSize="11sp"
                     android:layout_marginRight="8dp" />
@@ -745,7 +745,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="11 ayar"
+                    android:text="12 ayar"
                     android:textColor="@color/renk_yazi_ikincil"
                     android:textSize="11sp"
                     android:layout_marginRight="8dp" />
@@ -790,12 +790,22 @@
                     android:textSize="12sp" />
 
                 <Button
-                    android:id="@+id/dugme_uzun_basma_ozellestir"
+                    android:id="@+id/dugme_uzun_basma_masaustu"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginBottom="8dp"
+                    android:background="@drawable/kart_arkaplan"
+                    android:text="🏠 Ana Sayfa Uzun Basma Menüsü..."
+                    android:textColor="@color/renk_vurgu"
+                    android:textSize="12sp" />
+
+                <Button
+                    android:id="@+id/dugme_uzun_basma_cekmece"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:layout_marginBottom="10dp"
                     android:background="@drawable/kart_arkaplan"
-                    android:text="🎛️ Uzun Basma Menüsü Öğelerini Özelleştir..."
+                    android:text="📱 Çekmece Uzun Basma Menüsü..."
                     android:textColor="@color/renk_vurgu"
                     android:textSize="12sp" />
 

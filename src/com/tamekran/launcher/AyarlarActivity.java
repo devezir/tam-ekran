@@ -487,12 +487,22 @@ public class AyarlarActivity extends Activity {
         hareketButonuAyarla(R.id.dugme_hareket_ana_ekran, HareketYoneticisi.PREF_HAREKET_ANA_EKRAN, HareketYoneticisi.EYLEM_YOK);
         hareketButonuAyarla(R.id.dugme_hareket_geri_tusu, HareketYoneticisi.PREF_HAREKET_GERI_TUSU, HareketYoneticisi.EYLEM_YOK);
 
-        Button dugmeUzunBasmaOzellestir = (Button) findViewById(R.id.dugme_uzun_basma_ozellestir);
-        if (dugmeUzunBasmaOzellestir != null) {
-            dugmeUzunBasmaOzellestir.setOnClickListener(new View.OnClickListener() {
+        Button dugmeUzunBasmaMasaustu = (Button) findViewById(R.id.dugme_uzun_basma_masaustu);
+        if (dugmeUzunBasmaMasaustu != null) {
+            dugmeUzunBasmaMasaustu.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    uzunBasmaOzellestirDiyalogu();
+                    HizliEylemlerDiyalogu.uzunBasmaOzellestirDiyalogu(AyarlarActivity.this, true);
+                }
+            });
+        }
+
+        Button dugmeUzunBasmaCekmece = (Button) findViewById(R.id.dugme_uzun_basma_cekmece);
+        if (dugmeUzunBasmaCekmece != null) {
+            dugmeUzunBasmaCekmece.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    HizliEylemlerDiyalogu.uzunBasmaOzellestirDiyalogu(AyarlarActivity.this, false);
                 }
             });
         }
@@ -758,54 +768,6 @@ public class AyarlarActivity extends Activity {
                 LauncherLog.d("AyarlarActivity", "Surum bilgisi alinamadi: " + t.getMessage());
             }
         }
-    }
-
-    private void uzunBasmaOzellestirDiyalogu() {
-        final String[] anahtarlar = new String[]{
-            "adlandir", "ozel_simge", "kaydirma", "dock",
-            "klasor", "kategori", "kilit", "uygulama_bilgisi",
-            "play_store", "apk_paylas", "gizle", "kaldir"
-        };
-        final String[] etiketler = new String[]{
-            "✏️ Yeniden Adlandır",
-            "🖼️ Özel Simge Seç",
-            "👆 Yukarı Kaydırma Eylemi",
-            "📌 Alt Bara Sabitle / Kaldır",
-            "📁 Klasöre Ekle",
-            "🏷️ Menü Kategorisi Belirle (Çekmece)",
-            "🔒 Uygulamayı Kilitle / Aç",
-            "ℹ️ Uygulama Bilgisi",
-            "🛍️ Google Play'de Göster (Çekmece)",
-            "📦 APK Dosyasını Paylaş (Çekmece)",
-            "👁️ Menüde Gizle (Çekmece)",
-            "📲 Uygulamayı Kaldır (Uninstall)"
-        };
-        java.util.Set<String> devreDisi = AyarBankasi.getUzunBasmaDevreDisiOgeler(this);
-        final boolean[] secimler = new boolean[anahtarlar.length];
-        for (int i = 0; i < anahtarlar.length; i++) {
-            secimler[i] = !devreDisi.contains(anahtarlar[i]);
-        }
-        new AlertDialog.Builder(this)
-            .setTitle("Uzun Basma Menüsü Öğeleri")
-            .setMultiChoiceItems(etiketler, secimler, new DialogInterface.OnMultiChoiceClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which, boolean isChecked) {
-                    secimler[which] = isChecked;
-                }
-            })
-            .setPositiveButton(R.string.tamam, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    java.util.Set<String> yeniDevreDisi = new java.util.HashSet<String>();
-                    for (int i = 0; i < anahtarlar.length; i++) {
-                        if (!secimler[i]) yeniDevreDisi.add(anahtarlar[i]);
-                    }
-                    AyarBankasi.setUzunBasmaDevreDisiOgeler(AyarlarActivity.this, yeniDevreDisi);
-                    ArayuzYardimcisi.toast(AyarlarActivity.this, "Uzun basma menüsü güncellendi.");
-                }
-            })
-            .setNegativeButton(R.string.iptal, null)
-            .show();
     }
 
     private void hareketButonuAyarla(int butonId, final String anahtar, final int varsayilan) {

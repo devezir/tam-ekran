@@ -1297,6 +1297,7 @@ public class BirimTestler {
         dogrula("AyarBankasi & OzelSimgeYoneticisi: Null context güvenli",
                 AyarBankasi.isCekmeceSekmeleriGoster(null)
                 && AyarBankasi.uzunBasmaOgesiAktifMi(null, "adlandir")
+                && AyarBankasi.uzunBasmaOgesiAktifMi(null, false, "gizle")
                 && com.tamekran.launcher.OzelSimgeYoneticisi.ozelSimgeKaydiAl(null, "a/b", "a") == null);
     }
 }

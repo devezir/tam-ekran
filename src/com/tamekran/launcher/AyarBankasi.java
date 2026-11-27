@@ -38,6 +38,8 @@ public final class AyarBankasi {
     public static final String PREF_SIK_KULLANILANLAR_MODU = "sik_kullanilanlar_modu";
     public static final String PREF_CEKMECE_SEKMELERI_GOSTER = "cekmece_sekmeleri_goster";
     public static final String PREF_UZUN_BASMA_OGELERI = "uzun_basma_devre_disi_ogeler";
+    public static final String PREF_UZUN_BASMA_MASAUSTU = "uzun_basma_masaustu_devre_disi";
+    public static final String PREF_UZUN_BASMA_CEKMECE = "uzun_basma_cekmece_devre_disi";
     public static final String PREF_MASAUSTU_MODU = "masaustu_modu";
     public static final String PREF_DEGISTIRME_DAMGASI = "son_degisiklik_damgasi";
     public static final int MOD_KLASIK_CIFTE_KATMAN = 0;
@@ -277,10 +279,15 @@ public final class AyarBankasi {
     }
 
     public static java.util.Set<String> getUzunBasmaDevreDisiOgeler(Context context) {
+        return getUzunBasmaDevreDisiOgeler(context, true);
+    }
+
+    public static java.util.Set<String> getUzunBasmaDevreDisiOgeler(Context context, boolean masaustuMu) {
         java.util.Set<String> sonuc = new java.util.HashSet<String>();
         SharedPreferences sp = getAyarlar(context);
         if (sp == null) return sonuc;
-        String csv = sp.getString(PREF_UZUN_BASMA_OGELERI, "");
+        String anahtar = masaustuMu ? PREF_UZUN_BASMA_MASAUSTU : PREF_UZUN_BASMA_CEKMECE;
+        String csv = sp.contains(anahtar) ? sp.getString(anahtar, "") : sp.getString(PREF_UZUN_BASMA_OGELERI, "");
         if (csv != null && csv.trim().length() > 0) {
             for (String p : csv.split(",")) {
                 String t = p.trim();
@@ -291,6 +298,10 @@ public final class AyarBankasi {
     }
 
     public static void setUzunBasmaDevreDisiOgeler(Context context, java.util.Set<String> devreDisi) {
+        setUzunBasmaDevreDisiOgeler(context, true, devreDisi);
+    }
+
+    public static void setUzunBasmaDevreDisiOgeler(Context context, boolean masaustuMu, java.util.Set<String> devreDisi) {
         SharedPreferences sp = getAyarlar(context);
         if (sp == null) return;
         StringBuilder sb = new StringBuilder();
@@ -302,12 +313,17 @@ public final class AyarBankasi {
                 }
             }
         }
-        editorKaydet(sp.edit().putString(PREF_UZUN_BASMA_OGELERI, sb.toString()));
+        String anahtar = masaustuMu ? PREF_UZUN_BASMA_MASAUSTU : PREF_UZUN_BASMA_CEKMECE;
+        editorKaydet(sp.edit().putString(anahtar, sb.toString()));
     }
 
     public static boolean uzunBasmaOgesiAktifMi(Context context, String ogeAnahtari) {
+        return uzunBasmaOgesiAktifMi(context, true, ogeAnahtari);
+    }
+
+    public static boolean uzunBasmaOgesiAktifMi(Context context, boolean masaustuMu, String ogeAnahtari) {
         if (context == null || ogeAnahtari == null) return true;
-        return !getUzunBasmaDevreDisiOgeler(context).contains(ogeAnahtari);
+        return !getUzunBasmaDevreDisiOgeler(context, masaustuMu).contains(ogeAnahtari);
     }
 
     /**
