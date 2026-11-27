@@ -222,32 +222,21 @@ public class MasaustuModelDeposu {
      */
     public static String klasorOlusturVeBirlestir(
             Context context,
-            String hedefItemId,
-            int hedefSayfa,
-            String hedefKimlik,
-            SuruklemeVerisi veri,
-            String klasorAdi) {
-        if (context == null || veri == null || veri.app == null) return null;
-        synchronized (MODEL_KILIDI) {
-            ModelDurumu durum = yukle(context);
-            String yeniKlasorId = klasorOlusturVeBirlestirBellek(
-                    durum,
-                    hedefItemId,
-                    hedefSayfa,
-                    hedefKimlik,
-                    veri.itemId,
-                    veri.app.getBilesenKimligi(),
-                    veri.kaynakTuru,
-                    veri.kaynakSayfa,
-                    veri.kaynakKlasorId,
-                    klasorAdi
-            );
-            if (yeniKlasorId != null) {
-                kaydetDahili(context, durum);
-                KlasorSimgeUretici.onbellegiTemizle();
+            final String hedefItemId,
+            final int hedefSayfa,
+            final String hedefKimlik,
+            final SuruklemeVerisi veri,
+            final String klasorAdi) {
+        if (veri == null || veri.app == null) return null;
+        return modelIdMutasyonuCalistir(context, new ModelIdMutasyonu() {
+            @Override
+            public String uygula(ModelDurumu durum) {
+                return klasorOlusturVeBirlestirBellek(
+                        durum, hedefItemId, hedefSayfa, hedefKimlik,
+                        veri.itemId, veri.app.getBilesenKimligi(),
+                        veri.kaynakTuru, veri.kaynakSayfa, veri.kaynakKlasorId, klasorAdi);
             }
-            return yeniKlasorId;
-        }
+        });
     }
 
     /**
@@ -343,26 +332,18 @@ public class MasaustuModelDeposu {
      */
     public static boolean klasoreOgeTasi(
             Context context,
-            String hedefKlasorId,
-            SuruklemeVerisi veri) {
-        if (context == null || hedefKlasorId == null || veri == null || veri.app == null) return false;
-        synchronized (MODEL_KILIDI) {
-            ModelDurumu durum = yukle(context);
-            boolean basari = klasoreOgeTasiBellek(
-                    durum,
-                    hedefKlasorId,
-                    veri.itemId,
-                    veri.app.getBilesenKimligi(),
-                    veri.kaynakTuru,
-                    veri.kaynakSayfa,
-                    veri.kaynakKlasorId
-            );
-            if (basari) {
-                kaydetDahili(context, durum);
-                KlasorSimgeUretici.onbellegiTemizle();
+            final String hedefKlasorId,
+            final SuruklemeVerisi veri) {
+        if (hedefKlasorId == null || veri == null || veri.app == null) return false;
+        return modelMutasyonuCalistir(context, new ModelMutasyonu() {
+            @Override
+            public boolean uygula(ModelDurumu durum) {
+                return klasoreOgeTasiBellek(
+                        durum, hedefKlasorId,
+                        veri.itemId, veri.app.getBilesenKimligi(),
+                        veri.kaynakTuru, veri.kaynakSayfa, veri.kaynakKlasorId);
             }
-            return basari;
-        }
+        });
     }
 
     public static boolean klasoreOgeTasiBellek(
@@ -421,32 +402,20 @@ public class MasaustuModelDeposu {
      */
     public static boolean masaustuneOgeTasi(
             Context context,
-            SuruklemeVerisi veri,
-            int hedefSayfa,
-            int targetX,
-            int targetY) {
-        if (context == null || veri == null || veri.app == null) return false;
-        synchronized (MODEL_KILIDI) {
-            ModelDurumu durum = yukle(context);
-            boolean basari = masaustuneOgeTasiBellek(
-                    durum,
-                    veri.itemId,
-                    veri.app.getBilesenKimligi(),
-                    veri.kaynakTuru,
-                    veri.kaynakSayfa,
-                    veri.kaynakKlasorId,
-                    hedefSayfa,
-                    targetX,
-                    targetY,
-                    veri.spanX,
-                    veri.spanY
-            );
-            if (basari) {
-                kaydetDahili(context, durum);
-                KlasorSimgeUretici.onbellegiTemizle();
+            final SuruklemeVerisi veri,
+            final int hedefSayfa,
+            final int targetX,
+            final int targetY) {
+        if (veri == null || veri.app == null) return false;
+        return modelMutasyonuCalistir(context, new ModelMutasyonu() {
+            @Override
+            public boolean uygula(ModelDurumu durum) {
+                return masaustuneOgeTasiBellek(
+                        durum, veri.itemId, veri.app.getBilesenKimligi(),
+                        veri.kaynakTuru, veri.kaynakSayfa, veri.kaynakKlasorId,
+                        hedefSayfa, targetX, targetY, veri.spanX, veri.spanY);
             }
-            return basari;
-        }
+        });
     }
 
     public static boolean masaustuneOgeTasiBellek(
@@ -510,20 +479,16 @@ public class MasaustuModelDeposu {
      */
     public static boolean ogeKaldir(
             Context context,
-            String itemId,
-            int kaynakTuru,
-            int kaynakSayfa,
-            String bilesenKimligi) {
-        if (context == null) return false;
-        synchronized (MODEL_KILIDI) {
-            ModelDurumu durum = yukle(context);
-            boolean basari = ogeKaldirBellek(durum, itemId, kaynakTuru, kaynakSayfa, bilesenKimligi);
-            if (basari) {
-                kaydetDahili(context, durum);
-                KlasorSimgeUretici.onbellegiTemizle();
+            final String itemId,
+            final int kaynakTuru,
+            final int kaynakSayfa,
+            final String bilesenKimligi) {
+        return modelMutasyonuCalistir(context, new ModelMutasyonu() {
+            @Override
+            public boolean uygula(ModelDurumu durum) {
+                return ogeKaldirBellek(durum, itemId, kaynakTuru, kaynakSayfa, bilesenKimligi);
             }
-            return basari;
-        }
+        });
     }
 
     public static boolean ogeKaldirBellek(

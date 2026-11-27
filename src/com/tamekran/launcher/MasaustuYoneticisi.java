@@ -567,22 +567,27 @@ public class MasaustuYoneticisi {
                 KisayolYoneticisi.kisayolSil(context, kId);
             }
             Map<Integer, List<MasaustuOgesi>> harita = sayfalariYukle(context);
-            boolean degisti = false;
-            for (List<MasaustuOgesi> liste : harita.values()) {
-                if (liste != null) {
-                    for (int i = liste.size() - 1; i >= 0; i--) {
-                        if (DockYoneticisi.bilesenEslesiyorMu(liste.get(i).paketAdi, paketAdi)) {
-                            liste.remove(i);
-                            degisti = true;
-                        }
-                    }
-                }
-            }
+            boolean degisti = tumSayfalardanOgeSil(harita, paketAdi);
             if (degisti) {
                 sayfalariKaydet(context, harita);
             }
             return degisti;
         }
+    }
+
+    private static boolean tumSayfalardanOgeSil(Map<Integer, List<MasaustuOgesi>> harita, String paketAdi) {
+        boolean degisti = false;
+        for (List<MasaustuOgesi> liste : harita.values()) {
+            if (liste != null) {
+                for (int i = liste.size() - 1; i >= 0; i--) {
+                    if (DockYoneticisi.bilesenEslesiyorMu(liste.get(i).paketAdi, paketAdi)) {
+                        liste.remove(i);
+                        degisti = true;
+                    }
+                }
+            }
+        }
+        return degisti;
     }
 
     /**
@@ -786,15 +791,7 @@ public class MasaustuYoneticisi {
 
             // Tek katmanlı (iOS) modda diğer sayfalardaki olası kopyayı da kaldır (katı tekillik)
             if (isTekKatmanModu(context)) {
-                for (List<MasaustuOgesi> liste : harita.values()) {
-                    if (liste != null) {
-                        for (int i = liste.size() - 1; i >= 0; i--) {
-                            if (DockYoneticisi.bilesenEslesiyorMu(liste.get(i).paketAdi, paketAdi)) {
-                                liste.remove(i);
-                            }
-                        }
-                    }
-                }
+                tumSayfalardanOgeSil(harita, paketAdi);
             }
 
             int toplamSayfa = getSayfaSayisi(context);

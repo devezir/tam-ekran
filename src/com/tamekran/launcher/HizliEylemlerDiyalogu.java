@@ -226,22 +226,7 @@ public class HizliEylemlerDiyalogu {
             novaSatiriEkle(aktivite, listeKutusu, popup, "✏️ Kısayol Adını Değiştir", Color.WHITE, new Runnable() {
                 @Override
                 public void run() {
-                    AyarDiyalogYardimcisi.metinGirdiDiyalogu(aktivite, "Kısayol Adı", app.etiket, null, new AyarDiyalogYardimcisi.MetinGirdiDinleyicisi() {
-                        @Override
-                        public void onMetinGirildi(String yeniAd) {
-                            if (yeniAd != null && yeniAd.length() > 0) {
-                                List<KisayolYoneticisi.KisayolBilgisi> list = KisayolYoneticisi.tumKisayollariYukle(aktivite);
-                                for (KisayolYoneticisi.KisayolBilgisi kb : list) {
-                                    if (kb.id.equals(kisayolId)) {
-                                        kb.ad = yeniAd;
-                                        break;
-                                    }
-                                }
-                                KisayolYoneticisi.kisayollariKaydet(aktivite, list);
-                                if (dinleyici != null) dinleyici.listeYenile();
-                            }
-                        }
-                    });
+                    kisayolAdlandirDiyalogu(aktivite, app, kisayolId, dinleyici);
                 }
             });
             novaSatiriEkle(aktivite, listeKutusu, popup, "📄 Başka Sayfaya Taşı", Color.WHITE, new Runnable() {
@@ -558,22 +543,7 @@ public class HizliEylemlerDiyalogu {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         if (which == 0) {
-                            AyarDiyalogYardimcisi.metinGirdiDiyalogu(aktivite, "Kısayol Adı", app.etiket, null, new AyarDiyalogYardimcisi.MetinGirdiDinleyicisi() {
-                                @Override
-                                public void onMetinGirildi(String yeniAd) {
-                                    if (yeniAd != null && yeniAd.length() > 0) {
-                                        List<KisayolYoneticisi.KisayolBilgisi> list = KisayolYoneticisi.tumKisayollariYukle(aktivite);
-                                        for (KisayolYoneticisi.KisayolBilgisi kb : list) {
-                                            if (kb.id.equals(kisayolId)) {
-                                                kb.ad = yeniAd;
-                                                break;
-                                            }
-                                        }
-                                        KisayolYoneticisi.kisayollariKaydet(aktivite, list);
-                                        if (dinleyici != null) dinleyici.listeYenile();
-                                    }
-                                }
-                            });
+                            kisayolAdlandirDiyalogu(aktivite, app, kisayolId, dinleyici);
                         } else if (which == 1) {
                             sayfaSecimDiyalogu(aktivite, app, dinleyici);
                         } else if (which == 2) {
@@ -1075,6 +1045,25 @@ public class HizliEylemlerDiyalogu {
             })
             .setNegativeButton(R.string.iptal, null)
             .show();
+    }
+
+    private static void kisayolAdlandirDiyalogu(final Activity aktivite, final UygulamaBilgisi app, final String kisayolId, final IslemDinleyici dinleyici) {
+        AyarDiyalogYardimcisi.metinGirdiDiyalogu(aktivite, "Kısayol Adı", app.etiket, null, new AyarDiyalogYardimcisi.MetinGirdiDinleyicisi() {
+            @Override
+            public void onMetinGirildi(String yeniAd) {
+                if (yeniAd != null && yeniAd.length() > 0) {
+                    List<KisayolYoneticisi.KisayolBilgisi> list = KisayolYoneticisi.tumKisayollariYukle(aktivite);
+                    for (KisayolYoneticisi.KisayolBilgisi kb : list) {
+                        if (kb.id.equals(kisayolId)) {
+                            kb.ad = yeniAd;
+                            break;
+                        }
+                    }
+                    KisayolYoneticisi.kisayollariKaydet(aktivite, list);
+                    if (dinleyici != null) dinleyici.listeYenile();
+                }
+            }
+        });
     }
 
     private static void uygulamaKilitDegistirIsle(final Activity aktivite, final UygulamaBilgisi app, boolean kilitli, final IslemDinleyici dinleyici) {

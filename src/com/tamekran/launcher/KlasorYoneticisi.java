@@ -183,23 +183,11 @@ public class KlasorYoneticisi {
             String yerlesecekKimlik = (tamSilinenKimlik != null) ? tamSilinenKimlik : cikarilacakKimlik;
 
             // 2. Klasörün bulunduğu sayfayı veya dock durumunu tespit et
-            int hedefSayfa = 0;
-            boolean masaustundeBulundu = false;
             String klasorEtiketi = "klasor:" + klasorId;
-
             Map<Integer, List<MasaustuYoneticisi.MasaustuOgesi>> harita = MasaustuYoneticisi.sayfalariYukle(context);
-            for (Map.Entry<Integer, List<MasaustuYoneticisi.MasaustuOgesi>> entry : harita.entrySet()) {
-                if (entry.getValue() != null) {
-                    for (MasaustuYoneticisi.MasaustuOgesi o : entry.getValue()) {
-                        if (klasorEtiketi.equals(o.paketAdi)) {
-                            hedefSayfa = entry.getKey();
-                            masaustundeBulundu = true;
-                            break;
-                        }
-                    }
-                }
-                if (masaustundeBulundu) break;
-            }
+            int hedefSayfa = klasorSayfasiniBul(harita, klasorEtiketi);
+            boolean masaustundeBulundu = (hedefSayfa >= 0);
+            if (hedefSayfa < 0) hedefSayfa = 0;
 
             // 3. Çıkarılan uygulamayı masaüstüne yerleştir (Taşma/Spillover Korumalı)
             boolean eklendi = false;
@@ -256,6 +244,20 @@ public class KlasorYoneticisi {
      * Klasörü siler ve içindeki tüm uygulamaları masaüstüne güvenle boşaltır (Spillover Korumalı).
      * iOS / Tek Katman modunda hiçbir uygulamanın kaybolmamasını garanti eder.
      */
+    private static int klasorSayfasiniBul(Map<Integer, List<MasaustuYoneticisi.MasaustuOgesi>> harita, String klasorEtiketi) {
+        if (harita == null || klasorEtiketi == null) return -1;
+        for (Map.Entry<Integer, List<MasaustuYoneticisi.MasaustuOgesi>> entry : harita.entrySet()) {
+            if (entry.getValue() != null) {
+                for (MasaustuYoneticisi.MasaustuOgesi o : entry.getValue()) {
+                    if (klasorEtiketi.equals(o.paketAdi)) {
+                        return entry.getKey();
+                    }
+                }
+            }
+        }
+        return -1;
+    }
+
     public static boolean klasorUygulamalariniMasaustuneDokVeSil(Context context, String klasorId) {
         if (context == null || klasorId == null) return false;
         synchronized (KLASOR_KILIDI) {
@@ -272,21 +274,10 @@ public class KlasorYoneticisi {
             String klasorEtiketi = "klasor:" + klasorId;
 
             // Klasörün bulunduğu sayfayı tespit et
-            int hedefSayfa = 0;
-            boolean masaustundeBulundu = false;
             Map<Integer, List<MasaustuYoneticisi.MasaustuOgesi>> harita = MasaustuYoneticisi.sayfalariYukle(context);
-            for (Map.Entry<Integer, List<MasaustuYoneticisi.MasaustuOgesi>> entry : harita.entrySet()) {
-                if (entry.getValue() != null) {
-                    for (MasaustuYoneticisi.MasaustuOgesi o : entry.getValue()) {
-                        if (klasorEtiketi.equals(o.paketAdi)) {
-                            hedefSayfa = entry.getKey();
-                            masaustundeBulundu = true;
-                            break;
-                        }
-                    }
-                }
-                if (masaustundeBulundu) break;
-            }
+            int hedefSayfa = klasorSayfasiniBul(harita, klasorEtiketi);
+            boolean masaustundeBulundu = (hedefSayfa >= 0);
+            if (hedefSayfa < 0) hedefSayfa = 0;
 
             // 1. Klasörü masaüstü ve docktan sil (böylece hücresi boşa çıkar ve dökülen ilk öğe buraya oturur)
             MasaustuYoneticisi.masaustundenKaldir(context, klasorEtiketi);
